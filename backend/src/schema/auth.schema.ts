@@ -3,8 +3,6 @@ import { z } from "zod";
 export const UserSignupSchema = z.object({
   email: z.email(),
   name: z.string().min(1),
-  rollNumber: z.string().min(1),
-  enrollmentNumber: z.string().min(1),
   password: z.string().min(8),
   department: z.enum([
     "ELECTRICAL_ENGG",
@@ -24,4 +22,10 @@ export const UserSignupSchema = z.object({
   role: z.enum(["STUDENT", "LAB_INCHARGE", "ADMIN", "HOD"]),
 });
 
+export const UserLoginSchema = z.object({
+  email:z.email(),
+  password:z.string().min(8)
+})
+
 export type SignupInput = z.infer<typeof UserSignupSchema>;
+export type LoginInput = z.infer<typeof UserLoginSchema>;

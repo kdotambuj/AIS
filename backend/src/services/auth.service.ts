@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { prisma } from "../lib/prisma.js";
-import { SignupInput } from "../schema/UserSignup.schema.js";
+import { LoginInput, SignupInput } from "../schema/auth.schema.js";
+import { env } from "../config/env.js";
 
 
 export const SignupService = async (
@@ -17,8 +18,6 @@ export const SignupService = async (
       data: {
         email: data.email,
         name: data.name,
-        rollNumber: data.rollNumber,
-        enrollmentNumber: data.enrollmentNumber,
         department: data.department, 
         password: hashed,
         role:data.role
@@ -27,8 +26,6 @@ export const SignupService = async (
         id: true,
         email: true,
         name: true,
-        rollNumber: true,
-        enrollmentNumber: true,
         department: true,
         createdAt: true,
       },
@@ -36,3 +33,29 @@ export const SignupService = async (
 
     return user;
 };
+
+export const LoginService = async(data:LoginInput)=>{
+
+    const user = await prisma.user.findUnique({where:{email:data.email}});
+    if (!user) throw new Error('User not found')
+
+    const valid = bcrypt.compare(data.password, user.password);
+    if (!valid) throw new Error('Password does not match ');
+
+    const token = jwt.sign(
+      {
+        userId : user.id,
+        role:user.role,
+
+      },
+      env.JWT_SECRET,
+      { expiresIn: '7d'}
+    )
+
+    const {password, ...safeUser} = user;
+
+    return {
+      user:safeUser,
+      token
+    }
+}
