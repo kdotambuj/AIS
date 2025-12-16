@@ -14,11 +14,6 @@ enum Role {
   HOD
 }
 
-enum ResourceOwnerType {
-  LAB
-  DEPARTMENT
-}
-
 enum Department {
   ELECTRICAL_ENGG
   MECHANICAL_ENGG
@@ -35,127 +30,122 @@ enum Department {
   OTHER
 }
 
-enum TicketStatus {
-  PENDING
-  REJECTED
-  ACCEPTED
-  RETURNED
-  OVERDUE
-  ALLOCATED
+enum ResourceStatus {
+  AVAILABLE
+  OCCUPIED
+  LOST
+  UNDER_MAINTENANCE
 }
 
-enum UnitStatus {
-  AVAILABLE
-  IN_USE
-  MAINTENANCE
-  RETIRED
+enum ResourceRequestStatus {
+  ACCEPTED
+  REJECTED
+  PENDING
 }
 
 model User {
-  id               String     @id @default(cuid())
-  email            String     @unique
+  id               String             @id @default(cuid())
+  email            String             @unique
   name             String
-  rollNumber       String?     @unique
-  enrollmentNumber String?     @unique
+  rollNumber       String?            @unique
+  enrollmentNumber String?            @unique
   department       Department
   role             Role
   profilePhoto     String?
   password         String
-  
-  tickets          Ticket[]   
-  
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
+  authority        ResourceAuthority?
+
+
+  resourcesRequested  ResourceRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
+model ResourceAuthority {
+  id          String     @id @default(cuid())
+  name        String
+  department  Department
+  location    String
+  description String?
+
+  ownerId String @unique
+  ownedBy User   @relation(fields: [ownerId], references: [id])
+
+  resourceCategories ResourceCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 model ResourceCategory {
-  id          String     @id @default(cuid())
-  name        String    
+  id          String  @id @default(cuid())
+  name        String
   description String?
-  resources   Resource[]
-  
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-}
 
+  authorityId       String
+  resourceAuthority ResourceAuthority @relation(fields: [authorityId], references: [id])
+
+  isActive Boolean @default(true)
+
+  resources Resource[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, authorityId])
+}
 
 model Resource {
-  id                String           @id @default(cuid())
-  name              String           
-  model             String?          
-  manufacturer      String?          
-  description       String?
-  
-  categoryId        String
-  category          ResourceCategory @relation(fields: [categoryId], references: [id])
-  
-  department        Department       
-  ownerType         ResourceOwnerType
-  location          String?          
-  
-  totalQuantity     Int
-  availableQuantity Int
-  
-  units             ResourceUnit[]   
-  tickets           Ticket[]         
-  
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  
-  @@index([categoryId])
-  @@index([department])
-  @@unique([department, categoryId, name]) 
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  model       String?
+
+  resourceCategoryId String
+  resourceCategory   ResourceCategory @relation(fields: [resourceCategoryId], references: [id])
+
+  isActive Boolean @default(true)
+  quantity Int     @default(1)
+
+  status           ResourceStatus @default(AVAILABLE)
+  resourceRequests ResourceRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
+model ResourceRequest {
+  id         String   @id @default(cuid())
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id])
+  quantity   Int
 
-model ResourceUnit {
-  id           String     @id @default(cuid())
-  serialNumber String?    @unique
-  status       UnitStatus @default(AVAILABLE)
-  condition    String?    
-  notes        String?
-  
-  resourceId   String
-  resource     Resource   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-  
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  
-  @@index([resourceId])
-  @@index([status])
+  ticketId    String
+  ticket      Ticket @relation(fields: [ticketId], references: [id])
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  from DateTime
+  till DateTime
+
+  status ResourceRequestStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Ticket {
-  id          String       @id @default(cuid())
-  
-  userId      String
-  user        User         @relation(fields: [userId], references: [id])
-  
-  resourceId  String
-  resource    Resource     @relation(fields: [resourceId], references: [id])
-  
-  quantity    Int          @default(1)
-  status      TicketStatus @default(PENDING)
-  
-  requestDate DateTime     @default(now())
-  fromDate    DateTime     // When user needs the resource
-  toDate      DateTime     // When user will return
-  
-  purpose     String?      // Why they need it
-  
-  approvedBy  String?      // Lab incharge/admin who approved
-  approvedAt  DateTime?
-  
-  allocatedAt DateTime?    // When resource was actually given
-  returnedAt  DateTime?    // When resource was returned
-  
-  remarks     String?      // Any notes from admin
-  
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  
-  @@index([userId])
-  @@index([resourceId])
-  @@index([status])
+  id         String @id @default(cuid())
+  issuedBy   String
+  userId     String
+
+  resourcesRequested ResourceRequest[]
+
+  isActive  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
 }

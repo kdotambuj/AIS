@@ -27,27 +27,22 @@ export type AggregateResource = {
 }
 
 export type ResourceAvgAggregateOutputType = {
-  totalQuantity: number | null
-  availableQuantity: number | null
+  quantity: number | null
 }
 
 export type ResourceSumAggregateOutputType = {
-  totalQuantity: number | null
-  availableQuantity: number | null
+  quantity: number | null
 }
 
 export type ResourceMinAggregateOutputType = {
   id: string | null
   name: string | null
-  model: string | null
-  manufacturer: string | null
   description: string | null
-  categoryId: string | null
-  department: $Enums.Department | null
-  ownerType: $Enums.ResourceOwnerType | null
-  location: string | null
-  totalQuantity: number | null
-  availableQuantity: number | null
+  model: string | null
+  resourceCategoryId: string | null
+  isActive: boolean | null
+  quantity: number | null
+  status: $Enums.ResourceStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -55,15 +50,12 @@ export type ResourceMinAggregateOutputType = {
 export type ResourceMaxAggregateOutputType = {
   id: string | null
   name: string | null
-  model: string | null
-  manufacturer: string | null
   description: string | null
-  categoryId: string | null
-  department: $Enums.Department | null
-  ownerType: $Enums.ResourceOwnerType | null
-  location: string | null
-  totalQuantity: number | null
-  availableQuantity: number | null
+  model: string | null
+  resourceCategoryId: string | null
+  isActive: boolean | null
+  quantity: number | null
+  status: $Enums.ResourceStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -71,15 +63,12 @@ export type ResourceMaxAggregateOutputType = {
 export type ResourceCountAggregateOutputType = {
   id: number
   name: number
-  model: number
-  manufacturer: number
   description: number
-  categoryId: number
-  department: number
-  ownerType: number
-  location: number
-  totalQuantity: number
-  availableQuantity: number
+  model: number
+  resourceCategoryId: number
+  isActive: number
+  quantity: number
+  status: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -87,27 +76,22 @@ export type ResourceCountAggregateOutputType = {
 
 
 export type ResourceAvgAggregateInputType = {
-  totalQuantity?: true
-  availableQuantity?: true
+  quantity?: true
 }
 
 export type ResourceSumAggregateInputType = {
-  totalQuantity?: true
-  availableQuantity?: true
+  quantity?: true
 }
 
 export type ResourceMinAggregateInputType = {
   id?: true
   name?: true
-  model?: true
-  manufacturer?: true
   description?: true
-  categoryId?: true
-  department?: true
-  ownerType?: true
-  location?: true
-  totalQuantity?: true
-  availableQuantity?: true
+  model?: true
+  resourceCategoryId?: true
+  isActive?: true
+  quantity?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -115,15 +99,12 @@ export type ResourceMinAggregateInputType = {
 export type ResourceMaxAggregateInputType = {
   id?: true
   name?: true
-  model?: true
-  manufacturer?: true
   description?: true
-  categoryId?: true
-  department?: true
-  ownerType?: true
-  location?: true
-  totalQuantity?: true
-  availableQuantity?: true
+  model?: true
+  resourceCategoryId?: true
+  isActive?: true
+  quantity?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -131,15 +112,12 @@ export type ResourceMaxAggregateInputType = {
 export type ResourceCountAggregateInputType = {
   id?: true
   name?: true
-  model?: true
-  manufacturer?: true
   description?: true
-  categoryId?: true
-  department?: true
-  ownerType?: true
-  location?: true
-  totalQuantity?: true
-  availableQuantity?: true
+  model?: true
+  resourceCategoryId?: true
+  isActive?: true
+  quantity?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -234,15 +212,12 @@ export type ResourceGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type ResourceGroupByOutputType = {
   id: string
   name: string
-  model: string | null
-  manufacturer: string | null
   description: string | null
-  categoryId: string
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location: string | null
-  totalQuantity: number
-  availableQuantity: number
+  model: string | null
+  resourceCategoryId: string
+  isActive: boolean
+  quantity: number
+  status: $Enums.ResourceStatus
   createdAt: Date
   updatedAt: Date
   _count: ResourceCountAggregateOutputType | null
@@ -273,76 +248,60 @@ export type ResourceWhereInput = {
   NOT?: Prisma.ResourceWhereInput | Prisma.ResourceWhereInput[]
   id?: Prisma.StringFilter<"Resource"> | string
   name?: Prisma.StringFilter<"Resource"> | string
-  model?: Prisma.StringNullableFilter<"Resource"> | string | null
-  manufacturer?: Prisma.StringNullableFilter<"Resource"> | string | null
   description?: Prisma.StringNullableFilter<"Resource"> | string | null
-  categoryId?: Prisma.StringFilter<"Resource"> | string
-  department?: Prisma.EnumDepartmentFilter<"Resource"> | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFilter<"Resource"> | $Enums.ResourceOwnerType
-  location?: Prisma.StringNullableFilter<"Resource"> | string | null
-  totalQuantity?: Prisma.IntFilter<"Resource"> | number
-  availableQuantity?: Prisma.IntFilter<"Resource"> | number
+  model?: Prisma.StringNullableFilter<"Resource"> | string | null
+  resourceCategoryId?: Prisma.StringFilter<"Resource"> | string
+  isActive?: Prisma.BoolFilter<"Resource"> | boolean
+  quantity?: Prisma.IntFilter<"Resource"> | number
+  status?: Prisma.EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
-  category?: Prisma.XOR<Prisma.ResourceCategoryScalarRelationFilter, Prisma.ResourceCategoryWhereInput>
-  units?: Prisma.ResourceUnitListRelationFilter
-  tickets?: Prisma.TicketListRelationFilter
+  resourceCategory?: Prisma.XOR<Prisma.ResourceCategoryScalarRelationFilter, Prisma.ResourceCategoryWhereInput>
+  resourceRequests?: Prisma.ResourceRequestListRelationFilter
 }
 
 export type ResourceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  model?: Prisma.SortOrderInput | Prisma.SortOrder
-  manufacturer?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
-  department?: Prisma.SortOrder
-  ownerType?: Prisma.SortOrder
-  location?: Prisma.SortOrderInput | Prisma.SortOrder
-  totalQuantity?: Prisma.SortOrder
-  availableQuantity?: Prisma.SortOrder
+  model?: Prisma.SortOrderInput | Prisma.SortOrder
+  resourceCategoryId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  quantity?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  category?: Prisma.ResourceCategoryOrderByWithRelationInput
-  units?: Prisma.ResourceUnitOrderByRelationAggregateInput
-  tickets?: Prisma.TicketOrderByRelationAggregateInput
+  resourceCategory?: Prisma.ResourceCategoryOrderByWithRelationInput
+  resourceRequests?: Prisma.ResourceRequestOrderByRelationAggregateInput
 }
 
 export type ResourceWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  department_categoryId_name?: Prisma.ResourceDepartmentCategoryIdNameCompoundUniqueInput
   AND?: Prisma.ResourceWhereInput | Prisma.ResourceWhereInput[]
   OR?: Prisma.ResourceWhereInput[]
   NOT?: Prisma.ResourceWhereInput | Prisma.ResourceWhereInput[]
   name?: Prisma.StringFilter<"Resource"> | string
-  model?: Prisma.StringNullableFilter<"Resource"> | string | null
-  manufacturer?: Prisma.StringNullableFilter<"Resource"> | string | null
   description?: Prisma.StringNullableFilter<"Resource"> | string | null
-  categoryId?: Prisma.StringFilter<"Resource"> | string
-  department?: Prisma.EnumDepartmentFilter<"Resource"> | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFilter<"Resource"> | $Enums.ResourceOwnerType
-  location?: Prisma.StringNullableFilter<"Resource"> | string | null
-  totalQuantity?: Prisma.IntFilter<"Resource"> | number
-  availableQuantity?: Prisma.IntFilter<"Resource"> | number
+  model?: Prisma.StringNullableFilter<"Resource"> | string | null
+  resourceCategoryId?: Prisma.StringFilter<"Resource"> | string
+  isActive?: Prisma.BoolFilter<"Resource"> | boolean
+  quantity?: Prisma.IntFilter<"Resource"> | number
+  status?: Prisma.EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
-  category?: Prisma.XOR<Prisma.ResourceCategoryScalarRelationFilter, Prisma.ResourceCategoryWhereInput>
-  units?: Prisma.ResourceUnitListRelationFilter
-  tickets?: Prisma.TicketListRelationFilter
-}, "id" | "department_categoryId_name">
+  resourceCategory?: Prisma.XOR<Prisma.ResourceCategoryScalarRelationFilter, Prisma.ResourceCategoryWhereInput>
+  resourceRequests?: Prisma.ResourceRequestListRelationFilter
+}, "id">
 
 export type ResourceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  model?: Prisma.SortOrderInput | Prisma.SortOrder
-  manufacturer?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
-  department?: Prisma.SortOrder
-  ownerType?: Prisma.SortOrder
-  location?: Prisma.SortOrderInput | Prisma.SortOrder
-  totalQuantity?: Prisma.SortOrder
-  availableQuantity?: Prisma.SortOrder
+  model?: Prisma.SortOrderInput | Prisma.SortOrder
+  resourceCategoryId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  quantity?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ResourceCountOrderByAggregateInput
@@ -358,15 +317,12 @@ export type ResourceScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ResourceScalarWhereWithAggregatesInput | Prisma.ResourceScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Resource"> | string
   name?: Prisma.StringWithAggregatesFilter<"Resource"> | string
-  model?: Prisma.StringNullableWithAggregatesFilter<"Resource"> | string | null
-  manufacturer?: Prisma.StringNullableWithAggregatesFilter<"Resource"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Resource"> | string | null
-  categoryId?: Prisma.StringWithAggregatesFilter<"Resource"> | string
-  department?: Prisma.EnumDepartmentWithAggregatesFilter<"Resource"> | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeWithAggregatesFilter<"Resource"> | $Enums.ResourceOwnerType
-  location?: Prisma.StringNullableWithAggregatesFilter<"Resource"> | string | null
-  totalQuantity?: Prisma.IntWithAggregatesFilter<"Resource"> | number
-  availableQuantity?: Prisma.IntWithAggregatesFilter<"Resource"> | number
+  model?: Prisma.StringNullableWithAggregatesFilter<"Resource"> | string | null
+  resourceCategoryId?: Prisma.StringWithAggregatesFilter<"Resource"> | string
+  isActive?: Prisma.BoolWithAggregatesFilter<"Resource"> | boolean
+  quantity?: Prisma.IntWithAggregatesFilter<"Resource"> | number
+  status?: Prisma.EnumResourceStatusWithAggregatesFilter<"Resource"> | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Resource"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Resource"> | Date | string
 }
@@ -374,87 +330,68 @@ export type ResourceScalarWhereWithAggregatesInput = {
 export type ResourceCreateInput = {
   id?: string
   name: string
-  model?: string | null
-  manufacturer?: string | null
   description?: string | null
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location?: string | null
-  totalQuantity: number
-  availableQuantity: number
+  model?: string | null
+  isActive?: boolean
+  quantity?: number
+  status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  category: Prisma.ResourceCategoryCreateNestedOneWithoutResourcesInput
-  units?: Prisma.ResourceUnitCreateNestedManyWithoutResourceInput
-  tickets?: Prisma.TicketCreateNestedManyWithoutResourceInput
+  resourceCategory: Prisma.ResourceCategoryCreateNestedOneWithoutResourcesInput
+  resourceRequests?: Prisma.ResourceRequestCreateNestedManyWithoutResourceInput
 }
 
 export type ResourceUncheckedCreateInput = {
   id?: string
   name: string
-  model?: string | null
-  manufacturer?: string | null
   description?: string | null
-  categoryId: string
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location?: string | null
-  totalQuantity: number
-  availableQuantity: number
+  model?: string | null
+  resourceCategoryId: string
+  isActive?: boolean
+  quantity?: number
+  status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  units?: Prisma.ResourceUnitUncheckedCreateNestedManyWithoutResourceInput
-  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutResourceInput
+  resourceRequests?: Prisma.ResourceRequestUncheckedCreateNestedManyWithoutResourceInput
 }
 
 export type ResourceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.ResourceCategoryUpdateOneRequiredWithoutResourcesNestedInput
-  units?: Prisma.ResourceUnitUpdateManyWithoutResourceNestedInput
-  tickets?: Prisma.TicketUpdateManyWithoutResourceNestedInput
+  resourceCategory?: Prisma.ResourceCategoryUpdateOneRequiredWithoutResourcesNestedInput
+  resourceRequests?: Prisma.ResourceRequestUpdateManyWithoutResourceNestedInput
 }
 
 export type ResourceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resourceCategoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  units?: Prisma.ResourceUnitUncheckedUpdateManyWithoutResourceNestedInput
-  tickets?: Prisma.TicketUncheckedUpdateManyWithoutResourceNestedInput
+  resourceRequests?: Prisma.ResourceRequestUncheckedUpdateManyWithoutResourceNestedInput
 }
 
 export type ResourceCreateManyInput = {
   id?: string
   name: string
-  model?: string | null
-  manufacturer?: string | null
   description?: string | null
-  categoryId: string
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location?: string | null
-  totalQuantity: number
-  availableQuantity: number
+  model?: string | null
+  resourceCategoryId: string
+  isActive?: boolean
+  quantity?: number
+  status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -462,14 +399,11 @@ export type ResourceCreateManyInput = {
 export type ResourceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -477,15 +411,12 @@ export type ResourceUpdateManyMutationInput = {
 export type ResourceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resourceCategoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -500,45 +431,32 @@ export type ResourceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ResourceDepartmentCategoryIdNameCompoundUniqueInput = {
-  department: $Enums.Department
-  categoryId: string
-  name: string
-}
-
 export type ResourceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  model?: Prisma.SortOrder
-  manufacturer?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
-  department?: Prisma.SortOrder
-  ownerType?: Prisma.SortOrder
-  location?: Prisma.SortOrder
-  totalQuantity?: Prisma.SortOrder
-  availableQuantity?: Prisma.SortOrder
+  model?: Prisma.SortOrder
+  resourceCategoryId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  quantity?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ResourceAvgOrderByAggregateInput = {
-  totalQuantity?: Prisma.SortOrder
-  availableQuantity?: Prisma.SortOrder
+  quantity?: Prisma.SortOrder
 }
 
 export type ResourceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  model?: Prisma.SortOrder
-  manufacturer?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
-  department?: Prisma.SortOrder
-  ownerType?: Prisma.SortOrder
-  location?: Prisma.SortOrder
-  totalQuantity?: Prisma.SortOrder
-  availableQuantity?: Prisma.SortOrder
+  model?: Prisma.SortOrder
+  resourceCategoryId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  quantity?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -546,22 +464,18 @@ export type ResourceMaxOrderByAggregateInput = {
 export type ResourceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  model?: Prisma.SortOrder
-  manufacturer?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
-  department?: Prisma.SortOrder
-  ownerType?: Prisma.SortOrder
-  location?: Prisma.SortOrder
-  totalQuantity?: Prisma.SortOrder
-  availableQuantity?: Prisma.SortOrder
+  model?: Prisma.SortOrder
+  resourceCategoryId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  quantity?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ResourceSumOrderByAggregateInput = {
-  totalQuantity?: Prisma.SortOrder
-  availableQuantity?: Prisma.SortOrder
+  quantity?: Prisma.SortOrder
 }
 
 export type ResourceScalarRelationFilter = {
@@ -569,50 +483,46 @@ export type ResourceScalarRelationFilter = {
   isNot?: Prisma.ResourceWhereInput
 }
 
-export type ResourceCreateNestedManyWithoutCategoryInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutCategoryInput, Prisma.ResourceUncheckedCreateWithoutCategoryInput> | Prisma.ResourceCreateWithoutCategoryInput[] | Prisma.ResourceUncheckedCreateWithoutCategoryInput[]
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutCategoryInput | Prisma.ResourceCreateOrConnectWithoutCategoryInput[]
-  createMany?: Prisma.ResourceCreateManyCategoryInputEnvelope
+export type ResourceCreateNestedManyWithoutResourceCategoryInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceCategoryInput, Prisma.ResourceUncheckedCreateWithoutResourceCategoryInput> | Prisma.ResourceCreateWithoutResourceCategoryInput[] | Prisma.ResourceUncheckedCreateWithoutResourceCategoryInput[]
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceCategoryInput | Prisma.ResourceCreateOrConnectWithoutResourceCategoryInput[]
+  createMany?: Prisma.ResourceCreateManyResourceCategoryInputEnvelope
   connect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
 }
 
-export type ResourceUncheckedCreateNestedManyWithoutCategoryInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutCategoryInput, Prisma.ResourceUncheckedCreateWithoutCategoryInput> | Prisma.ResourceCreateWithoutCategoryInput[] | Prisma.ResourceUncheckedCreateWithoutCategoryInput[]
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutCategoryInput | Prisma.ResourceCreateOrConnectWithoutCategoryInput[]
-  createMany?: Prisma.ResourceCreateManyCategoryInputEnvelope
+export type ResourceUncheckedCreateNestedManyWithoutResourceCategoryInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceCategoryInput, Prisma.ResourceUncheckedCreateWithoutResourceCategoryInput> | Prisma.ResourceCreateWithoutResourceCategoryInput[] | Prisma.ResourceUncheckedCreateWithoutResourceCategoryInput[]
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceCategoryInput | Prisma.ResourceCreateOrConnectWithoutResourceCategoryInput[]
+  createMany?: Prisma.ResourceCreateManyResourceCategoryInputEnvelope
   connect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
 }
 
-export type ResourceUpdateManyWithoutCategoryNestedInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutCategoryInput, Prisma.ResourceUncheckedCreateWithoutCategoryInput> | Prisma.ResourceCreateWithoutCategoryInput[] | Prisma.ResourceUncheckedCreateWithoutCategoryInput[]
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutCategoryInput | Prisma.ResourceCreateOrConnectWithoutCategoryInput[]
-  upsert?: Prisma.ResourceUpsertWithWhereUniqueWithoutCategoryInput | Prisma.ResourceUpsertWithWhereUniqueWithoutCategoryInput[]
-  createMany?: Prisma.ResourceCreateManyCategoryInputEnvelope
+export type ResourceUpdateManyWithoutResourceCategoryNestedInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceCategoryInput, Prisma.ResourceUncheckedCreateWithoutResourceCategoryInput> | Prisma.ResourceCreateWithoutResourceCategoryInput[] | Prisma.ResourceUncheckedCreateWithoutResourceCategoryInput[]
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceCategoryInput | Prisma.ResourceCreateOrConnectWithoutResourceCategoryInput[]
+  upsert?: Prisma.ResourceUpsertWithWhereUniqueWithoutResourceCategoryInput | Prisma.ResourceUpsertWithWhereUniqueWithoutResourceCategoryInput[]
+  createMany?: Prisma.ResourceCreateManyResourceCategoryInputEnvelope
   set?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   disconnect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   delete?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   connect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
-  update?: Prisma.ResourceUpdateWithWhereUniqueWithoutCategoryInput | Prisma.ResourceUpdateWithWhereUniqueWithoutCategoryInput[]
-  updateMany?: Prisma.ResourceUpdateManyWithWhereWithoutCategoryInput | Prisma.ResourceUpdateManyWithWhereWithoutCategoryInput[]
+  update?: Prisma.ResourceUpdateWithWhereUniqueWithoutResourceCategoryInput | Prisma.ResourceUpdateWithWhereUniqueWithoutResourceCategoryInput[]
+  updateMany?: Prisma.ResourceUpdateManyWithWhereWithoutResourceCategoryInput | Prisma.ResourceUpdateManyWithWhereWithoutResourceCategoryInput[]
   deleteMany?: Prisma.ResourceScalarWhereInput | Prisma.ResourceScalarWhereInput[]
 }
 
-export type ResourceUncheckedUpdateManyWithoutCategoryNestedInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutCategoryInput, Prisma.ResourceUncheckedCreateWithoutCategoryInput> | Prisma.ResourceCreateWithoutCategoryInput[] | Prisma.ResourceUncheckedCreateWithoutCategoryInput[]
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutCategoryInput | Prisma.ResourceCreateOrConnectWithoutCategoryInput[]
-  upsert?: Prisma.ResourceUpsertWithWhereUniqueWithoutCategoryInput | Prisma.ResourceUpsertWithWhereUniqueWithoutCategoryInput[]
-  createMany?: Prisma.ResourceCreateManyCategoryInputEnvelope
+export type ResourceUncheckedUpdateManyWithoutResourceCategoryNestedInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceCategoryInput, Prisma.ResourceUncheckedCreateWithoutResourceCategoryInput> | Prisma.ResourceCreateWithoutResourceCategoryInput[] | Prisma.ResourceUncheckedCreateWithoutResourceCategoryInput[]
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceCategoryInput | Prisma.ResourceCreateOrConnectWithoutResourceCategoryInput[]
+  upsert?: Prisma.ResourceUpsertWithWhereUniqueWithoutResourceCategoryInput | Prisma.ResourceUpsertWithWhereUniqueWithoutResourceCategoryInput[]
+  createMany?: Prisma.ResourceCreateManyResourceCategoryInputEnvelope
   set?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   disconnect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   delete?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
   connect?: Prisma.ResourceWhereUniqueInput | Prisma.ResourceWhereUniqueInput[]
-  update?: Prisma.ResourceUpdateWithWhereUniqueWithoutCategoryInput | Prisma.ResourceUpdateWithWhereUniqueWithoutCategoryInput[]
-  updateMany?: Prisma.ResourceUpdateManyWithWhereWithoutCategoryInput | Prisma.ResourceUpdateManyWithWhereWithoutCategoryInput[]
+  update?: Prisma.ResourceUpdateWithWhereUniqueWithoutResourceCategoryInput | Prisma.ResourceUpdateWithWhereUniqueWithoutResourceCategoryInput[]
+  updateMany?: Prisma.ResourceUpdateManyWithWhereWithoutResourceCategoryInput | Prisma.ResourceUpdateManyWithWhereWithoutResourceCategoryInput[]
   deleteMany?: Prisma.ResourceScalarWhereInput | Prisma.ResourceScalarWhereInput[]
-}
-
-export type EnumResourceOwnerTypeFieldUpdateOperationsInput = {
-  set?: $Enums.ResourceOwnerType
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -623,92 +533,74 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type ResourceCreateNestedOneWithoutUnitsInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutUnitsInput, Prisma.ResourceUncheckedCreateWithoutUnitsInput>
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutUnitsInput
+export type EnumResourceStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ResourceStatus
+}
+
+export type ResourceCreateNestedOneWithoutResourceRequestsInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceRequestsInput, Prisma.ResourceUncheckedCreateWithoutResourceRequestsInput>
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceRequestsInput
   connect?: Prisma.ResourceWhereUniqueInput
 }
 
-export type ResourceUpdateOneRequiredWithoutUnitsNestedInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutUnitsInput, Prisma.ResourceUncheckedCreateWithoutUnitsInput>
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutUnitsInput
-  upsert?: Prisma.ResourceUpsertWithoutUnitsInput
+export type ResourceUpdateOneRequiredWithoutResourceRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceRequestsInput, Prisma.ResourceUncheckedCreateWithoutResourceRequestsInput>
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceRequestsInput
+  upsert?: Prisma.ResourceUpsertWithoutResourceRequestsInput
   connect?: Prisma.ResourceWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ResourceUpdateToOneWithWhereWithoutUnitsInput, Prisma.ResourceUpdateWithoutUnitsInput>, Prisma.ResourceUncheckedUpdateWithoutUnitsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ResourceUpdateToOneWithWhereWithoutResourceRequestsInput, Prisma.ResourceUpdateWithoutResourceRequestsInput>, Prisma.ResourceUncheckedUpdateWithoutResourceRequestsInput>
 }
 
-export type ResourceCreateNestedOneWithoutTicketsInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutTicketsInput, Prisma.ResourceUncheckedCreateWithoutTicketsInput>
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutTicketsInput
-  connect?: Prisma.ResourceWhereUniqueInput
-}
-
-export type ResourceUpdateOneRequiredWithoutTicketsNestedInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutTicketsInput, Prisma.ResourceUncheckedCreateWithoutTicketsInput>
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutTicketsInput
-  upsert?: Prisma.ResourceUpsertWithoutTicketsInput
-  connect?: Prisma.ResourceWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ResourceUpdateToOneWithWhereWithoutTicketsInput, Prisma.ResourceUpdateWithoutTicketsInput>, Prisma.ResourceUncheckedUpdateWithoutTicketsInput>
-}
-
-export type ResourceCreateWithoutCategoryInput = {
+export type ResourceCreateWithoutResourceCategoryInput = {
   id?: string
   name: string
-  model?: string | null
-  manufacturer?: string | null
   description?: string | null
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location?: string | null
-  totalQuantity: number
-  availableQuantity: number
+  model?: string | null
+  isActive?: boolean
+  quantity?: number
+  status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  units?: Prisma.ResourceUnitCreateNestedManyWithoutResourceInput
-  tickets?: Prisma.TicketCreateNestedManyWithoutResourceInput
+  resourceRequests?: Prisma.ResourceRequestCreateNestedManyWithoutResourceInput
 }
 
-export type ResourceUncheckedCreateWithoutCategoryInput = {
+export type ResourceUncheckedCreateWithoutResourceCategoryInput = {
   id?: string
   name: string
-  model?: string | null
-  manufacturer?: string | null
   description?: string | null
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location?: string | null
-  totalQuantity: number
-  availableQuantity: number
+  model?: string | null
+  isActive?: boolean
+  quantity?: number
+  status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  units?: Prisma.ResourceUnitUncheckedCreateNestedManyWithoutResourceInput
-  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutResourceInput
+  resourceRequests?: Prisma.ResourceRequestUncheckedCreateNestedManyWithoutResourceInput
 }
 
-export type ResourceCreateOrConnectWithoutCategoryInput = {
+export type ResourceCreateOrConnectWithoutResourceCategoryInput = {
   where: Prisma.ResourceWhereUniqueInput
-  create: Prisma.XOR<Prisma.ResourceCreateWithoutCategoryInput, Prisma.ResourceUncheckedCreateWithoutCategoryInput>
+  create: Prisma.XOR<Prisma.ResourceCreateWithoutResourceCategoryInput, Prisma.ResourceUncheckedCreateWithoutResourceCategoryInput>
 }
 
-export type ResourceCreateManyCategoryInputEnvelope = {
-  data: Prisma.ResourceCreateManyCategoryInput | Prisma.ResourceCreateManyCategoryInput[]
+export type ResourceCreateManyResourceCategoryInputEnvelope = {
+  data: Prisma.ResourceCreateManyResourceCategoryInput | Prisma.ResourceCreateManyResourceCategoryInput[]
   skipDuplicates?: boolean
 }
 
-export type ResourceUpsertWithWhereUniqueWithoutCategoryInput = {
+export type ResourceUpsertWithWhereUniqueWithoutResourceCategoryInput = {
   where: Prisma.ResourceWhereUniqueInput
-  update: Prisma.XOR<Prisma.ResourceUpdateWithoutCategoryInput, Prisma.ResourceUncheckedUpdateWithoutCategoryInput>
-  create: Prisma.XOR<Prisma.ResourceCreateWithoutCategoryInput, Prisma.ResourceUncheckedCreateWithoutCategoryInput>
+  update: Prisma.XOR<Prisma.ResourceUpdateWithoutResourceCategoryInput, Prisma.ResourceUncheckedUpdateWithoutResourceCategoryInput>
+  create: Prisma.XOR<Prisma.ResourceCreateWithoutResourceCategoryInput, Prisma.ResourceUncheckedCreateWithoutResourceCategoryInput>
 }
 
-export type ResourceUpdateWithWhereUniqueWithoutCategoryInput = {
+export type ResourceUpdateWithWhereUniqueWithoutResourceCategoryInput = {
   where: Prisma.ResourceWhereUniqueInput
-  data: Prisma.XOR<Prisma.ResourceUpdateWithoutCategoryInput, Prisma.ResourceUncheckedUpdateWithoutCategoryInput>
+  data: Prisma.XOR<Prisma.ResourceUpdateWithoutResourceCategoryInput, Prisma.ResourceUncheckedUpdateWithoutResourceCategoryInput>
 }
 
-export type ResourceUpdateManyWithWhereWithoutCategoryInput = {
+export type ResourceUpdateManyWithWhereWithoutResourceCategoryInput = {
   where: Prisma.ResourceScalarWhereInput
-  data: Prisma.XOR<Prisma.ResourceUpdateManyMutationInput, Prisma.ResourceUncheckedUpdateManyWithoutCategoryInput>
+  data: Prisma.XOR<Prisma.ResourceUpdateManyMutationInput, Prisma.ResourceUncheckedUpdateManyWithoutResourceCategoryInput>
 }
 
 export type ResourceScalarWhereInput = {
@@ -717,247 +609,130 @@ export type ResourceScalarWhereInput = {
   NOT?: Prisma.ResourceScalarWhereInput | Prisma.ResourceScalarWhereInput[]
   id?: Prisma.StringFilter<"Resource"> | string
   name?: Prisma.StringFilter<"Resource"> | string
-  model?: Prisma.StringNullableFilter<"Resource"> | string | null
-  manufacturer?: Prisma.StringNullableFilter<"Resource"> | string | null
   description?: Prisma.StringNullableFilter<"Resource"> | string | null
-  categoryId?: Prisma.StringFilter<"Resource"> | string
-  department?: Prisma.EnumDepartmentFilter<"Resource"> | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFilter<"Resource"> | $Enums.ResourceOwnerType
-  location?: Prisma.StringNullableFilter<"Resource"> | string | null
-  totalQuantity?: Prisma.IntFilter<"Resource"> | number
-  availableQuantity?: Prisma.IntFilter<"Resource"> | number
+  model?: Prisma.StringNullableFilter<"Resource"> | string | null
+  resourceCategoryId?: Prisma.StringFilter<"Resource"> | string
+  isActive?: Prisma.BoolFilter<"Resource"> | boolean
+  quantity?: Prisma.IntFilter<"Resource"> | number
+  status?: Prisma.EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
 }
 
-export type ResourceCreateWithoutUnitsInput = {
+export type ResourceCreateWithoutResourceRequestsInput = {
   id?: string
   name: string
-  model?: string | null
-  manufacturer?: string | null
   description?: string | null
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location?: string | null
-  totalQuantity: number
-  availableQuantity: number
+  model?: string | null
+  isActive?: boolean
+  quantity?: number
+  status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  category: Prisma.ResourceCategoryCreateNestedOneWithoutResourcesInput
-  tickets?: Prisma.TicketCreateNestedManyWithoutResourceInput
+  resourceCategory: Prisma.ResourceCategoryCreateNestedOneWithoutResourcesInput
 }
 
-export type ResourceUncheckedCreateWithoutUnitsInput = {
+export type ResourceUncheckedCreateWithoutResourceRequestsInput = {
   id?: string
   name: string
-  model?: string | null
-  manufacturer?: string | null
   description?: string | null
-  categoryId: string
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location?: string | null
-  totalQuantity: number
-  availableQuantity: number
+  model?: string | null
+  resourceCategoryId: string
+  isActive?: boolean
+  quantity?: number
+  status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutResourceInput
 }
 
-export type ResourceCreateOrConnectWithoutUnitsInput = {
+export type ResourceCreateOrConnectWithoutResourceRequestsInput = {
   where: Prisma.ResourceWhereUniqueInput
-  create: Prisma.XOR<Prisma.ResourceCreateWithoutUnitsInput, Prisma.ResourceUncheckedCreateWithoutUnitsInput>
+  create: Prisma.XOR<Prisma.ResourceCreateWithoutResourceRequestsInput, Prisma.ResourceUncheckedCreateWithoutResourceRequestsInput>
 }
 
-export type ResourceUpsertWithoutUnitsInput = {
-  update: Prisma.XOR<Prisma.ResourceUpdateWithoutUnitsInput, Prisma.ResourceUncheckedUpdateWithoutUnitsInput>
-  create: Prisma.XOR<Prisma.ResourceCreateWithoutUnitsInput, Prisma.ResourceUncheckedCreateWithoutUnitsInput>
+export type ResourceUpsertWithoutResourceRequestsInput = {
+  update: Prisma.XOR<Prisma.ResourceUpdateWithoutResourceRequestsInput, Prisma.ResourceUncheckedUpdateWithoutResourceRequestsInput>
+  create: Prisma.XOR<Prisma.ResourceCreateWithoutResourceRequestsInput, Prisma.ResourceUncheckedCreateWithoutResourceRequestsInput>
   where?: Prisma.ResourceWhereInput
 }
 
-export type ResourceUpdateToOneWithWhereWithoutUnitsInput = {
+export type ResourceUpdateToOneWithWhereWithoutResourceRequestsInput = {
   where?: Prisma.ResourceWhereInput
-  data: Prisma.XOR<Prisma.ResourceUpdateWithoutUnitsInput, Prisma.ResourceUncheckedUpdateWithoutUnitsInput>
+  data: Prisma.XOR<Prisma.ResourceUpdateWithoutResourceRequestsInput, Prisma.ResourceUncheckedUpdateWithoutResourceRequestsInput>
 }
 
-export type ResourceUpdateWithoutUnitsInput = {
+export type ResourceUpdateWithoutResourceRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.ResourceCategoryUpdateOneRequiredWithoutResourcesNestedInput
-  tickets?: Prisma.TicketUpdateManyWithoutResourceNestedInput
+  resourceCategory?: Prisma.ResourceCategoryUpdateOneRequiredWithoutResourcesNestedInput
 }
 
-export type ResourceUncheckedUpdateWithoutUnitsInput = {
+export type ResourceUncheckedUpdateWithoutResourceRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resourceCategoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tickets?: Prisma.TicketUncheckedUpdateManyWithoutResourceNestedInput
 }
 
-export type ResourceCreateWithoutTicketsInput = {
+export type ResourceCreateManyResourceCategoryInput = {
   id?: string
   name: string
-  model?: string | null
-  manufacturer?: string | null
   description?: string | null
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location?: string | null
-  totalQuantity: number
-  availableQuantity: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  category: Prisma.ResourceCategoryCreateNestedOneWithoutResourcesInput
-  units?: Prisma.ResourceUnitCreateNestedManyWithoutResourceInput
-}
-
-export type ResourceUncheckedCreateWithoutTicketsInput = {
-  id?: string
-  name: string
   model?: string | null
-  manufacturer?: string | null
-  description?: string | null
-  categoryId: string
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location?: string | null
-  totalQuantity: number
-  availableQuantity: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  units?: Prisma.ResourceUnitUncheckedCreateNestedManyWithoutResourceInput
-}
-
-export type ResourceCreateOrConnectWithoutTicketsInput = {
-  where: Prisma.ResourceWhereUniqueInput
-  create: Prisma.XOR<Prisma.ResourceCreateWithoutTicketsInput, Prisma.ResourceUncheckedCreateWithoutTicketsInput>
-}
-
-export type ResourceUpsertWithoutTicketsInput = {
-  update: Prisma.XOR<Prisma.ResourceUpdateWithoutTicketsInput, Prisma.ResourceUncheckedUpdateWithoutTicketsInput>
-  create: Prisma.XOR<Prisma.ResourceCreateWithoutTicketsInput, Prisma.ResourceUncheckedCreateWithoutTicketsInput>
-  where?: Prisma.ResourceWhereInput
-}
-
-export type ResourceUpdateToOneWithWhereWithoutTicketsInput = {
-  where?: Prisma.ResourceWhereInput
-  data: Prisma.XOR<Prisma.ResourceUpdateWithoutTicketsInput, Prisma.ResourceUncheckedUpdateWithoutTicketsInput>
-}
-
-export type ResourceUpdateWithoutTicketsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.ResourceCategoryUpdateOneRequiredWithoutResourcesNestedInput
-  units?: Prisma.ResourceUnitUpdateManyWithoutResourceNestedInput
-}
-
-export type ResourceUncheckedUpdateWithoutTicketsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  units?: Prisma.ResourceUnitUncheckedUpdateManyWithoutResourceNestedInput
-}
-
-export type ResourceCreateManyCategoryInput = {
-  id?: string
-  name: string
-  model?: string | null
-  manufacturer?: string | null
-  description?: string | null
-  department: $Enums.Department
-  ownerType: $Enums.ResourceOwnerType
-  location?: string | null
-  totalQuantity: number
-  availableQuantity: number
+  isActive?: boolean
+  quantity?: number
+  status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type ResourceUpdateWithoutCategoryInput = {
+export type ResourceUpdateWithoutResourceCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  units?: Prisma.ResourceUnitUpdateManyWithoutResourceNestedInput
-  tickets?: Prisma.TicketUpdateManyWithoutResourceNestedInput
+  resourceRequests?: Prisma.ResourceRequestUpdateManyWithoutResourceNestedInput
 }
 
-export type ResourceUncheckedUpdateWithoutCategoryInput = {
+export type ResourceUncheckedUpdateWithoutResourceCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  units?: Prisma.ResourceUnitUncheckedUpdateManyWithoutResourceNestedInput
-  tickets?: Prisma.TicketUncheckedUpdateManyWithoutResourceNestedInput
+  resourceRequests?: Prisma.ResourceRequestUncheckedUpdateManyWithoutResourceNestedInput
 }
 
-export type ResourceUncheckedUpdateManyWithoutCategoryInput = {
+export type ResourceUncheckedUpdateManyWithoutResourceCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.EnumDepartmentFieldUpdateOperationsInput | $Enums.Department
-  ownerType?: Prisma.EnumResourceOwnerTypeFieldUpdateOperationsInput | $Enums.ResourceOwnerType
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalQuantity?: Prisma.IntFieldUpdateOperationsInput | number
-  availableQuantity?: Prisma.IntFieldUpdateOperationsInput | number
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -968,13 +743,11 @@ export type ResourceUncheckedUpdateManyWithoutCategoryInput = {
  */
 
 export type ResourceCountOutputType = {
-  units: number
-  tickets: number
+  resourceRequests: number
 }
 
 export type ResourceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  units?: boolean | ResourceCountOutputTypeCountUnitsArgs
-  tickets?: boolean | ResourceCountOutputTypeCountTicketsArgs
+  resourceRequests?: boolean | ResourceCountOutputTypeCountResourceRequestsArgs
 }
 
 /**
@@ -990,121 +763,96 @@ export type ResourceCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * ResourceCountOutputType without action
  */
-export type ResourceCountOutputTypeCountUnitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ResourceUnitWhereInput
-}
-
-/**
- * ResourceCountOutputType without action
- */
-export type ResourceCountOutputTypeCountTicketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TicketWhereInput
+export type ResourceCountOutputTypeCountResourceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ResourceRequestWhereInput
 }
 
 
 export type ResourceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  model?: boolean
-  manufacturer?: boolean
   description?: boolean
-  categoryId?: boolean
-  department?: boolean
-  ownerType?: boolean
-  location?: boolean
-  totalQuantity?: boolean
-  availableQuantity?: boolean
+  model?: boolean
+  resourceCategoryId?: boolean
+  isActive?: boolean
+  quantity?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  category?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
-  units?: boolean | Prisma.Resource$unitsArgs<ExtArgs>
-  tickets?: boolean | Prisma.Resource$ticketsArgs<ExtArgs>
+  resourceCategory?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
+  resourceRequests?: boolean | Prisma.Resource$resourceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.ResourceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resource"]>
 
 export type ResourceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  model?: boolean
-  manufacturer?: boolean
   description?: boolean
-  categoryId?: boolean
-  department?: boolean
-  ownerType?: boolean
-  location?: boolean
-  totalQuantity?: boolean
-  availableQuantity?: boolean
+  model?: boolean
+  resourceCategoryId?: boolean
+  isActive?: boolean
+  quantity?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  category?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
+  resourceCategory?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resource"]>
 
 export type ResourceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  model?: boolean
-  manufacturer?: boolean
   description?: boolean
-  categoryId?: boolean
-  department?: boolean
-  ownerType?: boolean
-  location?: boolean
-  totalQuantity?: boolean
-  availableQuantity?: boolean
+  model?: boolean
+  resourceCategoryId?: boolean
+  isActive?: boolean
+  quantity?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  category?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
+  resourceCategory?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resource"]>
 
 export type ResourceSelectScalar = {
   id?: boolean
   name?: boolean
-  model?: boolean
-  manufacturer?: boolean
   description?: boolean
-  categoryId?: boolean
-  department?: boolean
-  ownerType?: boolean
-  location?: boolean
-  totalQuantity?: boolean
-  availableQuantity?: boolean
+  model?: boolean
+  resourceCategoryId?: boolean
+  isActive?: boolean
+  quantity?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ResourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "model" | "manufacturer" | "description" | "categoryId" | "department" | "ownerType" | "location" | "totalQuantity" | "availableQuantity" | "createdAt" | "updatedAt", ExtArgs["result"]["resource"]>
+export type ResourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "model" | "resourceCategoryId" | "isActive" | "quantity" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["resource"]>
 export type ResourceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  category?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
-  units?: boolean | Prisma.Resource$unitsArgs<ExtArgs>
-  tickets?: boolean | Prisma.Resource$ticketsArgs<ExtArgs>
+  resourceCategory?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
+  resourceRequests?: boolean | Prisma.Resource$resourceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.ResourceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ResourceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  category?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
+  resourceCategory?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
 }
 export type ResourceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  category?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
+  resourceCategory?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
 }
 
 export type $ResourcePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Resource"
   objects: {
-    category: Prisma.$ResourceCategoryPayload<ExtArgs>
-    units: Prisma.$ResourceUnitPayload<ExtArgs>[]
-    tickets: Prisma.$TicketPayload<ExtArgs>[]
+    resourceCategory: Prisma.$ResourceCategoryPayload<ExtArgs>
+    resourceRequests: Prisma.$ResourceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
-    model: string | null
-    manufacturer: string | null
     description: string | null
-    categoryId: string
-    department: $Enums.Department
-    ownerType: $Enums.ResourceOwnerType
-    location: string | null
-    totalQuantity: number
-    availableQuantity: number
+    model: string | null
+    resourceCategoryId: string
+    isActive: boolean
+    quantity: number
+    status: $Enums.ResourceStatus
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["resource"]>
@@ -1501,9 +1249,8 @@ readonly fields: ResourceFieldRefs;
  */
 export interface Prisma__ResourceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  category<T extends Prisma.ResourceCategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ResourceCategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__ResourceCategoryClient<runtime.Types.Result.GetResult<Prisma.$ResourceCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  units<T extends Prisma.Resource$unitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resource$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResourceUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tickets<T extends Prisma.Resource$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resource$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  resourceCategory<T extends Prisma.ResourceCategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ResourceCategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__ResourceCategoryClient<runtime.Types.Result.GetResult<Prisma.$ResourceCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  resourceRequests<T extends Prisma.Resource$resourceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resource$resourceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResourceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1535,15 +1282,12 @@ export interface Prisma__ResourceClient<T, Null = never, ExtArgs extends runtime
 export interface ResourceFieldRefs {
   readonly id: Prisma.FieldRef<"Resource", 'String'>
   readonly name: Prisma.FieldRef<"Resource", 'String'>
-  readonly model: Prisma.FieldRef<"Resource", 'String'>
-  readonly manufacturer: Prisma.FieldRef<"Resource", 'String'>
   readonly description: Prisma.FieldRef<"Resource", 'String'>
-  readonly categoryId: Prisma.FieldRef<"Resource", 'String'>
-  readonly department: Prisma.FieldRef<"Resource", 'Department'>
-  readonly ownerType: Prisma.FieldRef<"Resource", 'ResourceOwnerType'>
-  readonly location: Prisma.FieldRef<"Resource", 'String'>
-  readonly totalQuantity: Prisma.FieldRef<"Resource", 'Int'>
-  readonly availableQuantity: Prisma.FieldRef<"Resource", 'Int'>
+  readonly model: Prisma.FieldRef<"Resource", 'String'>
+  readonly resourceCategoryId: Prisma.FieldRef<"Resource", 'String'>
+  readonly isActive: Prisma.FieldRef<"Resource", 'Boolean'>
+  readonly quantity: Prisma.FieldRef<"Resource", 'Int'>
+  readonly status: Prisma.FieldRef<"Resource", 'ResourceStatus'>
   readonly createdAt: Prisma.FieldRef<"Resource", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Resource", 'DateTime'>
 }
@@ -1942,51 +1686,27 @@ export type ResourceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Resource.units
+ * Resource.resourceRequests
  */
-export type Resource$unitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Resource$resourceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ResourceUnit
+   * Select specific fields to fetch from the ResourceRequest
    */
-  select?: Prisma.ResourceUnitSelect<ExtArgs> | null
+  select?: Prisma.ResourceRequestSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ResourceUnit
+   * Omit specific fields from the ResourceRequest
    */
-  omit?: Prisma.ResourceUnitOmit<ExtArgs> | null
+  omit?: Prisma.ResourceRequestOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ResourceUnitInclude<ExtArgs> | null
-  where?: Prisma.ResourceUnitWhereInput
-  orderBy?: Prisma.ResourceUnitOrderByWithRelationInput | Prisma.ResourceUnitOrderByWithRelationInput[]
-  cursor?: Prisma.ResourceUnitWhereUniqueInput
+  include?: Prisma.ResourceRequestInclude<ExtArgs> | null
+  where?: Prisma.ResourceRequestWhereInput
+  orderBy?: Prisma.ResourceRequestOrderByWithRelationInput | Prisma.ResourceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ResourceRequestWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ResourceUnitScalarFieldEnum | Prisma.ResourceUnitScalarFieldEnum[]
-}
-
-/**
- * Resource.tickets
- */
-export type Resource$ticketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Ticket
-   */
-  select?: Prisma.TicketSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Ticket
-   */
-  omit?: Prisma.TicketOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TicketInclude<ExtArgs> | null
-  where?: Prisma.TicketWhereInput
-  orderBy?: Prisma.TicketOrderByWithRelationInput | Prisma.TicketOrderByWithRelationInput[]
-  cursor?: Prisma.TicketWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TicketScalarFieldEnum | Prisma.TicketScalarFieldEnum[]
+  distinct?: Prisma.ResourceRequestScalarFieldEnum | Prisma.ResourceRequestScalarFieldEnum[]
 }
 
 /**

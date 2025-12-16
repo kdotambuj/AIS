@@ -1,30 +1,18 @@
 import { z } from "zod";
+import { Department, Role } from "../generated/prisma/enums.js";
 
 export const UserSignupSchema = z.object({
   email: z.email(),
   name: z.string().min(1),
   password: z.string().min(8),
-  department: z.enum([
-    "ELECTRICAL_ENGG",
-    "MECHANICAL_ENGG",
-    "FOOTWEAR_ENGG",
-    "CIVIL_ENGG",
-    "AGRICULTURE_ENGG",
-    "SCIENCE",
-    "ARTS",
-    "COMMERCE",
-    "AYUSH",
-    "ELECTRICAL_TECHNICAL",
-    "AUTOMOBILE_TECHNICAL",
-    "ENGLISH",
-    "OTHER",
-  ]),
-  role: z.enum(["STUDENT", "LAB_INCHARGE", "ADMIN", "HOD"]),
+  department: z.enum(Department),
+  role: z.enum(Role),
 });
 
 export const UserLoginSchema = z.object({
   email:z.email(),
-  password:z.string().min(8)
+  password:z.string().min(8),
+  role:z.enum(Role)
 })
 
 export type SignupInput = z.infer<typeof UserSignupSchema>;

@@ -20,140 +20,62 @@ export type TicketModel = runtime.Types.Result.DefaultSelection<Prisma.$TicketPa
 
 export type AggregateTicket = {
   _count: TicketCountAggregateOutputType | null
-  _avg: TicketAvgAggregateOutputType | null
-  _sum: TicketSumAggregateOutputType | null
   _min: TicketMinAggregateOutputType | null
   _max: TicketMaxAggregateOutputType | null
 }
 
-export type TicketAvgAggregateOutputType = {
-  quantity: number | null
-}
-
-export type TicketSumAggregateOutputType = {
-  quantity: number | null
-}
-
 export type TicketMinAggregateOutputType = {
   id: string | null
+  issuedBy: string | null
   userId: string | null
-  resourceId: string | null
-  quantity: number | null
-  status: $Enums.TicketStatus | null
-  requestDate: Date | null
-  fromDate: Date | null
-  toDate: Date | null
-  purpose: string | null
-  approvedBy: string | null
-  approvedAt: Date | null
-  allocatedAt: Date | null
-  returnedAt: Date | null
-  remarks: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type TicketMaxAggregateOutputType = {
   id: string | null
+  issuedBy: string | null
   userId: string | null
-  resourceId: string | null
-  quantity: number | null
-  status: $Enums.TicketStatus | null
-  requestDate: Date | null
-  fromDate: Date | null
-  toDate: Date | null
-  purpose: string | null
-  approvedBy: string | null
-  approvedAt: Date | null
-  allocatedAt: Date | null
-  returnedAt: Date | null
-  remarks: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type TicketCountAggregateOutputType = {
   id: number
+  issuedBy: number
   userId: number
-  resourceId: number
-  quantity: number
-  status: number
-  requestDate: number
-  fromDate: number
-  toDate: number
-  purpose: number
-  approvedBy: number
-  approvedAt: number
-  allocatedAt: number
-  returnedAt: number
-  remarks: number
+  isActive: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
 
-export type TicketAvgAggregateInputType = {
-  quantity?: true
-}
-
-export type TicketSumAggregateInputType = {
-  quantity?: true
-}
-
 export type TicketMinAggregateInputType = {
   id?: true
+  issuedBy?: true
   userId?: true
-  resourceId?: true
-  quantity?: true
-  status?: true
-  requestDate?: true
-  fromDate?: true
-  toDate?: true
-  purpose?: true
-  approvedBy?: true
-  approvedAt?: true
-  allocatedAt?: true
-  returnedAt?: true
-  remarks?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type TicketMaxAggregateInputType = {
   id?: true
+  issuedBy?: true
   userId?: true
-  resourceId?: true
-  quantity?: true
-  status?: true
-  requestDate?: true
-  fromDate?: true
-  toDate?: true
-  purpose?: true
-  approvedBy?: true
-  approvedAt?: true
-  allocatedAt?: true
-  returnedAt?: true
-  remarks?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type TicketCountAggregateInputType = {
   id?: true
+  issuedBy?: true
   userId?: true
-  resourceId?: true
-  quantity?: true
-  status?: true
-  requestDate?: true
-  fromDate?: true
-  toDate?: true
-  purpose?: true
-  approvedBy?: true
-  approvedAt?: true
-  allocatedAt?: true
-  returnedAt?: true
-  remarks?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -197,18 +119,6 @@ export type TicketAggregateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: TicketAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: TicketSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: TicketMinAggregateInputType
@@ -239,32 +149,18 @@ export type TicketGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   _count?: TicketCountAggregateInputType | true
-  _avg?: TicketAvgAggregateInputType
-  _sum?: TicketSumAggregateInputType
   _min?: TicketMinAggregateInputType
   _max?: TicketMaxAggregateInputType
 }
 
 export type TicketGroupByOutputType = {
   id: string
+  issuedBy: string
   userId: string
-  resourceId: string
-  quantity: number
-  status: $Enums.TicketStatus
-  requestDate: Date
-  fromDate: Date
-  toDate: Date
-  purpose: string | null
-  approvedBy: string | null
-  approvedAt: Date | null
-  allocatedAt: Date | null
-  returnedAt: Date | null
-  remarks: string | null
+  isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: TicketCountAggregateOutputType | null
-  _avg: TicketAvgAggregateOutputType | null
-  _sum: TicketSumAggregateOutputType | null
   _min: TicketMinAggregateOutputType | null
   _max: TicketMaxAggregateOutputType | null
 }
@@ -289,44 +185,22 @@ export type TicketWhereInput = {
   OR?: Prisma.TicketWhereInput[]
   NOT?: Prisma.TicketWhereInput | Prisma.TicketWhereInput[]
   id?: Prisma.StringFilter<"Ticket"> | string
+  issuedBy?: Prisma.StringFilter<"Ticket"> | string
   userId?: Prisma.StringFilter<"Ticket"> | string
-  resourceId?: Prisma.StringFilter<"Ticket"> | string
-  quantity?: Prisma.IntFilter<"Ticket"> | number
-  status?: Prisma.EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  fromDate?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  toDate?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  purpose?: Prisma.StringNullableFilter<"Ticket"> | string | null
-  approvedBy?: Prisma.StringNullableFilter<"Ticket"> | string | null
-  approvedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
-  allocatedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
-  returnedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
-  remarks?: Prisma.StringNullableFilter<"Ticket"> | string | null
+  isActive?: Prisma.BoolFilter<"Ticket"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Ticket"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  resource?: Prisma.XOR<Prisma.ResourceScalarRelationFilter, Prisma.ResourceWhereInput>
+  resourcesRequested?: Prisma.ResourceRequestListRelationFilter
 }
 
 export type TicketOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  issuedBy?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  resourceId?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  requestDate?: Prisma.SortOrder
-  fromDate?: Prisma.SortOrder
-  toDate?: Prisma.SortOrder
-  purpose?: Prisma.SortOrderInput | Prisma.SortOrder
-  approvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
-  approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  allocatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  returnedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  remarks?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
-  resource?: Prisma.ResourceOrderByWithRelationInput
+  resourcesRequested?: Prisma.ResourceRequestOrderByRelationAggregateInput
 }
 
 export type TicketWhereUniqueInput = Prisma.AtLeast<{
@@ -334,47 +208,24 @@ export type TicketWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TicketWhereInput | Prisma.TicketWhereInput[]
   OR?: Prisma.TicketWhereInput[]
   NOT?: Prisma.TicketWhereInput | Prisma.TicketWhereInput[]
+  issuedBy?: Prisma.StringFilter<"Ticket"> | string
   userId?: Prisma.StringFilter<"Ticket"> | string
-  resourceId?: Prisma.StringFilter<"Ticket"> | string
-  quantity?: Prisma.IntFilter<"Ticket"> | number
-  status?: Prisma.EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  fromDate?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  toDate?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  purpose?: Prisma.StringNullableFilter<"Ticket"> | string | null
-  approvedBy?: Prisma.StringNullableFilter<"Ticket"> | string | null
-  approvedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
-  allocatedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
-  returnedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
-  remarks?: Prisma.StringNullableFilter<"Ticket"> | string | null
+  isActive?: Prisma.BoolFilter<"Ticket"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Ticket"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  resource?: Prisma.XOR<Prisma.ResourceScalarRelationFilter, Prisma.ResourceWhereInput>
+  resourcesRequested?: Prisma.ResourceRequestListRelationFilter
 }, "id">
 
 export type TicketOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  issuedBy?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  resourceId?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  requestDate?: Prisma.SortOrder
-  fromDate?: Prisma.SortOrder
-  toDate?: Prisma.SortOrder
-  purpose?: Prisma.SortOrderInput | Prisma.SortOrder
-  approvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
-  approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  allocatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  returnedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  remarks?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TicketCountOrderByAggregateInput
-  _avg?: Prisma.TicketAvgOrderByAggregateInput
   _max?: Prisma.TicketMaxOrderByAggregateInput
   _min?: Prisma.TicketMinOrderByAggregateInput
-  _sum?: Prisma.TicketSumOrderByAggregateInput
 }
 
 export type TicketScalarWhereWithAggregatesInput = {
@@ -382,730 +233,265 @@ export type TicketScalarWhereWithAggregatesInput = {
   OR?: Prisma.TicketScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TicketScalarWhereWithAggregatesInput | Prisma.TicketScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
+  issuedBy?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
-  resourceId?: Prisma.StringWithAggregatesFilter<"Ticket"> | string
-  quantity?: Prisma.IntWithAggregatesFilter<"Ticket"> | number
-  status?: Prisma.EnumTicketStatusWithAggregatesFilter<"Ticket"> | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeWithAggregatesFilter<"Ticket"> | Date | string
-  fromDate?: Prisma.DateTimeWithAggregatesFilter<"Ticket"> | Date | string
-  toDate?: Prisma.DateTimeWithAggregatesFilter<"Ticket"> | Date | string
-  purpose?: Prisma.StringNullableWithAggregatesFilter<"Ticket"> | string | null
-  approvedBy?: Prisma.StringNullableWithAggregatesFilter<"Ticket"> | string | null
-  approvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Ticket"> | Date | string | null
-  allocatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Ticket"> | Date | string | null
-  returnedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Ticket"> | Date | string | null
-  remarks?: Prisma.StringNullableWithAggregatesFilter<"Ticket"> | string | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"Ticket"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Ticket"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Ticket"> | Date | string
 }
 
 export type TicketCreateInput = {
   id?: string
-  quantity?: number
-  status?: $Enums.TicketStatus
-  requestDate?: Date | string
-  fromDate: Date | string
-  toDate: Date | string
-  purpose?: string | null
-  approvedBy?: string | null
-  approvedAt?: Date | string | null
-  allocatedAt?: Date | string | null
-  returnedAt?: Date | string | null
-  remarks?: string | null
+  issuedBy: string
+  userId: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTicketsInput
-  resource: Prisma.ResourceCreateNestedOneWithoutTicketsInput
+  resourcesRequested?: Prisma.ResourceRequestCreateNestedManyWithoutTicketInput
 }
 
 export type TicketUncheckedCreateInput = {
   id?: string
+  issuedBy: string
   userId: string
-  resourceId: string
-  quantity?: number
-  status?: $Enums.TicketStatus
-  requestDate?: Date | string
-  fromDate: Date | string
-  toDate: Date | string
-  purpose?: string | null
-  approvedBy?: string | null
-  approvedAt?: Date | string | null
-  allocatedAt?: Date | string | null
-  returnedAt?: Date | string | null
-  remarks?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  resourcesRequested?: Prisma.ResourceRequestUncheckedCreateNestedManyWithoutTicketInput
 }
 
 export type TicketUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  allocatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  returnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  issuedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTicketsNestedInput
-  resource?: Prisma.ResourceUpdateOneRequiredWithoutTicketsNestedInput
+  resourcesRequested?: Prisma.ResourceRequestUpdateManyWithoutTicketNestedInput
 }
 
 export type TicketUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  issuedBy?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  resourceId?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  allocatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  returnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resourcesRequested?: Prisma.ResourceRequestUncheckedUpdateManyWithoutTicketNestedInput
 }
 
 export type TicketCreateManyInput = {
   id?: string
+  issuedBy: string
   userId: string
-  resourceId: string
-  quantity?: number
-  status?: $Enums.TicketStatus
-  requestDate?: Date | string
-  fromDate: Date | string
-  toDate: Date | string
-  purpose?: string | null
-  approvedBy?: string | null
-  approvedAt?: Date | string | null
-  allocatedAt?: Date | string | null
-  returnedAt?: Date | string | null
-  remarks?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type TicketUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  allocatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  returnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  issuedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TicketUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  issuedBy?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  resourceId?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  allocatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  returnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type TicketListRelationFilter = {
-  every?: Prisma.TicketWhereInput
-  some?: Prisma.TicketWhereInput
-  none?: Prisma.TicketWhereInput
-}
-
-export type TicketOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type TicketScalarRelationFilter = {
+  is?: Prisma.TicketWhereInput
+  isNot?: Prisma.TicketWhereInput
 }
 
 export type TicketCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  issuedBy?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  resourceId?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  requestDate?: Prisma.SortOrder
-  fromDate?: Prisma.SortOrder
-  toDate?: Prisma.SortOrder
-  purpose?: Prisma.SortOrder
-  approvedBy?: Prisma.SortOrder
-  approvedAt?: Prisma.SortOrder
-  allocatedAt?: Prisma.SortOrder
-  returnedAt?: Prisma.SortOrder
-  remarks?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type TicketAvgOrderByAggregateInput = {
-  quantity?: Prisma.SortOrder
-}
-
 export type TicketMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  issuedBy?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  resourceId?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  requestDate?: Prisma.SortOrder
-  fromDate?: Prisma.SortOrder
-  toDate?: Prisma.SortOrder
-  purpose?: Prisma.SortOrder
-  approvedBy?: Prisma.SortOrder
-  approvedAt?: Prisma.SortOrder
-  allocatedAt?: Prisma.SortOrder
-  returnedAt?: Prisma.SortOrder
-  remarks?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type TicketMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  issuedBy?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  resourceId?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  requestDate?: Prisma.SortOrder
-  fromDate?: Prisma.SortOrder
-  toDate?: Prisma.SortOrder
-  purpose?: Prisma.SortOrder
-  approvedBy?: Prisma.SortOrder
-  approvedAt?: Prisma.SortOrder
-  allocatedAt?: Prisma.SortOrder
-  returnedAt?: Prisma.SortOrder
-  remarks?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type TicketSumOrderByAggregateInput = {
-  quantity?: Prisma.SortOrder
+export type TicketCreateNestedOneWithoutResourcesRequestedInput = {
+  create?: Prisma.XOR<Prisma.TicketCreateWithoutResourcesRequestedInput, Prisma.TicketUncheckedCreateWithoutResourcesRequestedInput>
+  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutResourcesRequestedInput
+  connect?: Prisma.TicketWhereUniqueInput
 }
 
-export type TicketCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput> | Prisma.TicketCreateWithoutUserInput[] | Prisma.TicketUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutUserInput | Prisma.TicketCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.TicketCreateManyUserInputEnvelope
-  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
+export type TicketUpdateOneRequiredWithoutResourcesRequestedNestedInput = {
+  create?: Prisma.XOR<Prisma.TicketCreateWithoutResourcesRequestedInput, Prisma.TicketUncheckedCreateWithoutResourcesRequestedInput>
+  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutResourcesRequestedInput
+  upsert?: Prisma.TicketUpsertWithoutResourcesRequestedInput
+  connect?: Prisma.TicketWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TicketUpdateToOneWithWhereWithoutResourcesRequestedInput, Prisma.TicketUpdateWithoutResourcesRequestedInput>, Prisma.TicketUncheckedUpdateWithoutResourcesRequestedInput>
 }
 
-export type TicketUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput> | Prisma.TicketCreateWithoutUserInput[] | Prisma.TicketUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutUserInput | Prisma.TicketCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.TicketCreateManyUserInputEnvelope
-  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-}
-
-export type TicketUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput> | Prisma.TicketCreateWithoutUserInput[] | Prisma.TicketUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutUserInput | Prisma.TicketCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.TicketUpsertWithWhereUniqueWithoutUserInput | Prisma.TicketUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.TicketCreateManyUserInputEnvelope
-  set?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  disconnect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  delete?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  update?: Prisma.TicketUpdateWithWhereUniqueWithoutUserInput | Prisma.TicketUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.TicketUpdateManyWithWhereWithoutUserInput | Prisma.TicketUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
-}
-
-export type TicketUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput> | Prisma.TicketCreateWithoutUserInput[] | Prisma.TicketUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutUserInput | Prisma.TicketCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.TicketUpsertWithWhereUniqueWithoutUserInput | Prisma.TicketUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.TicketCreateManyUserInputEnvelope
-  set?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  disconnect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  delete?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  update?: Prisma.TicketUpdateWithWhereUniqueWithoutUserInput | Prisma.TicketUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.TicketUpdateManyWithWhereWithoutUserInput | Prisma.TicketUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
-}
-
-export type TicketCreateNestedManyWithoutResourceInput = {
-  create?: Prisma.XOR<Prisma.TicketCreateWithoutResourceInput, Prisma.TicketUncheckedCreateWithoutResourceInput> | Prisma.TicketCreateWithoutResourceInput[] | Prisma.TicketUncheckedCreateWithoutResourceInput[]
-  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutResourceInput | Prisma.TicketCreateOrConnectWithoutResourceInput[]
-  createMany?: Prisma.TicketCreateManyResourceInputEnvelope
-  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-}
-
-export type TicketUncheckedCreateNestedManyWithoutResourceInput = {
-  create?: Prisma.XOR<Prisma.TicketCreateWithoutResourceInput, Prisma.TicketUncheckedCreateWithoutResourceInput> | Prisma.TicketCreateWithoutResourceInput[] | Prisma.TicketUncheckedCreateWithoutResourceInput[]
-  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutResourceInput | Prisma.TicketCreateOrConnectWithoutResourceInput[]
-  createMany?: Prisma.TicketCreateManyResourceInputEnvelope
-  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-}
-
-export type TicketUpdateManyWithoutResourceNestedInput = {
-  create?: Prisma.XOR<Prisma.TicketCreateWithoutResourceInput, Prisma.TicketUncheckedCreateWithoutResourceInput> | Prisma.TicketCreateWithoutResourceInput[] | Prisma.TicketUncheckedCreateWithoutResourceInput[]
-  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutResourceInput | Prisma.TicketCreateOrConnectWithoutResourceInput[]
-  upsert?: Prisma.TicketUpsertWithWhereUniqueWithoutResourceInput | Prisma.TicketUpsertWithWhereUniqueWithoutResourceInput[]
-  createMany?: Prisma.TicketCreateManyResourceInputEnvelope
-  set?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  disconnect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  delete?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  update?: Prisma.TicketUpdateWithWhereUniqueWithoutResourceInput | Prisma.TicketUpdateWithWhereUniqueWithoutResourceInput[]
-  updateMany?: Prisma.TicketUpdateManyWithWhereWithoutResourceInput | Prisma.TicketUpdateManyWithWhereWithoutResourceInput[]
-  deleteMany?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
-}
-
-export type TicketUncheckedUpdateManyWithoutResourceNestedInput = {
-  create?: Prisma.XOR<Prisma.TicketCreateWithoutResourceInput, Prisma.TicketUncheckedCreateWithoutResourceInput> | Prisma.TicketCreateWithoutResourceInput[] | Prisma.TicketUncheckedCreateWithoutResourceInput[]
-  connectOrCreate?: Prisma.TicketCreateOrConnectWithoutResourceInput | Prisma.TicketCreateOrConnectWithoutResourceInput[]
-  upsert?: Prisma.TicketUpsertWithWhereUniqueWithoutResourceInput | Prisma.TicketUpsertWithWhereUniqueWithoutResourceInput[]
-  createMany?: Prisma.TicketCreateManyResourceInputEnvelope
-  set?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  disconnect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  delete?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  connect?: Prisma.TicketWhereUniqueInput | Prisma.TicketWhereUniqueInput[]
-  update?: Prisma.TicketUpdateWithWhereUniqueWithoutResourceInput | Prisma.TicketUpdateWithWhereUniqueWithoutResourceInput[]
-  updateMany?: Prisma.TicketUpdateManyWithWhereWithoutResourceInput | Prisma.TicketUpdateManyWithWhereWithoutResourceInput[]
-  deleteMany?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
-}
-
-export type EnumTicketStatusFieldUpdateOperationsInput = {
-  set?: $Enums.TicketStatus
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
-export type TicketCreateWithoutUserInput = {
+export type TicketCreateWithoutResourcesRequestedInput = {
   id?: string
-  quantity?: number
-  status?: $Enums.TicketStatus
-  requestDate?: Date | string
-  fromDate: Date | string
-  toDate: Date | string
-  purpose?: string | null
-  approvedBy?: string | null
-  approvedAt?: Date | string | null
-  allocatedAt?: Date | string | null
-  returnedAt?: Date | string | null
-  remarks?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  resource: Prisma.ResourceCreateNestedOneWithoutTicketsInput
-}
-
-export type TicketUncheckedCreateWithoutUserInput = {
-  id?: string
-  resourceId: string
-  quantity?: number
-  status?: $Enums.TicketStatus
-  requestDate?: Date | string
-  fromDate: Date | string
-  toDate: Date | string
-  purpose?: string | null
-  approvedBy?: string | null
-  approvedAt?: Date | string | null
-  allocatedAt?: Date | string | null
-  returnedAt?: Date | string | null
-  remarks?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type TicketCreateOrConnectWithoutUserInput = {
-  where: Prisma.TicketWhereUniqueInput
-  create: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput>
-}
-
-export type TicketCreateManyUserInputEnvelope = {
-  data: Prisma.TicketCreateManyUserInput | Prisma.TicketCreateManyUserInput[]
-  skipDuplicates?: boolean
-}
-
-export type TicketUpsertWithWhereUniqueWithoutUserInput = {
-  where: Prisma.TicketWhereUniqueInput
-  update: Prisma.XOR<Prisma.TicketUpdateWithoutUserInput, Prisma.TicketUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.TicketCreateWithoutUserInput, Prisma.TicketUncheckedCreateWithoutUserInput>
-}
-
-export type TicketUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.TicketWhereUniqueInput
-  data: Prisma.XOR<Prisma.TicketUpdateWithoutUserInput, Prisma.TicketUncheckedUpdateWithoutUserInput>
-}
-
-export type TicketUpdateManyWithWhereWithoutUserInput = {
-  where: Prisma.TicketScalarWhereInput
-  data: Prisma.XOR<Prisma.TicketUpdateManyMutationInput, Prisma.TicketUncheckedUpdateManyWithoutUserInput>
-}
-
-export type TicketScalarWhereInput = {
-  AND?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
-  OR?: Prisma.TicketScalarWhereInput[]
-  NOT?: Prisma.TicketScalarWhereInput | Prisma.TicketScalarWhereInput[]
-  id?: Prisma.StringFilter<"Ticket"> | string
-  userId?: Prisma.StringFilter<"Ticket"> | string
-  resourceId?: Prisma.StringFilter<"Ticket"> | string
-  quantity?: Prisma.IntFilter<"Ticket"> | number
-  status?: Prisma.EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  fromDate?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  toDate?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  purpose?: Prisma.StringNullableFilter<"Ticket"> | string | null
-  approvedBy?: Prisma.StringNullableFilter<"Ticket"> | string | null
-  approvedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
-  allocatedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
-  returnedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
-  remarks?: Prisma.StringNullableFilter<"Ticket"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Ticket"> | Date | string
-}
-
-export type TicketCreateWithoutResourceInput = {
-  id?: string
-  quantity?: number
-  status?: $Enums.TicketStatus
-  requestDate?: Date | string
-  fromDate: Date | string
-  toDate: Date | string
-  purpose?: string | null
-  approvedBy?: string | null
-  approvedAt?: Date | string | null
-  allocatedAt?: Date | string | null
-  returnedAt?: Date | string | null
-  remarks?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTicketsInput
-}
-
-export type TicketUncheckedCreateWithoutResourceInput = {
-  id?: string
+  issuedBy: string
   userId: string
-  quantity?: number
-  status?: $Enums.TicketStatus
-  requestDate?: Date | string
-  fromDate: Date | string
-  toDate: Date | string
-  purpose?: string | null
-  approvedBy?: string | null
-  approvedAt?: Date | string | null
-  allocatedAt?: Date | string | null
-  returnedAt?: Date | string | null
-  remarks?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type TicketCreateOrConnectWithoutResourceInput = {
-  where: Prisma.TicketWhereUniqueInput
-  create: Prisma.XOR<Prisma.TicketCreateWithoutResourceInput, Prisma.TicketUncheckedCreateWithoutResourceInput>
-}
-
-export type TicketCreateManyResourceInputEnvelope = {
-  data: Prisma.TicketCreateManyResourceInput | Prisma.TicketCreateManyResourceInput[]
-  skipDuplicates?: boolean
-}
-
-export type TicketUpsertWithWhereUniqueWithoutResourceInput = {
-  where: Prisma.TicketWhereUniqueInput
-  update: Prisma.XOR<Prisma.TicketUpdateWithoutResourceInput, Prisma.TicketUncheckedUpdateWithoutResourceInput>
-  create: Prisma.XOR<Prisma.TicketCreateWithoutResourceInput, Prisma.TicketUncheckedCreateWithoutResourceInput>
-}
-
-export type TicketUpdateWithWhereUniqueWithoutResourceInput = {
-  where: Prisma.TicketWhereUniqueInput
-  data: Prisma.XOR<Prisma.TicketUpdateWithoutResourceInput, Prisma.TicketUncheckedUpdateWithoutResourceInput>
-}
-
-export type TicketUpdateManyWithWhereWithoutResourceInput = {
-  where: Prisma.TicketScalarWhereInput
-  data: Prisma.XOR<Prisma.TicketUpdateManyMutationInput, Prisma.TicketUncheckedUpdateManyWithoutResourceInput>
-}
-
-export type TicketCreateManyUserInput = {
+export type TicketUncheckedCreateWithoutResourcesRequestedInput = {
   id?: string
-  resourceId: string
-  quantity?: number
-  status?: $Enums.TicketStatus
-  requestDate?: Date | string
-  fromDate: Date | string
-  toDate: Date | string
-  purpose?: string | null
-  approvedBy?: string | null
-  approvedAt?: Date | string | null
-  allocatedAt?: Date | string | null
-  returnedAt?: Date | string | null
-  remarks?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type TicketUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  allocatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  returnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resource?: Prisma.ResourceUpdateOneRequiredWithoutTicketsNestedInput
-}
-
-export type TicketUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  resourceId?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  allocatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  returnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TicketUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  resourceId?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  allocatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  returnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TicketCreateManyResourceInput = {
-  id?: string
+  issuedBy: string
   userId: string
-  quantity?: number
-  status?: $Enums.TicketStatus
-  requestDate?: Date | string
-  fromDate: Date | string
-  toDate: Date | string
-  purpose?: string | null
-  approvedBy?: string | null
-  approvedAt?: Date | string | null
-  allocatedAt?: Date | string | null
-  returnedAt?: Date | string | null
-  remarks?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type TicketUpdateWithoutResourceInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  allocatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  returnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTicketsNestedInput
+export type TicketCreateOrConnectWithoutResourcesRequestedInput = {
+  where: Prisma.TicketWhereUniqueInput
+  create: Prisma.XOR<Prisma.TicketCreateWithoutResourcesRequestedInput, Prisma.TicketUncheckedCreateWithoutResourcesRequestedInput>
 }
 
-export type TicketUncheckedUpdateWithoutResourceInput = {
+export type TicketUpsertWithoutResourcesRequestedInput = {
+  update: Prisma.XOR<Prisma.TicketUpdateWithoutResourcesRequestedInput, Prisma.TicketUncheckedUpdateWithoutResourcesRequestedInput>
+  create: Prisma.XOR<Prisma.TicketCreateWithoutResourcesRequestedInput, Prisma.TicketUncheckedCreateWithoutResourcesRequestedInput>
+  where?: Prisma.TicketWhereInput
+}
+
+export type TicketUpdateToOneWithWhereWithoutResourcesRequestedInput = {
+  where?: Prisma.TicketWhereInput
+  data: Prisma.XOR<Prisma.TicketUpdateWithoutResourcesRequestedInput, Prisma.TicketUncheckedUpdateWithoutResourcesRequestedInput>
+}
+
+export type TicketUpdateWithoutResourcesRequestedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  issuedBy?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  allocatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  returnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type TicketUncheckedUpdateManyWithoutResourceInput = {
+export type TicketUncheckedUpdateWithoutResourcesRequestedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  issuedBy?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
-  requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  allocatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  returnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type TicketCountOutputType
+ */
+
+export type TicketCountOutputType = {
+  resourcesRequested: number
+}
+
+export type TicketCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  resourcesRequested?: boolean | TicketCountOutputTypeCountResourcesRequestedArgs
+}
+
+/**
+ * TicketCountOutputType without action
+ */
+export type TicketCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TicketCountOutputType
+   */
+  select?: Prisma.TicketCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TicketCountOutputType without action
+ */
+export type TicketCountOutputTypeCountResourcesRequestedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ResourceRequestWhereInput
+}
 
 
 export type TicketSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  issuedBy?: boolean
   userId?: boolean
-  resourceId?: boolean
-  quantity?: boolean
-  status?: boolean
-  requestDate?: boolean
-  fromDate?: boolean
-  toDate?: boolean
-  purpose?: boolean
-  approvedBy?: boolean
-  approvedAt?: boolean
-  allocatedAt?: boolean
-  returnedAt?: boolean
-  remarks?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  resource?: boolean | Prisma.ResourceDefaultArgs<ExtArgs>
+  resourcesRequested?: boolean | Prisma.Ticket$resourcesRequestedArgs<ExtArgs>
+  _count?: boolean | Prisma.TicketCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ticket"]>
 
 export type TicketSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  issuedBy?: boolean
   userId?: boolean
-  resourceId?: boolean
-  quantity?: boolean
-  status?: boolean
-  requestDate?: boolean
-  fromDate?: boolean
-  toDate?: boolean
-  purpose?: boolean
-  approvedBy?: boolean
-  approvedAt?: boolean
-  allocatedAt?: boolean
-  returnedAt?: boolean
-  remarks?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  resource?: boolean | Prisma.ResourceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ticket"]>
 
 export type TicketSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  issuedBy?: boolean
   userId?: boolean
-  resourceId?: boolean
-  quantity?: boolean
-  status?: boolean
-  requestDate?: boolean
-  fromDate?: boolean
-  toDate?: boolean
-  purpose?: boolean
-  approvedBy?: boolean
-  approvedAt?: boolean
-  allocatedAt?: boolean
-  returnedAt?: boolean
-  remarks?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  resource?: boolean | Prisma.ResourceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ticket"]>
 
 export type TicketSelectScalar = {
   id?: boolean
+  issuedBy?: boolean
   userId?: boolean
-  resourceId?: boolean
-  quantity?: boolean
-  status?: boolean
-  requestDate?: boolean
-  fromDate?: boolean
-  toDate?: boolean
-  purpose?: boolean
-  approvedBy?: boolean
-  approvedAt?: boolean
-  allocatedAt?: boolean
-  returnedAt?: boolean
-  remarks?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TicketOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "resourceId" | "quantity" | "status" | "requestDate" | "fromDate" | "toDate" | "purpose" | "approvedBy" | "approvedAt" | "allocatedAt" | "returnedAt" | "remarks" | "createdAt" | "updatedAt", ExtArgs["result"]["ticket"]>
+export type TicketOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "issuedBy" | "userId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["ticket"]>
 export type TicketInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  resource?: boolean | Prisma.ResourceDefaultArgs<ExtArgs>
+  resourcesRequested?: boolean | Prisma.Ticket$resourcesRequestedArgs<ExtArgs>
+  _count?: boolean | Prisma.TicketCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type TicketIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  resource?: boolean | Prisma.ResourceDefaultArgs<ExtArgs>
-}
-export type TicketIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  resource?: boolean | Prisma.ResourceDefaultArgs<ExtArgs>
-}
+export type TicketIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type TicketIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $TicketPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Ticket"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
-    resource: Prisma.$ResourcePayload<ExtArgs>
+    resourcesRequested: Prisma.$ResourceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    issuedBy: string
     userId: string
-    resourceId: string
-    quantity: number
-    status: $Enums.TicketStatus
-    requestDate: Date
-    fromDate: Date
-    toDate: Date
-    purpose: string | null
-    approvedBy: string | null
-    approvedAt: Date | null
-    allocatedAt: Date | null
-    returnedAt: Date | null
-    remarks: string | null
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["ticket"]>
@@ -1502,8 +888,7 @@ readonly fields: TicketFieldRefs;
  */
 export interface Prisma__TicketClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  resource<T extends Prisma.ResourceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ResourceDefaultArgs<ExtArgs>>): Prisma.Prisma__ResourceClient<runtime.Types.Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  resourcesRequested<T extends Prisma.Ticket$resourcesRequestedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ticket$resourcesRequestedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResourceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1534,19 +919,9 @@ export interface Prisma__TicketClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface TicketFieldRefs {
   readonly id: Prisma.FieldRef<"Ticket", 'String'>
+  readonly issuedBy: Prisma.FieldRef<"Ticket", 'String'>
   readonly userId: Prisma.FieldRef<"Ticket", 'String'>
-  readonly resourceId: Prisma.FieldRef<"Ticket", 'String'>
-  readonly quantity: Prisma.FieldRef<"Ticket", 'Int'>
-  readonly status: Prisma.FieldRef<"Ticket", 'TicketStatus'>
-  readonly requestDate: Prisma.FieldRef<"Ticket", 'DateTime'>
-  readonly fromDate: Prisma.FieldRef<"Ticket", 'DateTime'>
-  readonly toDate: Prisma.FieldRef<"Ticket", 'DateTime'>
-  readonly purpose: Prisma.FieldRef<"Ticket", 'String'>
-  readonly approvedBy: Prisma.FieldRef<"Ticket", 'String'>
-  readonly approvedAt: Prisma.FieldRef<"Ticket", 'DateTime'>
-  readonly allocatedAt: Prisma.FieldRef<"Ticket", 'DateTime'>
-  readonly returnedAt: Prisma.FieldRef<"Ticket", 'DateTime'>
-  readonly remarks: Prisma.FieldRef<"Ticket", 'String'>
+  readonly isActive: Prisma.FieldRef<"Ticket", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Ticket", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Ticket", 'DateTime'>
 }
@@ -1798,10 +1173,6 @@ export type TicketCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    */
   data: Prisma.TicketCreateManyInput | Prisma.TicketCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TicketIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1872,10 +1243,6 @@ export type TicketUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many Tickets to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TicketIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1942,6 +1309,30 @@ export type TicketDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Tickets to delete.
    */
   limit?: number
+}
+
+/**
+ * Ticket.resourcesRequested
+ */
+export type Ticket$resourcesRequestedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ResourceRequest
+   */
+  select?: Prisma.ResourceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ResourceRequest
+   */
+  omit?: Prisma.ResourceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ResourceRequestInclude<ExtArgs> | null
+  where?: Prisma.ResourceRequestWhereInput
+  orderBy?: Prisma.ResourceRequestOrderByWithRelationInput | Prisma.ResourceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ResourceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ResourceRequestScalarFieldEnum | Prisma.ResourceRequestScalarFieldEnum[]
 }
 
 /**
