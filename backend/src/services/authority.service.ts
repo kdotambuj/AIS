@@ -7,7 +7,8 @@ export const CreateAuthorityService = async (data: CreateAuthorityInput) => {
       name: data.name,
       ownerId: data.ownerId,
       department: data.department,
-      location:data.location
+      location:data.location,
+      description:data.description
     },
     select: {
       id: true,
@@ -20,3 +21,16 @@ export const CreateAuthorityService = async (data: CreateAuthorityInput) => {
 
   return authority;
 };
+
+export const GetAuthoritiesService = async ()=>{
+    const authorities = await prisma.resourceAuthority.findMany({
+      select:{
+        id:true,
+        name:true,
+        location:true,
+        description:true,
+        department:true
+      }
+    });
+    return authorities;
+}

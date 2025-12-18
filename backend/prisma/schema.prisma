@@ -37,10 +37,17 @@ enum ResourceStatus {
   UNDER_MAINTENANCE
 }
 
-enum ResourceRequestStatus {
+enum TicketItemStatus {
   ACCEPTED
   REJECTED
   PENDING
+}
+
+enum TicketStatus {
+  PENDING
+  PARTIALLY_APPROVED
+  APPROVED
+  REJECTED
 }
 
 model User {
@@ -55,8 +62,7 @@ model User {
   password         String
   authority        ResourceAuthority?
 
-
-  resourcesRequested  ResourceRequest[]
+  tickets Ticket[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -108,44 +114,48 @@ model Resource {
   isActive Boolean @default(true)
   quantity Int     @default(1)
 
-  status           ResourceStatus @default(AVAILABLE)
-  resourceRequests ResourceRequest[]
+  status      ResourceStatus @default(AVAILABLE)
+  ticketItems TicketItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model ResourceRequest {
-  id         String   @id @default(cuid())
+model TicketItem {
+  id String @id @default(cuid())
+
   resourceId String
   resource   Resource @relation(fields: [resourceId], references: [id])
   quantity   Int
 
-  ticketId    String
-  ticket      Ticket @relation(fields: [ticketId], references: [id])
-
-  userId String
-  user   User @relation(fields: [userId], references: [id])
+  ticketId String @unique
+  ticket   Ticket @relation(fields: [ticketId], references: [id])
 
   from DateTime
   till DateTime
 
-  status ResourceRequestStatus
+  approvedBy String
+  approvedAt DateTime
+
+  status TicketItemStatus
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Ticket {
-  id         String @id @default(cuid())
-  issuedBy   String
-  userId     String
+  id       String @id @default(cuid())
+  issuedBy String
 
-  resourcesRequested ResourceRequest[]
+  requestedUserId String @unique
+  requestedUser   User   @relation(fields: [requestedUserId], references: [id])
 
-  isActive  Boolean @default(true)
+  ticketItems TicketItem[]
+
+  isActive Boolean @default(true)
+
+  ticketStatus TicketStatus
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
 }

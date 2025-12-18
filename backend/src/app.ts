@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import AuthRoutes from './routes/auth.route.js'
 import AuthorityRoutes from './routes/authority.route.js'
+import ResourceRoutes from './routes/resource.route.js'
 import CookieParser from 'cookie-parser'
 const app = express();
 
@@ -19,6 +20,7 @@ app.get('/health', (req, res)=>{
 
 app.use('/api/v1/auth', AuthRoutes);
 app.use('/api/v1/authority', AuthorityRoutes)
+app.use('/api/v1/resource', ResourceRoutes)
 
 export default app;
 

@@ -231,7 +231,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   authority?: Prisma.XOR<Prisma.ResourceAuthorityNullableScalarRelationFilter, Prisma.ResourceAuthorityWhereInput> | null
-  resourcesRequested?: Prisma.ResourceRequestListRelationFilter
+  tickets?: Prisma.TicketListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -247,7 +247,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authority?: Prisma.ResourceAuthorityOrderByWithRelationInput
-  resourcesRequested?: Prisma.ResourceRequestOrderByRelationAggregateInput
+  tickets?: Prisma.TicketOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -266,7 +266,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   authority?: Prisma.XOR<Prisma.ResourceAuthorityNullableScalarRelationFilter, Prisma.ResourceAuthorityWhereInput> | null
-  resourcesRequested?: Prisma.ResourceRequestListRelationFilter
+  tickets?: Prisma.TicketListRelationFilter
 }, "id" | "email" | "rollNumber" | "enrollmentNumber">
 
 export type UserOrderByWithAggregationInput = {
@@ -316,7 +316,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   authority?: Prisma.ResourceAuthorityCreateNestedOneWithoutOwnedByInput
-  resourcesRequested?: Prisma.ResourceRequestCreateNestedManyWithoutUserInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutRequestedUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -332,7 +332,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   authority?: Prisma.ResourceAuthorityUncheckedCreateNestedOneWithoutOwnedByInput
-  resourcesRequested?: Prisma.ResourceRequestUncheckedCreateNestedManyWithoutUserInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutRequestedUserInput
 }
 
 export type UserUpdateInput = {
@@ -348,7 +348,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authority?: Prisma.ResourceAuthorityUpdateOneWithoutOwnedByNestedInput
-  resourcesRequested?: Prisma.ResourceRequestUpdateManyWithoutUserNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutRequestedUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -364,7 +364,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authority?: Prisma.ResourceAuthorityUncheckedUpdateOneWithoutOwnedByNestedInput
-  resourcesRequested?: Prisma.ResourceRequestUncheckedUpdateManyWithoutUserNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutRequestedUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -490,18 +490,18 @@ export type UserUpdateOneRequiredWithoutAuthorityNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuthorityInput, Prisma.UserUpdateWithoutAuthorityInput>, Prisma.UserUncheckedUpdateWithoutAuthorityInput>
 }
 
-export type UserCreateNestedOneWithoutResourcesRequestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutResourcesRequestedInput, Prisma.UserUncheckedCreateWithoutResourcesRequestedInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutResourcesRequestedInput
+export type UserCreateNestedOneWithoutTicketsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTicketsInput, Prisma.UserUncheckedCreateWithoutTicketsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTicketsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutResourcesRequestedNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutResourcesRequestedInput, Prisma.UserUncheckedCreateWithoutResourcesRequestedInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutResourcesRequestedInput
-  upsert?: Prisma.UserUpsertWithoutResourcesRequestedInput
+export type UserUpdateOneRequiredWithoutTicketsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTicketsInput, Prisma.UserUncheckedCreateWithoutTicketsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTicketsInput
+  upsert?: Prisma.UserUpsertWithoutTicketsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutResourcesRequestedInput, Prisma.UserUpdateWithoutResourcesRequestedInput>, Prisma.UserUncheckedUpdateWithoutResourcesRequestedInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTicketsInput, Prisma.UserUpdateWithoutTicketsInput>, Prisma.UserUncheckedUpdateWithoutTicketsInput>
 }
 
 export type UserCreateWithoutAuthorityInput = {
@@ -516,7 +516,7 @@ export type UserCreateWithoutAuthorityInput = {
   password: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  resourcesRequested?: Prisma.ResourceRequestCreateNestedManyWithoutUserInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutRequestedUserInput
 }
 
 export type UserUncheckedCreateWithoutAuthorityInput = {
@@ -531,7 +531,7 @@ export type UserUncheckedCreateWithoutAuthorityInput = {
   password: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  resourcesRequested?: Prisma.ResourceRequestUncheckedCreateNestedManyWithoutUserInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutRequestedUserInput
 }
 
 export type UserCreateOrConnectWithoutAuthorityInput = {
@@ -562,7 +562,7 @@ export type UserUpdateWithoutAuthorityInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resourcesRequested?: Prisma.ResourceRequestUpdateManyWithoutUserNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutRequestedUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuthorityInput = {
@@ -577,10 +577,10 @@ export type UserUncheckedUpdateWithoutAuthorityInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resourcesRequested?: Prisma.ResourceRequestUncheckedUpdateManyWithoutUserNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutRequestedUserNestedInput
 }
 
-export type UserCreateWithoutResourcesRequestedInput = {
+export type UserCreateWithoutTicketsInput = {
   id?: string
   email: string
   name: string
@@ -595,7 +595,7 @@ export type UserCreateWithoutResourcesRequestedInput = {
   authority?: Prisma.ResourceAuthorityCreateNestedOneWithoutOwnedByInput
 }
 
-export type UserUncheckedCreateWithoutResourcesRequestedInput = {
+export type UserUncheckedCreateWithoutTicketsInput = {
   id?: string
   email: string
   name: string
@@ -610,23 +610,23 @@ export type UserUncheckedCreateWithoutResourcesRequestedInput = {
   authority?: Prisma.ResourceAuthorityUncheckedCreateNestedOneWithoutOwnedByInput
 }
 
-export type UserCreateOrConnectWithoutResourcesRequestedInput = {
+export type UserCreateOrConnectWithoutTicketsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutResourcesRequestedInput, Prisma.UserUncheckedCreateWithoutResourcesRequestedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTicketsInput, Prisma.UserUncheckedCreateWithoutTicketsInput>
 }
 
-export type UserUpsertWithoutResourcesRequestedInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutResourcesRequestedInput, Prisma.UserUncheckedUpdateWithoutResourcesRequestedInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutResourcesRequestedInput, Prisma.UserUncheckedCreateWithoutResourcesRequestedInput>
+export type UserUpsertWithoutTicketsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTicketsInput, Prisma.UserUncheckedUpdateWithoutTicketsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTicketsInput, Prisma.UserUncheckedCreateWithoutTicketsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutResourcesRequestedInput = {
+export type UserUpdateToOneWithWhereWithoutTicketsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutResourcesRequestedInput, Prisma.UserUncheckedUpdateWithoutResourcesRequestedInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTicketsInput, Prisma.UserUncheckedUpdateWithoutTicketsInput>
 }
 
-export type UserUpdateWithoutResourcesRequestedInput = {
+export type UserUpdateWithoutTicketsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -641,7 +641,7 @@ export type UserUpdateWithoutResourcesRequestedInput = {
   authority?: Prisma.ResourceAuthorityUpdateOneWithoutOwnedByNestedInput
 }
 
-export type UserUncheckedUpdateWithoutResourcesRequestedInput = {
+export type UserUncheckedUpdateWithoutTicketsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -662,11 +662,11 @@ export type UserUncheckedUpdateWithoutResourcesRequestedInput = {
  */
 
 export type UserCountOutputType = {
-  resourcesRequested: number
+  tickets: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  resourcesRequested?: boolean | UserCountOutputTypeCountResourcesRequestedArgs
+  tickets?: boolean | UserCountOutputTypeCountTicketsArgs
 }
 
 /**
@@ -682,8 +682,8 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountResourcesRequestedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ResourceRequestWhereInput
+export type UserCountOutputTypeCountTicketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TicketWhereInput
 }
 
 
@@ -700,7 +700,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   authority?: boolean | Prisma.User$authorityArgs<ExtArgs>
-  resourcesRequested?: boolean | Prisma.User$resourcesRequestedArgs<ExtArgs>
+  tickets?: boolean | Prisma.User$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -749,7 +749,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "rollNumber" | "enrollmentNumber" | "department" | "role" | "profilePhoto" | "password" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   authority?: boolean | Prisma.User$authorityArgs<ExtArgs>
-  resourcesRequested?: boolean | Prisma.User$resourcesRequestedArgs<ExtArgs>
+  tickets?: boolean | Prisma.User$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -759,7 +759,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     authority: Prisma.$ResourceAuthorityPayload<ExtArgs> | null
-    resourcesRequested: Prisma.$ResourceRequestPayload<ExtArgs>[]
+    tickets: Prisma.$TicketPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1168,7 +1168,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   authority<T extends Prisma.User$authorityArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authorityArgs<ExtArgs>>): Prisma.Prisma__ResourceAuthorityClient<runtime.Types.Result.GetResult<Prisma.$ResourceAuthorityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  resourcesRequested<T extends Prisma.User$resourcesRequestedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$resourcesRequestedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResourceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tickets<T extends Prisma.User$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1616,27 +1616,27 @@ export type User$authorityArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.resourcesRequested
+ * User.tickets
  */
-export type User$resourcesRequestedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$ticketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ResourceRequest
+   * Select specific fields to fetch from the Ticket
    */
-  select?: Prisma.ResourceRequestSelect<ExtArgs> | null
+  select?: Prisma.TicketSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ResourceRequest
+   * Omit specific fields from the Ticket
    */
-  omit?: Prisma.ResourceRequestOmit<ExtArgs> | null
+  omit?: Prisma.TicketOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ResourceRequestInclude<ExtArgs> | null
-  where?: Prisma.ResourceRequestWhereInput
-  orderBy?: Prisma.ResourceRequestOrderByWithRelationInput | Prisma.ResourceRequestOrderByWithRelationInput[]
-  cursor?: Prisma.ResourceRequestWhereUniqueInput
+  include?: Prisma.TicketInclude<ExtArgs> | null
+  where?: Prisma.TicketWhereInput
+  orderBy?: Prisma.TicketOrderByWithRelationInput | Prisma.TicketOrderByWithRelationInput[]
+  cursor?: Prisma.TicketWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ResourceRequestScalarFieldEnum | Prisma.ResourceRequestScalarFieldEnum[]
+  distinct?: Prisma.TicketScalarFieldEnum | Prisma.TicketScalarFieldEnum[]
 }
 
 /**

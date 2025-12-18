@@ -38,10 +38,10 @@ export type ResourceCategory = Prisma.ResourceCategoryModel
  */
 export type Resource = Prisma.ResourceModel
 /**
- * Model ResourceRequest
+ * Model TicketItem
  * 
  */
-export type ResourceRequest = Prisma.ResourceRequestModel
+export type TicketItem = Prisma.TicketItemModel
 /**
  * Model Ticket
  * 

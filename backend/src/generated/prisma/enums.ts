@@ -48,10 +48,20 @@ export const ResourceStatus = {
 export type ResourceStatus = (typeof ResourceStatus)[keyof typeof ResourceStatus]
 
 
-export const ResourceRequestStatus = {
+export const TicketItemStatus = {
   ACCEPTED: 'ACCEPTED',
   REJECTED: 'REJECTED',
   PENDING: 'PENDING'
 } as const
 
-export type ResourceRequestStatus = (typeof ResourceRequestStatus)[keyof typeof ResourceRequestStatus]
+export type TicketItemStatus = (typeof TicketItemStatus)[keyof typeof TicketItemStatus]
+
+
+export const TicketStatus = {
+  PENDING: 'PENDING',
+  PARTIALLY_APPROVED: 'PARTIALLY_APPROVED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus]

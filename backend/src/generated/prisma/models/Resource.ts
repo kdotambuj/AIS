@@ -257,7 +257,7 @@ export type ResourceWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
   resourceCategory?: Prisma.XOR<Prisma.ResourceCategoryScalarRelationFilter, Prisma.ResourceCategoryWhereInput>
-  resourceRequests?: Prisma.ResourceRequestListRelationFilter
+  ticketItems?: Prisma.TicketItemListRelationFilter
 }
 
 export type ResourceOrderByWithRelationInput = {
@@ -272,7 +272,7 @@ export type ResourceOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   resourceCategory?: Prisma.ResourceCategoryOrderByWithRelationInput
-  resourceRequests?: Prisma.ResourceRequestOrderByRelationAggregateInput
+  ticketItems?: Prisma.TicketItemOrderByRelationAggregateInput
 }
 
 export type ResourceWhereUniqueInput = Prisma.AtLeast<{
@@ -290,7 +290,7 @@ export type ResourceWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
   resourceCategory?: Prisma.XOR<Prisma.ResourceCategoryScalarRelationFilter, Prisma.ResourceCategoryWhereInput>
-  resourceRequests?: Prisma.ResourceRequestListRelationFilter
+  ticketItems?: Prisma.TicketItemListRelationFilter
 }, "id">
 
 export type ResourceOrderByWithAggregationInput = {
@@ -338,7 +338,7 @@ export type ResourceCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   resourceCategory: Prisma.ResourceCategoryCreateNestedOneWithoutResourcesInput
-  resourceRequests?: Prisma.ResourceRequestCreateNestedManyWithoutResourceInput
+  ticketItems?: Prisma.TicketItemCreateNestedManyWithoutResourceInput
 }
 
 export type ResourceUncheckedCreateInput = {
@@ -352,7 +352,7 @@ export type ResourceUncheckedCreateInput = {
   status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  resourceRequests?: Prisma.ResourceRequestUncheckedCreateNestedManyWithoutResourceInput
+  ticketItems?: Prisma.TicketItemUncheckedCreateNestedManyWithoutResourceInput
 }
 
 export type ResourceUpdateInput = {
@@ -366,7 +366,7 @@ export type ResourceUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resourceCategory?: Prisma.ResourceCategoryUpdateOneRequiredWithoutResourcesNestedInput
-  resourceRequests?: Prisma.ResourceRequestUpdateManyWithoutResourceNestedInput
+  ticketItems?: Prisma.TicketItemUpdateManyWithoutResourceNestedInput
 }
 
 export type ResourceUncheckedUpdateInput = {
@@ -380,7 +380,7 @@ export type ResourceUncheckedUpdateInput = {
   status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resourceRequests?: Prisma.ResourceRequestUncheckedUpdateManyWithoutResourceNestedInput
+  ticketItems?: Prisma.TicketItemUncheckedUpdateManyWithoutResourceNestedInput
 }
 
 export type ResourceCreateManyInput = {
@@ -537,18 +537,18 @@ export type EnumResourceStatusFieldUpdateOperationsInput = {
   set?: $Enums.ResourceStatus
 }
 
-export type ResourceCreateNestedOneWithoutResourceRequestsInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceRequestsInput, Prisma.ResourceUncheckedCreateWithoutResourceRequestsInput>
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceRequestsInput
+export type ResourceCreateNestedOneWithoutTicketItemsInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutTicketItemsInput, Prisma.ResourceUncheckedCreateWithoutTicketItemsInput>
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutTicketItemsInput
   connect?: Prisma.ResourceWhereUniqueInput
 }
 
-export type ResourceUpdateOneRequiredWithoutResourceRequestsNestedInput = {
-  create?: Prisma.XOR<Prisma.ResourceCreateWithoutResourceRequestsInput, Prisma.ResourceUncheckedCreateWithoutResourceRequestsInput>
-  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutResourceRequestsInput
-  upsert?: Prisma.ResourceUpsertWithoutResourceRequestsInput
+export type ResourceUpdateOneRequiredWithoutTicketItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.ResourceCreateWithoutTicketItemsInput, Prisma.ResourceUncheckedCreateWithoutTicketItemsInput>
+  connectOrCreate?: Prisma.ResourceCreateOrConnectWithoutTicketItemsInput
+  upsert?: Prisma.ResourceUpsertWithoutTicketItemsInput
   connect?: Prisma.ResourceWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ResourceUpdateToOneWithWhereWithoutResourceRequestsInput, Prisma.ResourceUpdateWithoutResourceRequestsInput>, Prisma.ResourceUncheckedUpdateWithoutResourceRequestsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ResourceUpdateToOneWithWhereWithoutTicketItemsInput, Prisma.ResourceUpdateWithoutTicketItemsInput>, Prisma.ResourceUncheckedUpdateWithoutTicketItemsInput>
 }
 
 export type ResourceCreateWithoutResourceCategoryInput = {
@@ -561,7 +561,7 @@ export type ResourceCreateWithoutResourceCategoryInput = {
   status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  resourceRequests?: Prisma.ResourceRequestCreateNestedManyWithoutResourceInput
+  ticketItems?: Prisma.TicketItemCreateNestedManyWithoutResourceInput
 }
 
 export type ResourceUncheckedCreateWithoutResourceCategoryInput = {
@@ -574,7 +574,7 @@ export type ResourceUncheckedCreateWithoutResourceCategoryInput = {
   status?: $Enums.ResourceStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  resourceRequests?: Prisma.ResourceRequestUncheckedCreateNestedManyWithoutResourceInput
+  ticketItems?: Prisma.TicketItemUncheckedCreateNestedManyWithoutResourceInput
 }
 
 export type ResourceCreateOrConnectWithoutResourceCategoryInput = {
@@ -619,7 +619,7 @@ export type ResourceScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
 }
 
-export type ResourceCreateWithoutResourceRequestsInput = {
+export type ResourceCreateWithoutTicketItemsInput = {
   id?: string
   name: string
   description?: string | null
@@ -632,7 +632,7 @@ export type ResourceCreateWithoutResourceRequestsInput = {
   resourceCategory: Prisma.ResourceCategoryCreateNestedOneWithoutResourcesInput
 }
 
-export type ResourceUncheckedCreateWithoutResourceRequestsInput = {
+export type ResourceUncheckedCreateWithoutTicketItemsInput = {
   id?: string
   name: string
   description?: string | null
@@ -645,23 +645,23 @@ export type ResourceUncheckedCreateWithoutResourceRequestsInput = {
   updatedAt?: Date | string
 }
 
-export type ResourceCreateOrConnectWithoutResourceRequestsInput = {
+export type ResourceCreateOrConnectWithoutTicketItemsInput = {
   where: Prisma.ResourceWhereUniqueInput
-  create: Prisma.XOR<Prisma.ResourceCreateWithoutResourceRequestsInput, Prisma.ResourceUncheckedCreateWithoutResourceRequestsInput>
+  create: Prisma.XOR<Prisma.ResourceCreateWithoutTicketItemsInput, Prisma.ResourceUncheckedCreateWithoutTicketItemsInput>
 }
 
-export type ResourceUpsertWithoutResourceRequestsInput = {
-  update: Prisma.XOR<Prisma.ResourceUpdateWithoutResourceRequestsInput, Prisma.ResourceUncheckedUpdateWithoutResourceRequestsInput>
-  create: Prisma.XOR<Prisma.ResourceCreateWithoutResourceRequestsInput, Prisma.ResourceUncheckedCreateWithoutResourceRequestsInput>
+export type ResourceUpsertWithoutTicketItemsInput = {
+  update: Prisma.XOR<Prisma.ResourceUpdateWithoutTicketItemsInput, Prisma.ResourceUncheckedUpdateWithoutTicketItemsInput>
+  create: Prisma.XOR<Prisma.ResourceCreateWithoutTicketItemsInput, Prisma.ResourceUncheckedCreateWithoutTicketItemsInput>
   where?: Prisma.ResourceWhereInput
 }
 
-export type ResourceUpdateToOneWithWhereWithoutResourceRequestsInput = {
+export type ResourceUpdateToOneWithWhereWithoutTicketItemsInput = {
   where?: Prisma.ResourceWhereInput
-  data: Prisma.XOR<Prisma.ResourceUpdateWithoutResourceRequestsInput, Prisma.ResourceUncheckedUpdateWithoutResourceRequestsInput>
+  data: Prisma.XOR<Prisma.ResourceUpdateWithoutTicketItemsInput, Prisma.ResourceUncheckedUpdateWithoutTicketItemsInput>
 }
 
-export type ResourceUpdateWithoutResourceRequestsInput = {
+export type ResourceUpdateWithoutTicketItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -674,7 +674,7 @@ export type ResourceUpdateWithoutResourceRequestsInput = {
   resourceCategory?: Prisma.ResourceCategoryUpdateOneRequiredWithoutResourcesNestedInput
 }
 
-export type ResourceUncheckedUpdateWithoutResourceRequestsInput = {
+export type ResourceUncheckedUpdateWithoutTicketItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -709,7 +709,7 @@ export type ResourceUpdateWithoutResourceCategoryInput = {
   status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resourceRequests?: Prisma.ResourceRequestUpdateManyWithoutResourceNestedInput
+  ticketItems?: Prisma.TicketItemUpdateManyWithoutResourceNestedInput
 }
 
 export type ResourceUncheckedUpdateWithoutResourceCategoryInput = {
@@ -722,7 +722,7 @@ export type ResourceUncheckedUpdateWithoutResourceCategoryInput = {
   status?: Prisma.EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resourceRequests?: Prisma.ResourceRequestUncheckedUpdateManyWithoutResourceNestedInput
+  ticketItems?: Prisma.TicketItemUncheckedUpdateManyWithoutResourceNestedInput
 }
 
 export type ResourceUncheckedUpdateManyWithoutResourceCategoryInput = {
@@ -743,11 +743,11 @@ export type ResourceUncheckedUpdateManyWithoutResourceCategoryInput = {
  */
 
 export type ResourceCountOutputType = {
-  resourceRequests: number
+  ticketItems: number
 }
 
 export type ResourceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  resourceRequests?: boolean | ResourceCountOutputTypeCountResourceRequestsArgs
+  ticketItems?: boolean | ResourceCountOutputTypeCountTicketItemsArgs
 }
 
 /**
@@ -763,8 +763,8 @@ export type ResourceCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * ResourceCountOutputType without action
  */
-export type ResourceCountOutputTypeCountResourceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ResourceRequestWhereInput
+export type ResourceCountOutputTypeCountTicketItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TicketItemWhereInput
 }
 
 
@@ -780,7 +780,7 @@ export type ResourceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createdAt?: boolean
   updatedAt?: boolean
   resourceCategory?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
-  resourceRequests?: boolean | Prisma.Resource$resourceRequestsArgs<ExtArgs>
+  ticketItems?: boolean | Prisma.Resource$ticketItemsArgs<ExtArgs>
   _count?: boolean | Prisma.ResourceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resource"]>
 
@@ -828,7 +828,7 @@ export type ResourceSelectScalar = {
 export type ResourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "model" | "resourceCategoryId" | "isActive" | "quantity" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["resource"]>
 export type ResourceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   resourceCategory?: boolean | Prisma.ResourceCategoryDefaultArgs<ExtArgs>
-  resourceRequests?: boolean | Prisma.Resource$resourceRequestsArgs<ExtArgs>
+  ticketItems?: boolean | Prisma.Resource$ticketItemsArgs<ExtArgs>
   _count?: boolean | Prisma.ResourceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ResourceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -842,7 +842,7 @@ export type $ResourcePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Resource"
   objects: {
     resourceCategory: Prisma.$ResourceCategoryPayload<ExtArgs>
-    resourceRequests: Prisma.$ResourceRequestPayload<ExtArgs>[]
+    ticketItems: Prisma.$TicketItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1250,7 +1250,7 @@ readonly fields: ResourceFieldRefs;
 export interface Prisma__ResourceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   resourceCategory<T extends Prisma.ResourceCategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ResourceCategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__ResourceCategoryClient<runtime.Types.Result.GetResult<Prisma.$ResourceCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  resourceRequests<T extends Prisma.Resource$resourceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resource$resourceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResourceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ticketItems<T extends Prisma.Resource$ticketItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resource$ticketItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1686,27 +1686,27 @@ export type ResourceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Resource.resourceRequests
+ * Resource.ticketItems
  */
-export type Resource$resourceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Resource$ticketItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ResourceRequest
+   * Select specific fields to fetch from the TicketItem
    */
-  select?: Prisma.ResourceRequestSelect<ExtArgs> | null
+  select?: Prisma.TicketItemSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ResourceRequest
+   * Omit specific fields from the TicketItem
    */
-  omit?: Prisma.ResourceRequestOmit<ExtArgs> | null
+  omit?: Prisma.TicketItemOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ResourceRequestInclude<ExtArgs> | null
-  where?: Prisma.ResourceRequestWhereInput
-  orderBy?: Prisma.ResourceRequestOrderByWithRelationInput | Prisma.ResourceRequestOrderByWithRelationInput[]
-  cursor?: Prisma.ResourceRequestWhereUniqueInput
+  include?: Prisma.TicketItemInclude<ExtArgs> | null
+  where?: Prisma.TicketItemWhereInput
+  orderBy?: Prisma.TicketItemOrderByWithRelationInput | Prisma.TicketItemOrderByWithRelationInput[]
+  cursor?: Prisma.TicketItemWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ResourceRequestScalarFieldEnum | Prisma.ResourceRequestScalarFieldEnum[]
+  distinct?: Prisma.TicketItemScalarFieldEnum | Prisma.TicketItemScalarFieldEnum[]
 }
 
 /**

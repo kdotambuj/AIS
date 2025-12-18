@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { Role } from "../generated/prisma/enums.js";
 
 interface JwtPayload {
   userId: string;
@@ -27,8 +28,8 @@ export const authMiddleware = (
     ) as JwtPayload;
 
     req.user = {
-      userId: decoded.userId,
-      role: decoded.role as any,
+      userId: decoded.userId as string,
+      role: decoded.role as Role,
     };
 
     next();

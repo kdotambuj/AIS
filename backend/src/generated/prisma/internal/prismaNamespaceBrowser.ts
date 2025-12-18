@@ -55,7 +55,7 @@ export const ModelName = {
   ResourceAuthority: 'ResourceAuthority',
   ResourceCategory: 'ResourceCategory',
   Resource: 'Resource',
-  ResourceRequest: 'ResourceRequest',
+  TicketItem: 'TicketItem',
   Ticket: 'Ticket'
 } as const
 
@@ -135,27 +135,29 @@ export const ResourceScalarFieldEnum = {
 export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
 
 
-export const ResourceRequestScalarFieldEnum = {
+export const TicketItemScalarFieldEnum = {
   id: 'id',
   resourceId: 'resourceId',
   quantity: 'quantity',
   ticketId: 'ticketId',
-  userId: 'userId',
   from: 'from',
   till: 'till',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type ResourceRequestScalarFieldEnum = (typeof ResourceRequestScalarFieldEnum)[keyof typeof ResourceRequestScalarFieldEnum]
+export type TicketItemScalarFieldEnum = (typeof TicketItemScalarFieldEnum)[keyof typeof TicketItemScalarFieldEnum]
 
 
 export const TicketScalarFieldEnum = {
   id: 'id',
   issuedBy: 'issuedBy',
-  userId: 'userId',
+  requestedUserId: 'requestedUserId',
   isActive: 'isActive',
+  ticketStatus: 'ticketStatus',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
