@@ -28,6 +28,8 @@ export type ResourceCategoryMinAggregateOutputType = {
   id: string | null
   name: string | null
   description: string | null
+  authorityId: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -36,6 +38,8 @@ export type ResourceCategoryMaxAggregateOutputType = {
   id: string | null
   name: string | null
   description: string | null
+  authorityId: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,6 +48,8 @@ export type ResourceCategoryCountAggregateOutputType = {
   id: number
   name: number
   description: number
+  authorityId: number
+  isActive: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -54,6 +60,8 @@ export type ResourceCategoryMinAggregateInputType = {
   id?: true
   name?: true
   description?: true
+  authorityId?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -62,6 +70,8 @@ export type ResourceCategoryMaxAggregateInputType = {
   id?: true
   name?: true
   description?: true
+  authorityId?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -70,6 +80,8 @@ export type ResourceCategoryCountAggregateInputType = {
   id?: true
   name?: true
   description?: true
+  authorityId?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -151,6 +163,8 @@ export type ResourceCategoryGroupByOutputType = {
   id: string
   name: string
   description: string | null
+  authorityId: string
+  isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: ResourceCategoryCountAggregateOutputType | null
@@ -180,8 +194,11 @@ export type ResourceCategoryWhereInput = {
   id?: Prisma.StringFilter<"ResourceCategory"> | string
   name?: Prisma.StringFilter<"ResourceCategory"> | string
   description?: Prisma.StringNullableFilter<"ResourceCategory"> | string | null
+  authorityId?: Prisma.StringFilter<"ResourceCategory"> | string
+  isActive?: Prisma.BoolFilter<"ResourceCategory"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ResourceCategory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ResourceCategory"> | Date | string
+  resourceAuthority?: Prisma.XOR<Prisma.ResourceAuthorityScalarRelationFilter, Prisma.ResourceAuthorityWhereInput>
   resources?: Prisma.ResourceListRelationFilter
 }
 
@@ -189,27 +206,36 @@ export type ResourceCategoryOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  authorityId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  resourceAuthority?: Prisma.ResourceAuthorityOrderByWithRelationInput
   resources?: Prisma.ResourceOrderByRelationAggregateInput
 }
 
 export type ResourceCategoryWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  name_authorityId?: Prisma.ResourceCategoryNameAuthorityIdCompoundUniqueInput
   AND?: Prisma.ResourceCategoryWhereInput | Prisma.ResourceCategoryWhereInput[]
   OR?: Prisma.ResourceCategoryWhereInput[]
   NOT?: Prisma.ResourceCategoryWhereInput | Prisma.ResourceCategoryWhereInput[]
   name?: Prisma.StringFilter<"ResourceCategory"> | string
   description?: Prisma.StringNullableFilter<"ResourceCategory"> | string | null
+  authorityId?: Prisma.StringFilter<"ResourceCategory"> | string
+  isActive?: Prisma.BoolFilter<"ResourceCategory"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ResourceCategory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ResourceCategory"> | Date | string
+  resourceAuthority?: Prisma.XOR<Prisma.ResourceAuthorityScalarRelationFilter, Prisma.ResourceAuthorityWhereInput>
   resources?: Prisma.ResourceListRelationFilter
-}, "id">
+}, "id" | "name_authorityId">
 
 export type ResourceCategoryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  authorityId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ResourceCategoryCountOrderByAggregateInput
@@ -224,6 +250,8 @@ export type ResourceCategoryScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ResourceCategory"> | string
   name?: Prisma.StringWithAggregatesFilter<"ResourceCategory"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"ResourceCategory"> | string | null
+  authorityId?: Prisma.StringWithAggregatesFilter<"ResourceCategory"> | string
+  isActive?: Prisma.BoolWithAggregatesFilter<"ResourceCategory"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ResourceCategory"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ResourceCategory"> | Date | string
 }
@@ -232,42 +260,52 @@ export type ResourceCategoryCreateInput = {
   id?: string
   name: string
   description?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  resources?: Prisma.ResourceCreateNestedManyWithoutCategoryInput
+  resourceAuthority: Prisma.ResourceAuthorityCreateNestedOneWithoutResourceCategoriesInput
+  resources?: Prisma.ResourceCreateNestedManyWithoutResourceCategoryInput
 }
 
 export type ResourceCategoryUncheckedCreateInput = {
   id?: string
   name: string
   description?: string | null
+  authorityId: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  resources?: Prisma.ResourceUncheckedCreateNestedManyWithoutCategoryInput
+  resources?: Prisma.ResourceUncheckedCreateNestedManyWithoutResourceCategoryInput
 }
 
 export type ResourceCategoryUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resources?: Prisma.ResourceUpdateManyWithoutCategoryNestedInput
+  resourceAuthority?: Prisma.ResourceAuthorityUpdateOneRequiredWithoutResourceCategoriesNestedInput
+  resources?: Prisma.ResourceUpdateManyWithoutResourceCategoryNestedInput
 }
 
 export type ResourceCategoryUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorityId?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resources?: Prisma.ResourceUncheckedUpdateManyWithoutCategoryNestedInput
+  resources?: Prisma.ResourceUncheckedUpdateManyWithoutResourceCategoryNestedInput
 }
 
 export type ResourceCategoryCreateManyInput = {
   id?: string
   name: string
   description?: string | null
+  authorityId: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -276,6 +314,7 @@ export type ResourceCategoryUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -284,14 +323,33 @@ export type ResourceCategoryUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorityId?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ResourceCategoryListRelationFilter = {
+  every?: Prisma.ResourceCategoryWhereInput
+  some?: Prisma.ResourceCategoryWhereInput
+  none?: Prisma.ResourceCategoryWhereInput
+}
+
+export type ResourceCategoryOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type ResourceCategoryNameAuthorityIdCompoundUniqueInput = {
+  name: string
+  authorityId: string
 }
 
 export type ResourceCategoryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  authorityId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -300,6 +358,8 @@ export type ResourceCategoryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  authorityId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -308,6 +368,8 @@ export type ResourceCategoryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  authorityId?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -315,6 +377,52 @@ export type ResourceCategoryMinOrderByAggregateInput = {
 export type ResourceCategoryScalarRelationFilter = {
   is?: Prisma.ResourceCategoryWhereInput
   isNot?: Prisma.ResourceCategoryWhereInput
+}
+
+export type ResourceCategoryCreateNestedManyWithoutResourceAuthorityInput = {
+  create?: Prisma.XOR<Prisma.ResourceCategoryCreateWithoutResourceAuthorityInput, Prisma.ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput> | Prisma.ResourceCategoryCreateWithoutResourceAuthorityInput[] | Prisma.ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput[]
+  connectOrCreate?: Prisma.ResourceCategoryCreateOrConnectWithoutResourceAuthorityInput | Prisma.ResourceCategoryCreateOrConnectWithoutResourceAuthorityInput[]
+  createMany?: Prisma.ResourceCategoryCreateManyResourceAuthorityInputEnvelope
+  connect?: Prisma.ResourceCategoryWhereUniqueInput | Prisma.ResourceCategoryWhereUniqueInput[]
+}
+
+export type ResourceCategoryUncheckedCreateNestedManyWithoutResourceAuthorityInput = {
+  create?: Prisma.XOR<Prisma.ResourceCategoryCreateWithoutResourceAuthorityInput, Prisma.ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput> | Prisma.ResourceCategoryCreateWithoutResourceAuthorityInput[] | Prisma.ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput[]
+  connectOrCreate?: Prisma.ResourceCategoryCreateOrConnectWithoutResourceAuthorityInput | Prisma.ResourceCategoryCreateOrConnectWithoutResourceAuthorityInput[]
+  createMany?: Prisma.ResourceCategoryCreateManyResourceAuthorityInputEnvelope
+  connect?: Prisma.ResourceCategoryWhereUniqueInput | Prisma.ResourceCategoryWhereUniqueInput[]
+}
+
+export type ResourceCategoryUpdateManyWithoutResourceAuthorityNestedInput = {
+  create?: Prisma.XOR<Prisma.ResourceCategoryCreateWithoutResourceAuthorityInput, Prisma.ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput> | Prisma.ResourceCategoryCreateWithoutResourceAuthorityInput[] | Prisma.ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput[]
+  connectOrCreate?: Prisma.ResourceCategoryCreateOrConnectWithoutResourceAuthorityInput | Prisma.ResourceCategoryCreateOrConnectWithoutResourceAuthorityInput[]
+  upsert?: Prisma.ResourceCategoryUpsertWithWhereUniqueWithoutResourceAuthorityInput | Prisma.ResourceCategoryUpsertWithWhereUniqueWithoutResourceAuthorityInput[]
+  createMany?: Prisma.ResourceCategoryCreateManyResourceAuthorityInputEnvelope
+  set?: Prisma.ResourceCategoryWhereUniqueInput | Prisma.ResourceCategoryWhereUniqueInput[]
+  disconnect?: Prisma.ResourceCategoryWhereUniqueInput | Prisma.ResourceCategoryWhereUniqueInput[]
+  delete?: Prisma.ResourceCategoryWhereUniqueInput | Prisma.ResourceCategoryWhereUniqueInput[]
+  connect?: Prisma.ResourceCategoryWhereUniqueInput | Prisma.ResourceCategoryWhereUniqueInput[]
+  update?: Prisma.ResourceCategoryUpdateWithWhereUniqueWithoutResourceAuthorityInput | Prisma.ResourceCategoryUpdateWithWhereUniqueWithoutResourceAuthorityInput[]
+  updateMany?: Prisma.ResourceCategoryUpdateManyWithWhereWithoutResourceAuthorityInput | Prisma.ResourceCategoryUpdateManyWithWhereWithoutResourceAuthorityInput[]
+  deleteMany?: Prisma.ResourceCategoryScalarWhereInput | Prisma.ResourceCategoryScalarWhereInput[]
+}
+
+export type ResourceCategoryUncheckedUpdateManyWithoutResourceAuthorityNestedInput = {
+  create?: Prisma.XOR<Prisma.ResourceCategoryCreateWithoutResourceAuthorityInput, Prisma.ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput> | Prisma.ResourceCategoryCreateWithoutResourceAuthorityInput[] | Prisma.ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput[]
+  connectOrCreate?: Prisma.ResourceCategoryCreateOrConnectWithoutResourceAuthorityInput | Prisma.ResourceCategoryCreateOrConnectWithoutResourceAuthorityInput[]
+  upsert?: Prisma.ResourceCategoryUpsertWithWhereUniqueWithoutResourceAuthorityInput | Prisma.ResourceCategoryUpsertWithWhereUniqueWithoutResourceAuthorityInput[]
+  createMany?: Prisma.ResourceCategoryCreateManyResourceAuthorityInputEnvelope
+  set?: Prisma.ResourceCategoryWhereUniqueInput | Prisma.ResourceCategoryWhereUniqueInput[]
+  disconnect?: Prisma.ResourceCategoryWhereUniqueInput | Prisma.ResourceCategoryWhereUniqueInput[]
+  delete?: Prisma.ResourceCategoryWhereUniqueInput | Prisma.ResourceCategoryWhereUniqueInput[]
+  connect?: Prisma.ResourceCategoryWhereUniqueInput | Prisma.ResourceCategoryWhereUniqueInput[]
+  update?: Prisma.ResourceCategoryUpdateWithWhereUniqueWithoutResourceAuthorityInput | Prisma.ResourceCategoryUpdateWithWhereUniqueWithoutResourceAuthorityInput[]
+  updateMany?: Prisma.ResourceCategoryUpdateManyWithWhereWithoutResourceAuthorityInput | Prisma.ResourceCategoryUpdateManyWithWhereWithoutResourceAuthorityInput[]
+  deleteMany?: Prisma.ResourceCategoryScalarWhereInput | Prisma.ResourceCategoryScalarWhereInput[]
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type ResourceCategoryCreateNestedOneWithoutResourcesInput = {
@@ -331,18 +439,81 @@ export type ResourceCategoryUpdateOneRequiredWithoutResourcesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ResourceCategoryUpdateToOneWithWhereWithoutResourcesInput, Prisma.ResourceCategoryUpdateWithoutResourcesInput>, Prisma.ResourceCategoryUncheckedUpdateWithoutResourcesInput>
 }
 
+export type ResourceCategoryCreateWithoutResourceAuthorityInput = {
+  id?: string
+  name: string
+  description?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resources?: Prisma.ResourceCreateNestedManyWithoutResourceCategoryInput
+}
+
+export type ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput = {
+  id?: string
+  name: string
+  description?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resources?: Prisma.ResourceUncheckedCreateNestedManyWithoutResourceCategoryInput
+}
+
+export type ResourceCategoryCreateOrConnectWithoutResourceAuthorityInput = {
+  where: Prisma.ResourceCategoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.ResourceCategoryCreateWithoutResourceAuthorityInput, Prisma.ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput>
+}
+
+export type ResourceCategoryCreateManyResourceAuthorityInputEnvelope = {
+  data: Prisma.ResourceCategoryCreateManyResourceAuthorityInput | Prisma.ResourceCategoryCreateManyResourceAuthorityInput[]
+  skipDuplicates?: boolean
+}
+
+export type ResourceCategoryUpsertWithWhereUniqueWithoutResourceAuthorityInput = {
+  where: Prisma.ResourceCategoryWhereUniqueInput
+  update: Prisma.XOR<Prisma.ResourceCategoryUpdateWithoutResourceAuthorityInput, Prisma.ResourceCategoryUncheckedUpdateWithoutResourceAuthorityInput>
+  create: Prisma.XOR<Prisma.ResourceCategoryCreateWithoutResourceAuthorityInput, Prisma.ResourceCategoryUncheckedCreateWithoutResourceAuthorityInput>
+}
+
+export type ResourceCategoryUpdateWithWhereUniqueWithoutResourceAuthorityInput = {
+  where: Prisma.ResourceCategoryWhereUniqueInput
+  data: Prisma.XOR<Prisma.ResourceCategoryUpdateWithoutResourceAuthorityInput, Prisma.ResourceCategoryUncheckedUpdateWithoutResourceAuthorityInput>
+}
+
+export type ResourceCategoryUpdateManyWithWhereWithoutResourceAuthorityInput = {
+  where: Prisma.ResourceCategoryScalarWhereInput
+  data: Prisma.XOR<Prisma.ResourceCategoryUpdateManyMutationInput, Prisma.ResourceCategoryUncheckedUpdateManyWithoutResourceAuthorityInput>
+}
+
+export type ResourceCategoryScalarWhereInput = {
+  AND?: Prisma.ResourceCategoryScalarWhereInput | Prisma.ResourceCategoryScalarWhereInput[]
+  OR?: Prisma.ResourceCategoryScalarWhereInput[]
+  NOT?: Prisma.ResourceCategoryScalarWhereInput | Prisma.ResourceCategoryScalarWhereInput[]
+  id?: Prisma.StringFilter<"ResourceCategory"> | string
+  name?: Prisma.StringFilter<"ResourceCategory"> | string
+  description?: Prisma.StringNullableFilter<"ResourceCategory"> | string | null
+  authorityId?: Prisma.StringFilter<"ResourceCategory"> | string
+  isActive?: Prisma.BoolFilter<"ResourceCategory"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"ResourceCategory"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ResourceCategory"> | Date | string
+}
+
 export type ResourceCategoryCreateWithoutResourcesInput = {
   id?: string
   name: string
   description?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  resourceAuthority: Prisma.ResourceAuthorityCreateNestedOneWithoutResourceCategoriesInput
 }
 
 export type ResourceCategoryUncheckedCreateWithoutResourcesInput = {
   id?: string
   name: string
   description?: string | null
+  authorityId: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -367,14 +538,56 @@ export type ResourceCategoryUpdateWithoutResourcesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resourceAuthority?: Prisma.ResourceAuthorityUpdateOneRequiredWithoutResourceCategoriesNestedInput
 }
 
 export type ResourceCategoryUncheckedUpdateWithoutResourcesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorityId?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ResourceCategoryCreateManyResourceAuthorityInput = {
+  id?: string
+  name: string
+  description?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ResourceCategoryUpdateWithoutResourceAuthorityInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resources?: Prisma.ResourceUpdateManyWithoutResourceCategoryNestedInput
+}
+
+export type ResourceCategoryUncheckedUpdateWithoutResourceAuthorityInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resources?: Prisma.ResourceUncheckedUpdateManyWithoutResourceCategoryNestedInput
+}
+
+export type ResourceCategoryUncheckedUpdateManyWithoutResourceAuthorityInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -414,8 +627,11 @@ export type ResourceCategorySelect<ExtArgs extends runtime.Types.Extensions.Inte
   id?: boolean
   name?: boolean
   description?: boolean
+  authorityId?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  resourceAuthority?: boolean | Prisma.ResourceAuthorityDefaultArgs<ExtArgs>
   resources?: boolean | Prisma.ResourceCategory$resourcesArgs<ExtArgs>
   _count?: boolean | Prisma.ResourceCategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resourceCategory"]>
@@ -424,43 +640,59 @@ export type ResourceCategorySelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   name?: boolean
   description?: boolean
+  authorityId?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  resourceAuthority?: boolean | Prisma.ResourceAuthorityDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resourceCategory"]>
 
 export type ResourceCategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   description?: boolean
+  authorityId?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  resourceAuthority?: boolean | Prisma.ResourceAuthorityDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resourceCategory"]>
 
 export type ResourceCategorySelectScalar = {
   id?: boolean
   name?: boolean
   description?: boolean
+  authorityId?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ResourceCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["resourceCategory"]>
+export type ResourceCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "authorityId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["resourceCategory"]>
 export type ResourceCategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  resourceAuthority?: boolean | Prisma.ResourceAuthorityDefaultArgs<ExtArgs>
   resources?: boolean | Prisma.ResourceCategory$resourcesArgs<ExtArgs>
   _count?: boolean | Prisma.ResourceCategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type ResourceCategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type ResourceCategoryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ResourceCategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  resourceAuthority?: boolean | Prisma.ResourceAuthorityDefaultArgs<ExtArgs>
+}
+export type ResourceCategoryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  resourceAuthority?: boolean | Prisma.ResourceAuthorityDefaultArgs<ExtArgs>
+}
 
 export type $ResourceCategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ResourceCategory"
   objects: {
+    resourceAuthority: Prisma.$ResourceAuthorityPayload<ExtArgs>
     resources: Prisma.$ResourcePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
     description: string | null
+    authorityId: string
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["resourceCategory"]>
@@ -857,6 +1089,7 @@ readonly fields: ResourceCategoryFieldRefs;
  */
 export interface Prisma__ResourceCategoryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  resourceAuthority<T extends Prisma.ResourceAuthorityDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ResourceAuthorityDefaultArgs<ExtArgs>>): Prisma.Prisma__ResourceAuthorityClient<runtime.Types.Result.GetResult<Prisma.$ResourceAuthorityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   resources<T extends Prisma.ResourceCategory$resourcesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ResourceCategory$resourcesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -890,6 +1123,8 @@ export interface ResourceCategoryFieldRefs {
   readonly id: Prisma.FieldRef<"ResourceCategory", 'String'>
   readonly name: Prisma.FieldRef<"ResourceCategory", 'String'>
   readonly description: Prisma.FieldRef<"ResourceCategory", 'String'>
+  readonly authorityId: Prisma.FieldRef<"ResourceCategory", 'String'>
+  readonly isActive: Prisma.FieldRef<"ResourceCategory", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"ResourceCategory", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ResourceCategory", 'DateTime'>
 }
@@ -1141,6 +1376,10 @@ export type ResourceCategoryCreateManyAndReturnArgs<ExtArgs extends runtime.Type
    */
   data: Prisma.ResourceCategoryCreateManyInput | Prisma.ResourceCategoryCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ResourceCategoryIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1211,6 +1450,10 @@ export type ResourceCategoryUpdateManyAndReturnArgs<ExtArgs extends runtime.Type
    * Limit how many ResourceCategories to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ResourceCategoryIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

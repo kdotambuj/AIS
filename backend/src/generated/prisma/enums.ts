@@ -19,14 +19,6 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
-export const ResourceOwnerType = {
-  LAB: 'LAB',
-  DEPARTMENT: 'DEPARTMENT'
-} as const
-
-export type ResourceOwnerType = (typeof ResourceOwnerType)[keyof typeof ResourceOwnerType]
-
-
 export const Department = {
   ELECTRICAL_ENGG: 'ELECTRICAL_ENGG',
   MECHANICAL_ENGG: 'MECHANICAL_ENGG',
@@ -46,23 +38,30 @@ export const Department = {
 export type Department = (typeof Department)[keyof typeof Department]
 
 
+export const ResourceStatus = {
+  AVAILABLE: 'AVAILABLE',
+  OCCUPIED: 'OCCUPIED',
+  LOST: 'LOST',
+  UNDER_MAINTENANCE: 'UNDER_MAINTENANCE'
+} as const
+
+export type ResourceStatus = (typeof ResourceStatus)[keyof typeof ResourceStatus]
+
+
+export const TicketItemStatus = {
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  PENDING: 'PENDING'
+} as const
+
+export type TicketItemStatus = (typeof TicketItemStatus)[keyof typeof TicketItemStatus]
+
+
 export const TicketStatus = {
   PENDING: 'PENDING',
-  REJECTED: 'REJECTED',
-  ACCEPTED: 'ACCEPTED',
-  RETURNED: 'RETURNED',
-  OVERDUE: 'OVERDUE',
-  ALLOCATED: 'ALLOCATED'
+  PARTIALLY_APPROVED: 'PARTIALLY_APPROVED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
 } as const
 
 export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus]
-
-
-export const UnitStatus = {
-  AVAILABLE: 'AVAILABLE',
-  IN_USE: 'IN_USE',
-  MAINTENANCE: 'MAINTENANCE',
-  RETIRED: 'RETIRED'
-} as const
-
-export type UnitStatus = (typeof UnitStatus)[keyof typeof UnitStatus]

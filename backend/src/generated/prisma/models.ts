@@ -9,8 +9,9 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User.js'
+export type * from './models/ResourceAuthority.js'
 export type * from './models/ResourceCategory.js'
 export type * from './models/Resource.js'
-export type * from './models/ResourceUnit.js'
+export type * from './models/TicketItem.js'
 export type * from './models/Ticket.js'
 export type * from './commonInputTypes.js'

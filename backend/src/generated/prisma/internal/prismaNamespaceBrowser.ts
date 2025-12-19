@@ -52,9 +52,10 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  ResourceAuthority: 'ResourceAuthority',
   ResourceCategory: 'ResourceCategory',
   Resource: 'Resource',
-  ResourceUnit: 'ResourceUnit',
+  TicketItem: 'TicketItem',
   Ticket: 'Ticket'
 } as const
 
@@ -91,10 +92,26 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const ResourceAuthorityScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  department: 'department',
+  location: 'location',
+  description: 'description',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ResourceAuthorityScalarFieldEnum = (typeof ResourceAuthorityScalarFieldEnum)[keyof typeof ResourceAuthorityScalarFieldEnum]
+
+
 export const ResourceCategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  authorityId: 'authorityId',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -105,15 +122,12 @@ export type ResourceCategoryScalarFieldEnum = (typeof ResourceCategoryScalarFiel
 export const ResourceScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  model: 'model',
-  manufacturer: 'manufacturer',
   description: 'description',
-  categoryId: 'categoryId',
-  department: 'department',
-  ownerType: 'ownerType',
-  location: 'location',
-  totalQuantity: 'totalQuantity',
-  availableQuantity: 'availableQuantity',
+  model: 'model',
+  resourceCategoryId: 'resourceCategoryId',
+  isActive: 'isActive',
+  quantity: 'quantity',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -121,35 +135,29 @@ export const ResourceScalarFieldEnum = {
 export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
 
 
-export const ResourceUnitScalarFieldEnum = {
+export const TicketItemScalarFieldEnum = {
   id: 'id',
-  serialNumber: 'serialNumber',
-  status: 'status',
-  condition: 'condition',
-  notes: 'notes',
   resourceId: 'resourceId',
+  quantity: 'quantity',
+  ticketId: 'ticketId',
+  from: 'from',
+  till: 'till',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type ResourceUnitScalarFieldEnum = (typeof ResourceUnitScalarFieldEnum)[keyof typeof ResourceUnitScalarFieldEnum]
+export type TicketItemScalarFieldEnum = (typeof TicketItemScalarFieldEnum)[keyof typeof TicketItemScalarFieldEnum]
 
 
 export const TicketScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  resourceId: 'resourceId',
-  quantity: 'quantity',
-  status: 'status',
-  requestDate: 'requestDate',
-  fromDate: 'fromDate',
-  toDate: 'toDate',
-  purpose: 'purpose',
-  approvedBy: 'approvedBy',
-  approvedAt: 'approvedAt',
-  allocatedAt: 'allocatedAt',
-  returnedAt: 'returnedAt',
-  remarks: 'remarks',
+  issuedBy: 'issuedBy',
+  requestedUserId: 'requestedUserId',
+  isActive: 'isActive',
+  ticketStatus: 'ticketStatus',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

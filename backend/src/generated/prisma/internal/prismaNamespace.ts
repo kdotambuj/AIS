@@ -385,9 +385,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  ResourceAuthority: 'ResourceAuthority',
   ResourceCategory: 'ResourceCategory',
   Resource: 'Resource',
-  ResourceUnit: 'ResourceUnit',
+  TicketItem: 'TicketItem',
   Ticket: 'Ticket'
 } as const
 
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "resourceCategory" | "resource" | "resourceUnit" | "ticket"
+    modelProps: "user" | "resourceAuthority" | "resourceCategory" | "resource" | "ticketItem" | "ticket"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -479,6 +480,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    ResourceAuthority: {
+      payload: Prisma.$ResourceAuthorityPayload<ExtArgs>
+      fields: Prisma.ResourceAuthorityFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ResourceAuthorityFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ResourceAuthorityFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload>
+        }
+        findFirst: {
+          args: Prisma.ResourceAuthorityFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ResourceAuthorityFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload>
+        }
+        findMany: {
+          args: Prisma.ResourceAuthorityFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload>[]
+        }
+        create: {
+          args: Prisma.ResourceAuthorityCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload>
+        }
+        createMany: {
+          args: Prisma.ResourceAuthorityCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ResourceAuthorityCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload>[]
+        }
+        delete: {
+          args: Prisma.ResourceAuthorityDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload>
+        }
+        update: {
+          args: Prisma.ResourceAuthorityUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload>
+        }
+        deleteMany: {
+          args: Prisma.ResourceAuthorityDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ResourceAuthorityUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ResourceAuthorityUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload>[]
+        }
+        upsert: {
+          args: Prisma.ResourceAuthorityUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceAuthorityPayload>
+        }
+        aggregate: {
+          args: Prisma.ResourceAuthorityAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateResourceAuthority>
+        }
+        groupBy: {
+          args: Prisma.ResourceAuthorityGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResourceAuthorityGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ResourceAuthorityCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResourceAuthorityCountAggregateOutputType> | number
         }
       }
     }
@@ -630,77 +705,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    ResourceUnit: {
-      payload: Prisma.$ResourceUnitPayload<ExtArgs>
-      fields: Prisma.ResourceUnitFieldRefs
+    TicketItem: {
+      payload: Prisma.$TicketItemPayload<ExtArgs>
+      fields: Prisma.TicketItemFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.ResourceUnitFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload> | null
+          args: Prisma.TicketItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.ResourceUnitFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload>
+          args: Prisma.TicketItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload>
         }
         findFirst: {
-          args: Prisma.ResourceUnitFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload> | null
+          args: Prisma.TicketItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.ResourceUnitFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload>
+          args: Prisma.TicketItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload>
         }
         findMany: {
-          args: Prisma.ResourceUnitFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload>[]
+          args: Prisma.TicketItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload>[]
         }
         create: {
-          args: Prisma.ResourceUnitCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload>
+          args: Prisma.TicketItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload>
         }
         createMany: {
-          args: Prisma.ResourceUnitCreateManyArgs<ExtArgs>
+          args: Prisma.TicketItemCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.ResourceUnitCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload>[]
+          args: Prisma.TicketItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload>[]
         }
         delete: {
-          args: Prisma.ResourceUnitDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload>
+          args: Prisma.TicketItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload>
         }
         update: {
-          args: Prisma.ResourceUnitUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload>
+          args: Prisma.TicketItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload>
         }
         deleteMany: {
-          args: Prisma.ResourceUnitDeleteManyArgs<ExtArgs>
+          args: Prisma.TicketItemDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.ResourceUnitUpdateManyArgs<ExtArgs>
+          args: Prisma.TicketItemUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.ResourceUnitUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload>[]
+          args: Prisma.TicketItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload>[]
         }
         upsert: {
-          args: Prisma.ResourceUnitUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResourceUnitPayload>
+          args: Prisma.TicketItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TicketItemPayload>
         }
         aggregate: {
-          args: Prisma.ResourceUnitAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateResourceUnit>
+          args: Prisma.TicketItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTicketItem>
         }
         groupBy: {
-          args: Prisma.ResourceUnitGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ResourceUnitGroupByOutputType>[]
+          args: Prisma.TicketItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TicketItemGroupByOutputType>[]
         }
         count: {
-          args: Prisma.ResourceUnitCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ResourceUnitCountAggregateOutputType> | number
+          args: Prisma.TicketItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TicketItemCountAggregateOutputType> | number
         }
       }
     }
@@ -834,10 +909,26 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const ResourceAuthorityScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  department: 'department',
+  location: 'location',
+  description: 'description',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ResourceAuthorityScalarFieldEnum = (typeof ResourceAuthorityScalarFieldEnum)[keyof typeof ResourceAuthorityScalarFieldEnum]
+
+
 export const ResourceCategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  authorityId: 'authorityId',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -848,15 +939,12 @@ export type ResourceCategoryScalarFieldEnum = (typeof ResourceCategoryScalarFiel
 export const ResourceScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  model: 'model',
-  manufacturer: 'manufacturer',
   description: 'description',
-  categoryId: 'categoryId',
-  department: 'department',
-  ownerType: 'ownerType',
-  location: 'location',
-  totalQuantity: 'totalQuantity',
-  availableQuantity: 'availableQuantity',
+  model: 'model',
+  resourceCategoryId: 'resourceCategoryId',
+  isActive: 'isActive',
+  quantity: 'quantity',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -864,35 +952,29 @@ export const ResourceScalarFieldEnum = {
 export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
 
 
-export const ResourceUnitScalarFieldEnum = {
+export const TicketItemScalarFieldEnum = {
   id: 'id',
-  serialNumber: 'serialNumber',
-  status: 'status',
-  condition: 'condition',
-  notes: 'notes',
   resourceId: 'resourceId',
+  quantity: 'quantity',
+  ticketId: 'ticketId',
+  from: 'from',
+  till: 'till',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type ResourceUnitScalarFieldEnum = (typeof ResourceUnitScalarFieldEnum)[keyof typeof ResourceUnitScalarFieldEnum]
+export type TicketItemScalarFieldEnum = (typeof TicketItemScalarFieldEnum)[keyof typeof TicketItemScalarFieldEnum]
 
 
 export const TicketScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  resourceId: 'resourceId',
-  quantity: 'quantity',
-  status: 'status',
-  requestDate: 'requestDate',
-  fromDate: 'fromDate',
-  toDate: 'toDate',
-  purpose: 'purpose',
-  approvedBy: 'approvedBy',
-  approvedAt: 'approvedAt',
-  allocatedAt: 'allocatedAt',
-  returnedAt: 'returnedAt',
-  remarks: 'remarks',
+  issuedBy: 'issuedBy',
+  requestedUserId: 'requestedUserId',
+  isActive: 'isActive',
+  ticketStatus: 'ticketStatus',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -987,16 +1069,9 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'ResourceOwnerType'
+ * Reference to a field of type 'Boolean'
  */
-export type EnumResourceOwnerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResourceOwnerType'>
-    
-
-
-/**
- * Reference to a field of type 'ResourceOwnerType[]'
- */
-export type ListEnumResourceOwnerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResourceOwnerType[]'>
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1015,16 +1090,30 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'UnitStatus'
+ * Reference to a field of type 'ResourceStatus'
  */
-export type EnumUnitStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UnitStatus'>
+export type EnumResourceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResourceStatus'>
     
 
 
 /**
- * Reference to a field of type 'UnitStatus[]'
+ * Reference to a field of type 'ResourceStatus[]'
  */
-export type ListEnumUnitStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UnitStatus[]'>
+export type ListEnumResourceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResourceStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TicketItemStatus'
+ */
+export type EnumTicketItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketItemStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'TicketItemStatus[]'
+ */
+export type ListEnumTicketItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketItemStatus[]'>
     
 
 
@@ -1151,9 +1240,10 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  resourceAuthority?: Prisma.ResourceAuthorityOmit
   resourceCategory?: Prisma.ResourceCategoryOmit
   resource?: Prisma.ResourceOmit
-  resourceUnit?: Prisma.ResourceUnitOmit
+  ticketItem?: Prisma.TicketItemOmit
   ticket?: Prisma.TicketOmit
 }
 

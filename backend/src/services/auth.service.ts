@@ -28,6 +28,7 @@ export const SignupService = async (
         name: true,
         department: true,
         createdAt: true,
+        role:true
       },
     });
 
@@ -42,11 +43,12 @@ export const LoginService = async(data:LoginInput)=>{
     const valid = bcrypt.compare(data.password, user.password);
     if (!valid) throw new Error('Password does not match ');
 
+    if (user.role !== data.role) throw new Error('Role mismatched');
+
     const token = jwt.sign(
       {
         userId : user.id,
         role:user.role,
-
       },
       env.JWT_SECRET,
       { expiresIn: '7d'}

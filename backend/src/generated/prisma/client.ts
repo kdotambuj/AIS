@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
+ * Model ResourceAuthority
+ * 
+ */
+export type ResourceAuthority = Prisma.ResourceAuthorityModel
+/**
  * Model ResourceCategory
  * 
  */
@@ -55,10 +60,10 @@ export type ResourceCategory = Prisma.ResourceCategoryModel
  */
 export type Resource = Prisma.ResourceModel
 /**
- * Model ResourceUnit
+ * Model TicketItem
  * 
  */
-export type ResourceUnit = Prisma.ResourceUnitModel
+export type TicketItem = Prisma.TicketItemModel
 /**
  * Model Ticket
  * 
