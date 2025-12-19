@@ -7,4 +7,13 @@ export const CreateResourceCategorySchema  = z.object({
     authorityId: z.string(),
 })
 
+export const CreateResourceSchema = z.object({
+    name : z.string().min(1),
+    description:z.string().optional(),
+    model:z.string().optional(),
+    resourceCategoryId:z.string(),
+    quantity:z.int()
+})
+
 export type CreateResourceCategoryInput = z.infer<typeof CreateResourceCategorySchema>;
+export type CreateResourceInput = z.infer<typeof CreateResourceSchema>;
