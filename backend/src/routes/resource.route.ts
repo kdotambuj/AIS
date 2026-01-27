@@ -3,6 +3,7 @@ import {
   CreateResourceCategoryController,
   CreateResourceContoller,
   GetAllAuthorityResourcesController,
+  GetAllResourcesController,
 } from "../controllers/resource.controller.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { authorizeRoles } from "../middlewares/role.middleware.js";
@@ -27,5 +28,7 @@ router.get(
   authorizeRoles("ADMIN", "LAB_INCHARGE", "HOD"),
   GetAllAuthorityResourcesController
 );
+
+router.get('/get', authMiddleware, authorizeRoles('STUDENT', 'ADMIN', 'LAB_INCHARGE'), GetAllResourcesController)
 
 export default router;
