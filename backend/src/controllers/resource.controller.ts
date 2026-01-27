@@ -5,9 +5,10 @@ import {
   CreateResourceSchema,
 } from "../schema/resource.schema.js";
 import {
-  createResourceCategoryService,
-  createResourceService,
+  CreateResourceCategoryService,
+  CreateResourceService,
   GetAllAuthorityResourcesService,
+  GetAllResourcesService,
 } from "../services/resource.service.js";
 
 export const CreateResourceCategoryController = async (
@@ -16,7 +17,7 @@ export const CreateResourceCategoryController = async (
 ) => {
   try {
     const data = CreateResourceCategorySchema.parse(req.body);
-    const resourceCategory = await createResourceCategoryService(data);
+    const resourceCategory = await CreateResourceCategoryService(data);
 
     return res.status(201).json({
       success: true,
@@ -42,7 +43,7 @@ export const CreateResourceCategoryController = async (
 export const CreateResourceContoller = async (req: Request, res: Response) => {
   try {
     const data = CreateResourceSchema.parse(req.body);
-    const resource = await createResourceService(data);
+    const resource = await CreateResourceService(data);
 
     return res.status(201).json({
       success: true,
@@ -85,3 +86,25 @@ export const GetAllAuthorityResourcesController = async (
     });
   }
 };
+
+export const GetAllResourcesController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const resources = await GetAllResourcesService();
+
+    return res.status(200).json({
+      success: true,
+      message: "Resources fetched",
+      data: resources,
+    });
+  } catch (err: any) {
+    return res.status(400).json({
+      success: false,
+      message: err.message || "Fetch Resources failed",
+    });
+  }
+};
+
+

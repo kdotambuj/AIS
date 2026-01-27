@@ -1,10 +1,10 @@
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
 }
 
 enum Role {
@@ -14,7 +14,7 @@ enum Role {
   HOD
 }
 
-enum Department {
+enum xDepartment {
   ELECTRICAL_ENGG
   MECHANICAL_ENGG
   FOOTWEAR_ENGG
@@ -37,30 +37,20 @@ enum ResourceStatus {
   UNDER_MAINTENANCE
 }
 
-enum TicketItemStatus {
-  ACCEPTED
-  REJECTED
-  PENDING
-}
-
-enum TicketStatus {
-  PENDING
-  PARTIALLY_APPROVED
-  APPROVED
-  REJECTED
-}
-
 model User {
-  id               String             @id @default(cuid())
-  email            String             @unique
+  id               String  @id @default(cuid())
+  email            String  @unique
   name             String
-  rollNumber       String?            @unique
-  enrollmentNumber String?            @unique
-  department       Department
-  role             Role
-  profilePhoto     String?
-  password         String
-  authority        ResourceAuthority?
+  rollNumber       String? @unique
+  enrollmentNumber String? @unique
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  role         Role
+  profilePhoto String?
+  password     String
+  authority    ResourceAuthority?
 
   tickets Ticket[]
 
@@ -68,10 +58,21 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Department {
+  id   String @id @default(cuid())
+  name String @unique
+
+  users               User[]
+  resourceAuthorities ResourceAuthority[]
+}
+
 model ResourceAuthority {
-  id          String     @id @default(cuid())
-  name        String
-  department  Department
+  id   String @id @default(cuid())
+  name String
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+
   location    String
   description String?
 
@@ -79,6 +80,7 @@ model ResourceAuthority {
   ownedBy User   @relation(fields: [ownerId], references: [id])
 
   resourceCategories ResourceCategory[]
+  tickets            Ticket[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -121,40 +123,76 @@ model Resource {
   updatedAt DateTime @updatedAt
 }
 
-model TicketItem {
+enum TicketItemStatus {
+  PENDING // Awaiting authority decision
+  ACCEPTED // Reserved for the given time (blocks availability)
+  REJECTED // Denied
+  ISSUED // Physically issued (authenticity only)
+  RETURNED // Completed / released
+}
+
+enum TicketStatus {
+  PENDING // No item decided yet
+  APPROVED // At least one item ACCEPTED
+  REJECTED // All items REJECTED
+  RESOLVED // All items RETURNED or REJECTED
+}
+
+model Ticket {
   id String @id @default(cuid())
 
-  resourceId String
-  resource   Resource @relation(fields: [resourceId], references: [id])
-  quantity   Int
+  // User who requested the ticket
+  requestedUserId String
+  requestedUser   User   @relation(fields: [requestedUserId], references: [id])
 
-  ticketId String @unique
-  ticket   Ticket @relation(fields: [ticketId], references: [id])
+  // Authority handling the request
+  authorityId String
+  authority   ResourceAuthority @relation(fields: [authorityId], references: [id])
 
-  from DateTime
-  till DateTime
+  // One ticket → many items
+  ticketItems TicketItem[]
 
-  approvedBy String
-  approvedAt DateTime
+  // Derived state (never controls availability)
+  ticketStatus TicketStatus @default(PENDING)
 
-  status TicketItemStatus
+  // Soft lifecycle control
+  isActive Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Ticket {
-  id       String @id @default(cuid())
-  issuedBy String
+model TicketItem {
+  id String @id @default(cuid())
 
-  requestedUserId String @unique
-  requestedUser   User   @relation(fields: [requestedUserId], references: [id])
+  // Parent ticket
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id])
 
-  ticketItems TicketItem[]
+  // Requested resource
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id])
 
-  isActive Boolean @default(true)
+  quantity Int
 
-  ticketStatus TicketStatus
+  // Reservation window
+  from DateTime
+  till DateTime
+
+  // Approval metadata
+  approvedBy String?
+  approvedAt DateTime?
+
+  // Issue (authenticity / handover)
+  issuedBy String?
+  issuedAt DateTime?
+
+  // Return (release)
+  returnedAt DateTime?
+  receivedBy String?
+
+  // Item lifecycle
+  status TicketItemStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

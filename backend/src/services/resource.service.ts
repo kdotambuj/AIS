@@ -4,7 +4,7 @@ import {
   CreateResourceInput,
 } from "../schema/resource.schema.js";
 
-export const createResourceCategoryService = async (
+export const CreateResourceCategoryService = async (
   data: CreateResourceCategoryInput
 ) => {
   const resourceCategory = await prisma.resourceCategory.create({
@@ -23,7 +23,7 @@ export const createResourceCategoryService = async (
   return resourceCategory;
 };
 
-export const createResourceService = async (data: CreateResourceInput) => {
+export const CreateResourceService = async (data: CreateResourceInput) => {
   const resource = await prisma.resource.create({
     data: {
       name: data.name,
@@ -59,6 +59,15 @@ export const GetAllAuthorityResourcesService = async (authorityId: string) => {
     },
   });
 
-
   return resources;
 };
+
+export const GetAllResourcesService = async ()=>{
+   const resources = await prisma.resource.findMany({
+    include:{
+      resourceCategory:true
+    }
+   });
+
+   return resources;
+}

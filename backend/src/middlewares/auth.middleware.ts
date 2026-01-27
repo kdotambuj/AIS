@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { Role } from "../generated/prisma/enums.js";
+import { Role } from "../../generated/prisma/enums";
 
 interface JwtPayload {
   userId: string;

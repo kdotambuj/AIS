@@ -6,14 +6,14 @@ export const CreateAuthorityService = async (data: CreateAuthorityInput) => {
     data: {
       name: data.name,
       ownerId: data.ownerId,
-      department: data.department,
+      departmentId: data.departmentId,
       location:data.location,
       description:data.description
     },
     select: {
       id: true,
       name:true,
-      department:true,
+      departmentId:true,
       location:true,
       ownerId:true
     },
