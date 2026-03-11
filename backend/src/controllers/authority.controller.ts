@@ -1,11 +1,15 @@
 import { Response, Request } from "express";
 import { ZodError } from "zod";
 import { CreateAuthoritySchema } from "../schema/authority.schema.js";
-import { CreateAuthorityService, GetAuthoritiesService } from "../services/authority.service.js";
+import {
+  CreateAuthorityService,
+  GetAuthoritiesService,
+  GetAuthorityByOwnerIdService,
+} from "../services/authority.service.js";
 
 export const CreateAuthorityController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const data = CreateAuthoritySchema.parse(req.body);
@@ -32,12 +36,9 @@ export const CreateAuthorityController = async (
   }
 };
 
-export const GetAuthoritiesController = async (
-  req: Request,
-  res: Response
-) => {
+export const GetAuthoritiesController = async (req: Request, res: Response) => {
   try {
-    const authorities  = await GetAuthoritiesService();
+    const authorities = await GetAuthoritiesService();
 
     return res.status(200).json({
       success: true,
@@ -45,10 +46,42 @@ export const GetAuthoritiesController = async (
       data: authorities,
     });
   } catch (err: any) {
-
     return res.status(400).json({
       success: false,
       message: err.message || "Can't fetch all authorities",
+    });
+  }
+};
+
+export const GetMyAuthorityController = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    const authority = await GetAuthorityByOwnerIdService(userId);
+
+    if (!authority) {
+      return res.status(404).json({
+        success: false,
+        message: "No resource authority assigned to this user",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Authority fetched",
+      data: authority,
+    });
+  } catch (err: any) {
+    return res.status(400).json({
+      success: false,
+      message: err.message || "Can't fetch authority",
     });
   }
 };

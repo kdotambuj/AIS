@@ -1,5 +1,9 @@
 import { Response, Request } from "express";
-import { SignupService, LoginService } from "../services/auth.service.js";
+import {
+  SignupService,
+  LoginService,
+  GetMeService,
+} from "../services/auth.service.js";
 import { UserLoginSchema, UserSignupSchema } from "../schema/auth.schema.js";
 import { ZodError } from "zod";
 
@@ -58,7 +62,33 @@ export const LoginController = async (req: Request, res: Response) => {
 
     return res.status(400).json({
       success: false,
-      message: err.message || "Signup failed",
+      message: err.message || "Login failed",
+    });
+  }
+};
+
+export const GetMeController = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    const user = await GetMeService(userId);
+
+    return res.status(200).json({
+      success: true,
+      message: "User fetched successfully",
+      data: user,
+    });
+  } catch (err: any) {
+    return res.status(400).json({
+      success: false,
+      message: err.message || "Failed to get user",
     });
   }
 };

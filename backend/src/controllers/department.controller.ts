@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   CreateDepartmentService,
   GetAllDepartmentsService,
+  DeleteDepartmentService,
 } from "../services/department.service.js";
 
 export const CreateDepartmentController = async (
@@ -42,6 +43,28 @@ export const GetAllDepartmentController = async (
     return res.status(400).json({
       success: false,
       message: err.message || "Failed to fetch departments",
+    });
+  }
+};
+
+export const DeleteDepartmentController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const { id } = req.params;
+
+    const department = await DeleteDepartmentService(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Department deleted successfully",
+      data: department,
+    });
+  } catch (err: any) {
+    return res.status(400).json({
+      success: false,
+      message: err.message || "Failed to delete department",
     });
   }
 };

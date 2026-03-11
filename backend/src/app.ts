@@ -5,6 +5,7 @@ import AuthorityRoutes from "./routes/authority.route.js";
 import ResourceRoutes from "./routes/resource.route.js";
 import DepartmentRoutes from "./routes/department.route.js";
 import TicketRoutes from "./routes/ticket.route.js";
+import UserRoutes from "./routes/user.route.js"
 
 import CookieParser from "cookie-parser";
 const app = express();
@@ -29,5 +30,6 @@ app.use("/api/v1/authority", AuthorityRoutes);
 app.use("/api/v1/resource", ResourceRoutes);
 app.use("/api/v1/department", DepartmentRoutes);
 app.use("/api/v1/ticket", TicketRoutes);
+app.use("/api/v1/user", UserRoutes)
 
 export default app;

@@ -25,3 +25,15 @@ export const GetAllDepartmentsService = async () => {
 
   return departments;
 };
+
+export const DeleteDepartmentService = async (id: string) => {
+  const department = await prisma.department.delete({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+
+  return department;
+};
