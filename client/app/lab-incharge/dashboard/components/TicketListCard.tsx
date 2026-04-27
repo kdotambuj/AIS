@@ -371,7 +371,7 @@ const TicketListCard = () => {
                               </button>
                             </>
                           )}
-                          {item.status === "ACCEPTED" && (
+                           {item.status === "ACCEPTED" && (
                             <button
                               onClick={() =>
                                 updateItemStatus(item.id, "ISSUED")
@@ -379,7 +379,7 @@ const TicketListCard = () => {
                               disabled={updatingItems.has(item.id)}
                               className="px-3 py-1 text-xs font-medium text-white bg-blue-600 rounded hover:bg-blue-700 disabled:opacity-50"
                             >
-                              Mark Issued
+                              Mark Acquired
                             </button>
                           )}
                           {item.status === "ISSUED" && (

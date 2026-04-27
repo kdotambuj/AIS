@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useAppSelector } from "@/store/hooks";
 
 interface TicketItem {
   id: string;
@@ -67,6 +68,68 @@ const StudentTicketsCard = () => {
   const [tickets, setTickets] = useState<StudentTicket[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const { name, email } = useAppSelector((state) => state.auth);
+
+  const generateReceipt = (item: TicketItem, ticket: StudentTicket) => {
+    const receiptHtml = `
+      <html>
+        <head>
+          <title>Resource Receipt - ${item.resource.name}</title>
+          <style>
+            body { font-family: 'Courier New', Courier, monospace; padding: 20px; max-width: 400px; margin: 0 auto; color: black; background: white; }
+            .header { text-align: center; border-bottom: 2px dashed black; padding-bottom: 10px; margin-bottom: 15px; }
+            .header h2 { margin: 0 0 5px 0; font-size: 18px; }
+            .header p { margin: 0; font-size: 14px; }
+            .section { margin-bottom: 15px; font-size: 14px; }
+            .footer { text-align: center; border-top: 2px dashed black; padding-top: 10px; margin-top: 20px; font-size: 12px; }
+            .row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+            .label { font-weight: bold; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h2>AIS RESOURCE RECEIPT</h2>
+            <p>Student Copy</p>
+          </div>
+          <div class="section">
+            <div class="row"><span class="label">Name:</span> <span>${name || "Student"}</span></div>
+            <div class="row"><span class="label">Email:</span> <span>${email}</span></div>
+            <div class="row"><span class="label">Ticket Ref:</span> <span>${ticket.id.slice(-8).toUpperCase()}</span></div>
+            <div class="row"><span class="label">Status:</span> <span>${item.status}</span></div>
+          </div>
+          <div class="section">
+            <div class="row"><span class="label">Authority:</span> <span>${ticket.authority.name}</span></div>
+            <div class="row"><span class="label">Location:</span> <span>${ticket.authority.location}</span></div>
+          </div>
+          <div class="section">
+            <div class="row"><span class="label">Resource:</span> <span>${item.resource.name}</span></div>
+            <div class="row"><span class="label">Category:</span> <span>${item.resource.resourceCategory.name}</span></div>
+            <div class="row"><span class="label">Quantity:</span> <span>${item.quantity}</span></div>
+          </div>
+          <div class="section">
+            <div class="label">Reservation:</div>
+            <div>From: ${formatDateTime(item.from)}</div>
+            <div>Till: ${formatDateTime(item.till)}</div>
+          </div>
+          <div class="footer">
+            <p>Please present this receipt at the lab.</p>
+            <p>Generated: ${new Date().toLocaleString()}</p>
+          </div>
+          <script>
+            window.onload = function() { window.print(); }
+          </script>
+        </body>
+      </html>
+    `;
+
+    const printWindow = window.open("", "_blank", "width=600,height=800");
+    if (printWindow) {
+      printWindow.document.write(receiptHtml);
+      printWindow.document.close();
+    } else {
+      alert("Please allow popups to print the receipt.");
+    }
+  };
 
   const fetchMyTickets = async () => {
     try {
@@ -174,11 +237,21 @@ const StudentTicketsCard = () => {
                         {formatDateTime(item.till)}
                       </p>
                     </div>
-                    <span
-                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusClass(item.status)}`}
-                    >
-                      {item.status}
-                    </span>
+                    <div className="flex items-center space-x-3">
+                      {(item.status === "ACCEPTED" || item.status === "ISSUED") && (
+                        <button
+                          onClick={() => generateReceipt(item, ticket)}
+                          className="px-3 py-1.5 text-xs font-medium bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors shadow-sm"
+                        >
+                          Download Receipt
+                        </button>
+                      )}
+                      <span
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusClass(item.status)}`}
+                      >
+                        {item.status}
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>
