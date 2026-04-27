@@ -22,7 +22,51 @@ app.use(CookieParser());
 
 // Check api
 app.get("/health", (req, res) => {
-  res.send("API is running");
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Backend Status</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+          }
+          .container {
+            text-align: center;
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          }
+          a {
+            color: #0070f3;
+            text-decoration: none;
+            font-weight: bold;
+          }
+          a:hover {
+            text-decoration: underline;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h2>Backend is running fine ✅</h2>
+          <p>
+            Access the functional website here:<br/>
+            <a href="https://ais-ten.vercel.app/" target="_blank">
+              https://ais-ten.vercel.app/
+            </a>
+          </p>
+        </div>
+      </body>
+    </html>
+  `);
 });
 
 app.use("/api/v1/auth", AuthRoutes);
