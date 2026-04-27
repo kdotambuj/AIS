@@ -56,40 +56,47 @@ export const UpdateTicketItemsStatusSchema = z
     },
   );
 
-const TwoHourWindowSchema = z
-  .object({
-    from: z.coerce.date(),
-    till: z.coerce.date(),
-  })
-  .refine((data) => data.from < data.till, {
-    message: "`from` must be before `till`",
-    path: ["till"],
-  })
-  .refine(
-    (data) => {
-      const durationMs = data.till.getTime() - data.from.getTime();
-      const twoHoursMs = 2 * 60 * 60 * 1000;
-      return durationMs >= twoHoursMs && durationMs % twoHoursMs === 0;
-    },
-    {
-      message:
-        "Requested duration must be at least 2 hours and in 2-hour continuous blocks",
+// Base object – plain ZodObject so we can .extend() it before adding refinements
+const TwoHourWindowBase = z.object({
+  from: z.coerce.date(),
+  till: z.coerce.date(),
+});
+
+// Shared refinements applied after extending
+function applyTwoHourWindowRefinements<T extends { from: Date; till: Date }>(
+  schema: z.ZodType<T>,
+) {
+  return schema
+    .refine((data) => data.from < data.till, {
+      message: "`from` must be before `till`",
       path: ["till"],
-    },
-  )
-  .refine(
-    (data) => {
-      const onHourBoundary = (date: Date) =>
-        date.getMinutes() === 0 &&
-        date.getSeconds() === 0 &&
-        date.getMilliseconds() === 0;
-      return onHourBoundary(data.from) && onHourBoundary(data.till);
-    },
-    {
-      message: "Time slots must align to whole hours",
-      path: ["from"],
-    },
-  );
+    })
+    .refine(
+      (data) => {
+        const durationMs = data.till.getTime() - data.from.getTime();
+        const twoHoursMs = 2 * 60 * 60 * 1000;
+        return durationMs >= twoHoursMs && durationMs % twoHoursMs === 0;
+      },
+      {
+        message:
+          "Requested duration must be at least 2 hours and in 2-hour continuous blocks",
+        path: ["till"],
+      },
+    )
+    .refine(
+      (data) => {
+        const onHourBoundary = (date: Date) =>
+          date.getMinutes() === 0 &&
+          date.getSeconds() === 0 &&
+          date.getMilliseconds() === 0;
+        return onHourBoundary(data.from) && onHourBoundary(data.till);
+      },
+      {
+        message: "Time slots must align to whole hours",
+        path: ["from"],
+      },
+    );
+}
 
 export const CreateStudentTicketItemSchema = z.object({
   resourceId: z.string().min(1, "Resource ID is required"),
@@ -99,15 +106,19 @@ export const CreateStudentTicketItemSchema = z.object({
     .positive("Quantity must be greater than 0"),
 });
 
-export const CreateStudentTicketBatchSchema = TwoHourWindowSchema.safeExtend({
-  ticketItems: z
-    .array(CreateStudentTicketItemSchema)
-    .min(1, "At least one ticket item is required"),
-});
+export const CreateStudentTicketBatchSchema = applyTwoHourWindowRefinements(
+  TwoHourWindowBase.extend({
+    ticketItems: z
+      .array(CreateStudentTicketItemSchema)
+      .min(1, "At least one ticket item is required"),
+  }),
+);
 
-export const ResourceAvailabilityQuerySchema = TwoHourWindowSchema.safeExtend({
-  resourceIds: z.array(z.string()).optional(),
-});
+export const ResourceAvailabilityQuerySchema = applyTwoHourWindowRefinements(
+  TwoHourWindowBase.extend({
+    resourceIds: z.array(z.string()).optional(),
+  }),
+);
 
 export type CreateTicketInput = z.infer<typeof CreateTicketSchema>;
 export type TicketItemInput = z.infer<typeof TicketItemSchema>;
