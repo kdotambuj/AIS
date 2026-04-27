@@ -37,7 +37,68 @@ const BulkUploadUsersCard = ({
   const [error, setError] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloadingGuidelines, setIsDownloadingGuidelines] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleDownloadGuidelines = () => {
+    setIsDownloadingGuidelines(true);
+    try {
+      const departmentNames = departments.length
+        ? departments.map((dept) => `- ${dept.name}`).join("\n")
+        : "- No departments available";
+
+      const guidelines = `AIS - Bulk User Upload Guidelines
+
+Please use the provided Excel template for uploading user records.
+
+Required columns:
+- email
+- name
+- password
+- role
+- departmentName
+
+Optional columns:
+- rollNumber
+- enrollmentNumber
+
+Accepted file types:
+- .xlsx
+- .xls
+
+Maximum file size:
+- 10 MB
+
+Role values:
+- STUDENT
+- HOD
+- LAB_INCHARGE
+- ADMIN
+
+Current department names:
+${departmentNames}
+
+Notes:
+- Email must be unique for each user.
+- Department names must match existing departments.
+- Keep header names unchanged in the template.
+`;
+
+      const blob = new Blob([guidelines], { type: "text/plain" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "bulk_user_upload_guidelines.txt";
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch {
+      setError("Failed to download guidelines");
+    } finally {
+      setIsDownloadingGuidelines(false);
+    }
+  };
 
   const handleDownloadTemplate = async () => {
     setIsDownloading(true);
@@ -133,90 +194,43 @@ const BulkUploadUsersCard = ({
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-xl font-semibold mb-4">Bulk Upload Users</h2>
+    <div className="flex flex-col gap-3 border-b border-gray-100 pb-5 last:border-0 last:pb-0">
+      <h3 className="font-medium text-gray-700">Bulk Upload Users</h3>
 
-      {/* Instructions */}
-      <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
-        <h3 className="font-medium text-blue-800 mb-2">
-          📋 Excel File Format Requirements
-        </h3>
-        <p className="text-sm text-blue-700 mb-3">
-          Upload an Excel file (.xlsx or .xls) with the following columns:
+      <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+        <p className="text-sm text-gray-700">
+          For a smooth upload process, please download and review the guidelines
+          and template before submitting the Excel file.
         </p>
-        <div className="overflow-x-auto">
-          <table className="text-xs text-blue-800 w-full">
-            <thead>
-              <tr className="border-b border-blue-200">
-                <th className="text-left py-1 pr-4 font-semibold">Column</th>
-                <th className="text-left py-1 pr-4 font-semibold">Required</th>
-                <th className="text-left py-1 font-semibold">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b border-blue-100">
-                <td className="py-1 pr-4 font-mono">email</td>
-                <td className="py-1 pr-4 text-red-600">Yes</td>
-                <td className="py-1">Valid email address</td>
-              </tr>
-              <tr className="border-b border-blue-100">
-                <td className="py-1 pr-4 font-mono">name</td>
-                <td className="py-1 pr-4 text-red-600">Yes</td>
-                <td className="py-1">Full name of the user</td>
-              </tr>
-              <tr className="border-b border-blue-100">
-                <td className="py-1 pr-4 font-mono">password</td>
-                <td className="py-1 pr-4 text-red-600">Yes</td>
-                <td className="py-1">Min 8 characters</td>
-              </tr>
-              <tr className="border-b border-blue-100">
-                <td className="py-1 pr-4 font-mono">role</td>
-                <td className="py-1 pr-4 text-red-600">Yes</td>
-                <td className="py-1">STUDENT, HOD, LAB_INCHARGE, or ADMIN</td>
-              </tr>
-              <tr className="border-b border-blue-100">
-                <td className="py-1 pr-4 font-mono">departmentName</td>
-                <td className="py-1 pr-4 text-red-600">Yes</td>
-                <td className="py-1">Must match existing department</td>
-              </tr>
-              <tr className="border-b border-blue-100">
-                <td className="py-1 pr-4 font-mono">rollNumber</td>
-                <td className="py-1 pr-4 text-gray-500">No</td>
-                <td className="py-1">Student roll number</td>
-              </tr>
-              <tr>
-                <td className="py-1 pr-4 font-mono">enrollmentNumber</td>
-                <td className="py-1 pr-4 text-gray-500">No</td>
-                <td className="py-1">Student enrollment number</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {/* Available departments */}
-        <div className="mt-3 pt-3 border-t border-blue-200">
-          <p className="text-xs font-medium text-blue-800 mb-1">
-            Available Departments:
-          </p>
-          <div className="flex flex-wrap gap-1">
-            {departments.map((dept) => (
-              <span
-                key={dept.id}
-                className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs"
-              >
-                {dept.name}
-              </span>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* Actions */}
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <button
+          onClick={handleDownloadGuidelines}
+          disabled={isDownloadingGuidelines}
+          className="flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 focus:ring-1 focus:ring-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 16v-8m0 8l-3-3m3 3l3-3M5 20h14"
+            />
+          </svg>
+          {isDownloadingGuidelines ? "Downloading..." : "Download Guidelines"}
+        </button>
+
+        <button
           onClick={handleDownloadTemplate}
           disabled={isDownloading}
-          className="flex items-center justify-center gap-2 px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center gap-2 px-4 py-2 border border-red-200 text-red-600 rounded-lg text-sm font-medium hover:bg-red-50 focus:ring-1 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <svg
             className="w-4 h-4"
@@ -237,7 +251,7 @@ const BulkUploadUsersCard = ({
         <button
           onClick={handleUploadClick}
           disabled={isUploading}
-          className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 focus:ring-1 focus:ring-red-500 disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
         >
           <svg
             className="w-4 h-4"
@@ -304,7 +318,7 @@ const BulkUploadUsersCard = ({
               </div>
               <button
                 onClick={() => setShowResults(!showResults)}
-                className="text-sm text-blue-600 hover:underline"
+                className="text-sm text-red-600 hover:text-red-700 hover:underline font-medium"
               >
                 {showResults ? "Hide Details" : "Show Details"}
               </button>
@@ -362,19 +376,6 @@ const BulkUploadUsersCard = ({
           )}
         </div>
       )}
-
-      {/* Tips */}
-      <div className="mt-4 p-3 bg-gray-50 rounded-md">
-        <h4 className="text-sm font-medium text-gray-700 mb-1">💡 Tips:</h4>
-        <ul className="text-xs text-gray-600 space-y-1">
-          <li>
-            • Download the template first to see the exact format required
-          </li>
-          <li>• Make sure department names match exactly (case-insensitive)</li>
-          <li>• Each email must be unique - duplicates will be skipped</li>
-          <li>• Maximum file size: 10MB</li>
-        </ul>
-      </div>
     </div>
   );
 };

@@ -75,7 +75,7 @@ export const GetAllAuthorityResourcesController = async (
   res: Response,
 ) => {
   try {
-    const { authorityId } = req.params;
+    const authorityId = req.params.authorityId as string;
     const resources = await GetAllAuthorityResourcesService(authorityId);
 
     return res.status(200).json({

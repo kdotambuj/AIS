@@ -84,8 +84,8 @@ const CreateUserCard = ({
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-xl font-semibold mb-4">Create User</h2>
+    <div className="flex flex-col gap-3 border-b border-gray-100 pb-5 last:border-0 last:pb-0">
+      <h3 className="font-medium text-gray-700">User Setup</h3>
       <form onSubmit={handleSubmit} className="space-y-3">
         <input
           type="text"
@@ -93,7 +93,7 @@ const CreateUserCard = ({
           value={formData.name}
           onChange={handleChange}
           placeholder="Name"
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-colors"
         />
         <input
           type="email"
@@ -101,7 +101,7 @@ const CreateUserCard = ({
           value={formData.email}
           onChange={handleChange}
           placeholder="Email"
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-colors"
         />
         <input
           type="password"
@@ -109,13 +109,13 @@ const CreateUserCard = ({
           value={formData.password}
           onChange={handleChange}
           placeholder="Password (min 8 chars)"
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-colors"
         />
         <select
           name="departmentId"
           value={formData.departmentId}
           onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-colors"
         >
           <option value="">Select Department</option>
           {departments.map((dept) => (
@@ -128,7 +128,7 @@ const CreateUserCard = ({
           name="role"
           value={formData.role}
           onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-colors"
         >
           <option value="">Select Role</option>
           {ROLES.map((role) => (
@@ -137,12 +137,12 @@ const CreateUserCard = ({
             </option>
           ))}
         </select>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        {success && <p className="text-green-500 text-sm">{success}</p>}
+        {error && <p className="text-red-500 text-xs">{error}</p>}
+        {success && <p className="text-green-500 text-xs">{success}</p>}
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="w-full bg-red-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-700 disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
         >
           {isLoading ? "Creating..." : "Create User"}
         </button>

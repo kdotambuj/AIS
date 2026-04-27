@@ -196,16 +196,14 @@ export const BulkCreateUsersService = async (
         !userData.email ||
         !userData.name ||
         !userData.password ||
-        !userData.role ||
-        !userData.departmentName
+        !userData.role
       ) {
         results.push({
           success: false,
           row: rowNum,
           email: userData.email || "N/A",
           name: userData.name || "N/A",
-          error:
-            "Missing required fields (email, name, password, role, or departmentName)",
+          error: "Missing required fields (email, name, password, or role)",
         });
         failed++;
         continue;
@@ -252,9 +250,31 @@ export const BulkCreateUsersService = async (
         continue;
       }
 
-      // Find department
-      const departmentId = deptMap.get(userData.departmentName.toLowerCase());
-      if (!departmentId) {
+      const normalizedRole = userData.role.toUpperCase() as
+        | "STUDENT"
+        | "HOD"
+        | "LAB_INCHARGE"
+        | "ADMIN";
+
+      // Find department (required for non-admin roles)
+      let departmentId: string | undefined;
+      if (normalizedRole !== "ADMIN") {
+        if (!userData.departmentName) {
+          results.push({
+            success: false,
+            row: rowNum,
+            email: userData.email,
+            name: userData.name,
+            error: "departmentName is required for non-admin users",
+          });
+          failed++;
+          continue;
+        }
+
+        departmentId = deptMap.get(userData.departmentName.toLowerCase());
+      }
+
+      if (normalizedRole !== "ADMIN" && !departmentId) {
         results.push({
           success: false,
           row: rowNum,
@@ -288,12 +308,14 @@ export const BulkCreateUsersService = async (
           email: userData.email.toLowerCase(),
           name: userData.name,
           password: hashedPassword,
-          role: userData.role.toUpperCase() as
-            | "STUDENT"
-            | "HOD"
-            | "LAB_INCHARGE"
-            | "ADMIN",
-          departmentId,
+          role: normalizedRole,
+          department: departmentId
+            ? {
+                connect: {
+                  id: departmentId,
+                },
+              }
+            : undefined,
           rollNumber: userData.rollNumber || null,
           enrollmentNumber: userData.enrollmentNumber || null,
         },

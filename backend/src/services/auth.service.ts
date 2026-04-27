@@ -8,13 +8,24 @@ export const SignupService = async (data: SignupInput) => {
   const exists = await prisma.user.findUnique({ where: { email: data.email } });
   if (exists) throw new Error("Email already registered");
 
+  if (data.role !== "ADMIN" && !data.departmentId) {
+    throw new Error("departmentId is required for non-admin users");
+  }
+
   const hashed = await bcrypt.hash(data.password, 10);
 
   const user = await prisma.user.create({
     data: {
-      email: data.email,
+      email: data.email.toLowerCase(),
       name: data.name,
-      departmentId: data.departmentId,
+      department:
+        data.role === "ADMIN"
+          ? undefined
+          : {
+              connect: {
+                id: data.departmentId,
+              },
+            },
       password: hashed,
       role: data.role,
     },
