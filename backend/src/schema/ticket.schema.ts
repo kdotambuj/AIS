@@ -82,19 +82,6 @@ function applyTwoHourWindowRefinements<T extends { from: Date; till: Date }>(
           "Requested duration must be at least 2 hours and in 2-hour continuous blocks",
         path: ["till"],
       },
-    )
-    .refine(
-      (data) => {
-        const onHourBoundary = (date: Date) =>
-          date.getMinutes() === 0 &&
-          date.getSeconds() === 0 &&
-          date.getMilliseconds() === 0;
-        return onHourBoundary(data.from) && onHourBoundary(data.till);
-      },
-      {
-        message: "Time slots must align to whole hours",
-        path: ["from"],
-      },
     );
 }
 
