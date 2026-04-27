@@ -43,7 +43,12 @@ const PendingTicketsCard = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [updatingItems, setUpdatingItems] = useState<Set<string>>(new Set());
+  const [pendingDecisions, setPendingDecisions] = useState<
+    Record<string, "ACCEPTED" | "REJECTED">
+  >({});
+  const [submittingTickets, setSubmittingTickets] = useState<Set<string>>(
+    new Set(),
+  );
   const { isAuthenticated, isLoading: authLoading } = useAppSelector(
     (state) => state.auth,
   );
@@ -66,6 +71,22 @@ const PendingTicketsCard = () => {
           ticket.ticketItems.some((item) => item.status === "PENDING"),
         );
         setTickets(pendingTickets);
+        const validPendingItemIds = new Set(
+          pendingTickets.flatMap((ticket: Ticket) =>
+            ticket.ticketItems
+              .filter((item) => item.status === "PENDING")
+              .map((item) => item.id),
+          ),
+        );
+        setPendingDecisions((prev) => {
+          const next: Record<string, "ACCEPTED" | "REJECTED"> = {};
+          for (const [itemId, status] of Object.entries(prev)) {
+            if (validPendingItemIds.has(itemId)) {
+              next[itemId] = status;
+            }
+          }
+          return next;
+        });
       } else {
         setError(data.message || "Failed to fetch tickets");
       }
@@ -89,15 +110,44 @@ const PendingTicketsCard = () => {
     fetchTickets();
   }, [authLoading, isAuthenticated]);
 
-  const updateItemStatus = async (
+  const setItemDecision = (
     ticketItemId: string,
     status: "ACCEPTED" | "REJECTED",
   ) => {
+    setPendingDecisions((prev) => ({
+      ...prev,
+      [ticketItemId]: status,
+    }));
+  };
+
+  const submitTicketDecisions = async (ticket: Ticket) => {
+    const pendingItems = ticket.ticketItems.filter(
+      (item) => item.status === "PENDING",
+    );
+    const items = pendingItems
+      .map((item) => ({
+        ticketItemId: item.id,
+        status: pendingDecisions[item.id],
+      }))
+      .filter(
+        (
+          item,
+        ): item is {
+          ticketItemId: string;
+          status: "ACCEPTED" | "REJECTED";
+        } => item.status === "ACCEPTED" || item.status === "REJECTED",
+      );
+
+    if (!items.length) {
+      alert("Please choose at least one decision before submitting");
+      return;
+    }
+
     try {
-      setUpdatingItems((prev) => new Set(prev).add(ticketItemId));
+      setSubmittingTickets((prev) => new Set(prev).add(ticket.id));
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/ticket/update-item-status`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/ticket/update-items-status`,
         {
           method: "PATCH",
           headers: {
@@ -105,8 +155,8 @@ const PendingTicketsCard = () => {
           },
           credentials: "include",
           body: JSON.stringify({
-            ticketItemId,
-            status,
+            ticketId: ticket.id,
+            items,
           }),
         },
       );
@@ -114,6 +164,13 @@ const PendingTicketsCard = () => {
       const data = await res.json();
 
       if (data.success) {
+        setPendingDecisions((prev) => {
+          const next = { ...prev };
+          for (const item of items) {
+            delete next[item.ticketItemId];
+          }
+          return next;
+        });
         await fetchTickets();
       } else {
         alert(data.message || "Failed to update status");
@@ -122,9 +179,9 @@ const PendingTicketsCard = () => {
       console.error("Failed to update status:", err);
       alert("Failed to update status");
     } finally {
-      setUpdatingItems((prev) => {
+      setSubmittingTickets((prev) => {
         const newSet = new Set(prev);
-        newSet.delete(ticketItemId);
+        newSet.delete(ticket.id);
         return newSet;
       });
     }
@@ -236,101 +293,90 @@ const PendingTicketsCard = () => {
         </div>
       ) : (
         <div className="space-y-3 max-h-96 overflow-y-auto">
-          {tickets.map((ticket) =>
-            ticket.ticketItems
-              .filter((item) => item.status === "PENDING")
-              .map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center justify-between p-3 bg-yellow-50 border border-yellow-100 rounded-lg"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center space-x-2">
-                      <p className="text-sm font-medium text-gray-900">
-                        {item.resource.name}
-                      </p>
-                      <span className="text-xs text-gray-500">
-                        × {item.quantity}
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-600">
-                      By: {ticket.requestedUser.name} (
-                      {ticket.requestedUser.rollNumber ||
-                        ticket.requestedUser.email}
-                      )
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {formatDateShort(item.from)} →{" "}
-                      {formatDateShort(item.till)}
-                    </p>
-                  </div>
-                  <div className="flex items-center space-x-2 ml-3">
-                    {updatingItems.has(item.id) ? (
-                      <svg
-                        className="animate-spin h-5 w-5 text-gray-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                      </svg>
-                    ) : (
-                      <>
+          {tickets.map((ticket) => {
+            const pendingItems = ticket.ticketItems.filter(
+              (item) => item.status === "PENDING",
+            );
+            const selectedCount = pendingItems.filter(
+              (item) => pendingDecisions[item.id],
+            ).length;
+
+            return (
+              <div
+                key={ticket.id}
+                className="p-3 bg-yellow-50 border border-yellow-100 rounded-lg"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs text-gray-700 font-medium">
+                    {ticket.requestedUser.name} (
+                    {ticket.requestedUser.rollNumber ||
+                      ticket.requestedUser.email}
+                    )
+                  </p>
+                  <button
+                    onClick={() => submitTicketDecisions(ticket)}
+                    disabled={
+                      selectedCount === 0 || submittingTickets.has(ticket.id)
+                    }
+                    className="px-2.5 py-1 text-xs font-medium text-white bg-blue-600 rounded hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    {submittingTickets.has(ticket.id)
+                      ? "Submitting..."
+                      : `Submit (${selectedCount})`}
+                  </button>
+                </div>
+
+                <div className="space-y-2">
+                  {pendingItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between bg-white border border-yellow-100 rounded p-2"
+                    >
+                      <div className="min-w-0">
+                        <div className="flex items-center space-x-2">
+                          <p className="text-sm font-medium text-gray-900">
+                            {item.resource.name}
+                          </p>
+                          <span className="text-xs text-gray-500">
+                            × {item.quantity}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          {formatDateShort(item.from)} →{" "}
+                          {formatDateShort(item.till)}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center space-x-2 ml-3">
                         <button
-                          onClick={() => updateItemStatus(item.id, "ACCEPTED")}
-                          className="p-1.5 text-green-600 hover:bg-green-100 rounded"
+                          onClick={() => setItemDecision(item.id, "ACCEPTED")}
+                          className={`px-2 py-1 text-xs rounded border ${
+                            pendingDecisions[item.id] === "ACCEPTED"
+                              ? "bg-green-600 text-white border-green-600"
+                              : "bg-white text-green-700 border-green-300 hover:bg-green-50"
+                          }`}
                           title="Accept"
                         >
-                          <svg
-                            className="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
+                          Accept
                         </button>
                         <button
-                          onClick={() => updateItemStatus(item.id, "REJECTED")}
-                          className="p-1.5 text-red-600 hover:bg-red-100 rounded"
+                          onClick={() => setItemDecision(item.id, "REJECTED")}
+                          className={`px-2 py-1 text-xs rounded border ${
+                            pendingDecisions[item.id] === "REJECTED"
+                              ? "bg-red-600 text-white border-red-600"
+                              : "bg-white text-red-700 border-red-300 hover:bg-red-50"
+                          }`}
                           title="Reject"
                         >
-                          <svg
-                            className="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
+                          Reject
                         </button>
-                      </>
-                    )}
-                  </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              )),
-          )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

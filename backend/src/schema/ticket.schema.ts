@@ -32,8 +32,94 @@ export const UpdateTicketItemStatusSchema = z.object({
   status: z.enum(["PENDING", "ACCEPTED", "REJECTED", "ISSUED", "RETURNED"]),
 });
 
+export const UpdateTicketItemsStatusSchema = z
+  .object({
+    ticketId: z.string().min(1, "Ticket ID is required"),
+    items: z
+      .array(
+        z.object({
+          ticketItemId: z.string().min(1, "Ticket item ID is required"),
+          status: z.enum(["ACCEPTED", "REJECTED"]),
+        }),
+      )
+      .min(1, "At least one ticket item decision is required"),
+  })
+  .refine(
+    (data) => {
+      const uniqueCount = new Set(data.items.map((item) => item.ticketItemId))
+        .size;
+      return uniqueCount === data.items.length;
+    },
+    {
+      message: "Duplicate ticket item decisions are not allowed",
+      path: ["items"],
+    },
+  );
+
+const TwoHourWindowSchema = z
+  .object({
+    from: z.coerce.date(),
+    till: z.coerce.date(),
+  })
+  .refine((data) => data.from < data.till, {
+    message: "`from` must be before `till`",
+    path: ["till"],
+  })
+  .refine(
+    (data) => {
+      const durationMs = data.till.getTime() - data.from.getTime();
+      const twoHoursMs = 2 * 60 * 60 * 1000;
+      return durationMs >= twoHoursMs && durationMs % twoHoursMs === 0;
+    },
+    {
+      message:
+        "Requested duration must be at least 2 hours and in 2-hour continuous blocks",
+      path: ["till"],
+    },
+  )
+  .refine(
+    (data) => {
+      const onHourBoundary = (date: Date) =>
+        date.getMinutes() === 0 &&
+        date.getSeconds() === 0 &&
+        date.getMilliseconds() === 0;
+      return onHourBoundary(data.from) && onHourBoundary(data.till);
+    },
+    {
+      message: "Time slots must align to whole hours",
+      path: ["from"],
+    },
+  );
+
+export const CreateStudentTicketItemSchema = z.object({
+  resourceId: z.string().min(1, "Resource ID is required"),
+  quantity: z
+    .number()
+    .int("Quantity must be an integer")
+    .positive("Quantity must be greater than 0"),
+});
+
+export const CreateStudentTicketBatchSchema = TwoHourWindowSchema.safeExtend({
+  ticketItems: z
+    .array(CreateStudentTicketItemSchema)
+    .min(1, "At least one ticket item is required"),
+});
+
+export const ResourceAvailabilityQuerySchema = TwoHourWindowSchema.safeExtend({
+  resourceIds: z.array(z.string()).optional(),
+});
+
 export type CreateTicketInput = z.infer<typeof CreateTicketSchema>;
 export type TicketItemInput = z.infer<typeof TicketItemSchema>;
 export type UpdateTicketItemStatusInput = z.infer<
   typeof UpdateTicketItemStatusSchema
+>;
+export type UpdateTicketItemsStatusInput = z.infer<
+  typeof UpdateTicketItemsStatusSchema
+>;
+export type CreateStudentTicketBatchInput = z.infer<
+  typeof CreateStudentTicketBatchSchema
+>;
+export type ResourceAvailabilityQueryInput = z.infer<
+  typeof ResourceAvailabilityQuerySchema
 >;

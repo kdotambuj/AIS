@@ -29,7 +29,22 @@ export const GetAuthoritiesService = async () => {
       name: true,
       location: true,
       description: true,
+      ownerId: true,
       department: true,
+      ownedBy: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+        },
+      },
+      _count: {
+        select: {
+          resourceCategories: true,
+          tickets: true,
+        },
+      },
     },
   });
   return authorities;

@@ -35,9 +35,9 @@ const CreateDepartmentCard = ({
         setName("");
         onDepartmentCreated();
       } else {
-        setError(data.message || "Failed to create department");
+        setError("Failed to create department");
       }
-    } catch (err) {
+    } catch (err:any) {
       setError("Failed to create department");
     } finally {
       setIsLoading(false);
@@ -45,23 +45,23 @@ const CreateDepartmentCard = ({
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-xl font-semibold mb-4">Create Department</h2>
+    <div className="flex flex-col gap-3 border-b border-gray-100 pb-5 last:border-0 last:pb-0">
+      <h3 className="font-medium text-gray-700">Department Setup</h3>
       <form onSubmit={handleSubmit} className="space-y-3">
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Department name"
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-colors"
         />
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="text-red-500 text-xs">{error}</p>}
         <button
           type="submit"
           disabled={isLoading || !name.trim()}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="w-full bg-red-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-700 disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
         >
-          {isLoading ? "Creating..." : "Create"}
+          {isLoading ? "Creating..." : "Create Department"}
         </button>
       </form>
     </div>
