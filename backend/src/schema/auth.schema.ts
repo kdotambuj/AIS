@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Role } from "../../generated/prisma/enums";
+import { Role } from "@prisma/client";
 
 export const UserSignupSchema = z
   .object({

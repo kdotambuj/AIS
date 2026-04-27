@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { Role } from "../../generated/prisma/enums";
+import { Role } from "@prisma/client";
 
 interface JwtPayload {
   userId: string;
@@ -10,7 +10,7 @@ interface JwtPayload {
 export const authMiddleware = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const token = req.cookies?.token;
 
@@ -24,7 +24,7 @@ export const authMiddleware = (
   try {
     const decoded = jwt.verify(
       token,
-      process.env.JWT_SECRET as string
+      process.env.JWT_SECRET as string,
     ) as JwtPayload;
 
     req.user = {

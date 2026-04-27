@@ -9,7 +9,7 @@ import {
 import {
   TicketItemStatus,
   TicketStatus,
-} from "../../generated/prisma/enums.js";
+} from "@prisma/client";
 
 // Availability must depend on approval outcome.
 // Pending requests should NOT block inventory.

@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Role } from "../../generated/prisma/enums";
 
 export const CreateResourceCategorySchema = z.object({
   name: z

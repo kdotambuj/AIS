@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Role } from "../../generated/prisma/enums"
 
 export const CreateAuthoritySchema = z.object({
     name: z.string().min(2, "Length should be atleast 2"),
