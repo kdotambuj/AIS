@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Fragment } from "react";
 
 interface Resource {
   id: string;
@@ -85,6 +85,14 @@ const StudentResourceRequestCard = ({
   const [selectedSlotKeys, setSelectedSlotKeys] = useState<string[]>([]);
 
   const [cart, setCart] = useState<Record<string, number>>({});
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
+
+  const toggleGroup = (groupName: string) => {
+    setExpandedGroups((prev) => ({
+      ...prev,
+      [groupName]: !prev[groupName],
+    }));
+  };
 
   const authorityMap = useMemo(
     () => new Map(authorities.map((authority) => [authority.id, authority])),
@@ -237,6 +245,18 @@ const StudentResourceRequestCard = ({
     authorityFilter,
     categoryFilter,
   ]);
+
+  const groupedResources = useMemo(() => {
+    const groups: Record<string, Resource[]> = {};
+    filteredResources.forEach((resource) => {
+      const name = resource.name || "Unnamed Resource";
+      if (!groups[name]) {
+        groups[name] = [];
+      }
+      groups[name].push(resource);
+    });
+    return groups;
+  }, [filteredResources]);
 
   const hasStudentIdentity = Boolean(
     profile?.rollNumber && profile?.enrollmentNumber,
@@ -762,70 +782,123 @@ const StudentResourceRequestCard = ({
                 : "Search and select a resource category to view resources."}
             </p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {filteredResources.map((resource) => {
-                const authority = authorityMap.get(
-                  resource.resourceCategory.authorityId,
+            <div className="grid grid-cols-1 gap-3">
+              {Object.entries(groupedResources).map(([groupName, groupItems]) => {
+                const isExpanded = expandedGroups[groupName];
+                const totalAvailable = groupItems.reduce(
+                  (acc, r) => acc + getEffectiveAvailableQuantity(r),
+                  0,
                 );
-                const availableQuantity =
-                  getEffectiveAvailableQuantity(resource);
-                const selectedQuantity = cart[resource.id] || 0;
-                const disabled = !requestWindow || availableQuantity <= 0;
 
                 return (
                   <div
-                    key={resource.id}
+                    key={groupName}
                     className="rounded-xl border border-gray-200 p-3 bg-gray-50/40"
                   >
-                    <div className="flex items-start justify-between gap-2">
+                    <div
+                      className="flex items-center justify-between gap-2 cursor-pointer"
+                      onClick={() => toggleGroup(groupName)}
+                    >
                       <div>
                         <p className="font-medium text-gray-900">
-                          {resource.name}
+                          {groupName}
                         </p>
                         <p className="text-xs text-gray-500 mt-0.5">
-                          {authority?.name || "N/A"}
+                          {groupItems.length} model{groupItems.length > 1 ? "s" : ""}
                         </p>
                       </div>
-                      <span
-                        className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${
-                          availableQuantity > 0
-                            ? "bg-green-50 text-green-700"
-                            : "bg-red-50 text-red-700"
-                        }`}
-                      >
-                        Avl: {requestWindow ? availableQuantity : "-"}
-                      </span>
-                    </div>
-
-                    <div className="mt-3 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          disabled={disabled || selectedQuantity <= 0}
-                          onClick={() =>
-                            handleQuantityChange(resource, selectedQuantity - 1)
-                          }
-                          className="h-8 w-8 rounded border border-gray-200 text-gray-700 disabled:opacity-40"
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${
+                            totalAvailable > 0
+                              ? "bg-green-50 text-green-700"
+                              : "bg-red-50 text-red-700"
+                          }`}
                         >
-                          -
-                        </button>
-                        <span className="min-w-6 text-center text-sm font-medium">
-                          {selectedQuantity}
+                          Avl: {requestWindow ? totalAvailable : "-"}
                         </span>
-                        <button
-                          type="button"
-                          disabled={
-                            disabled || selectedQuantity >= availableQuantity
-                          }
-                          onClick={() =>
-                            handleQuantityChange(resource, selectedQuantity + 1)
-                          }
-                          className="h-8 w-8 rounded border border-gray-200 text-gray-700 disabled:opacity-40"
-                        >
-                          +
-                        </button>
+                        <span className="text-gray-400 text-xs">
+                          {isExpanded ? "▲" : "▼"}
+                        </span>
                       </div>
                     </div>
+
+                    {isExpanded && (
+                      <div className="mt-3 space-y-2 pt-3 border-t border-gray-200">
+                        {groupItems.map((resource) => {
+                          const authority = authorityMap.get(
+                            resource.resourceCategory.authorityId,
+                          );
+                          const availableQuantity =
+                            getEffectiveAvailableQuantity(resource);
+                          const selectedQuantity = cart[resource.id] || 0;
+                          const disabled =
+                            !requestWindow || availableQuantity <= 0;
+
+                          return (
+                            <div
+                              key={resource.id}
+                              className="rounded-lg border border-gray-100 p-2.5 bg-white flex flex-col gap-2"
+                            >
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <p className="font-medium text-sm text-gray-800">
+                                    {resource.model || "Standard Version"}
+                                  </p>
+                                  <p className="text-[11px] text-gray-500 mt-0.5">
+                                    {authority?.name || "N/A"}
+                                  </p>
+                                  {resource.description && (
+                                    <p className="text-xs text-gray-400 mt-1 line-clamp-2">
+                                      {resource.description}
+                                    </p>
+                                  )}
+                                </div>
+                                <span className="text-xs font-medium text-gray-600 bg-gray-50 px-1.5 py-0.5 rounded">
+                                  Avl: {requestWindow ? availableQuantity : "-"}
+                                </span>
+                              </div>
+                              <div className="flex items-center justify-end">
+                                <div className="flex items-center gap-2">
+                                  <button
+                                    type="button"
+                                    disabled={disabled || selectedQuantity <= 0}
+                                    onClick={() =>
+                                      handleQuantityChange(
+                                        resource,
+                                        selectedQuantity - 1,
+                                      )
+                                    }
+                                    className="h-7 w-7 rounded border border-gray-200 text-gray-700 disabled:opacity-40"
+                                  >
+                                    -
+                                  </button>
+                                  <span className="min-w-6 text-center text-sm">
+                                    {selectedQuantity}
+                                  </span>
+                                  <button
+                                    type="button"
+                                    disabled={
+                                      disabled ||
+                                      selectedQuantity >= availableQuantity
+                                    }
+                                    onClick={() =>
+                                      handleQuantityChange(
+                                        resource,
+                                        selectedQuantity + 1,
+                                      )
+                                    }
+                                    className="h-7 w-7 rounded border border-gray-200 text-gray-700 disabled:opacity-40"
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -876,92 +949,143 @@ const StudentResourceRequestCard = ({
                     </td>
                   </tr>
                 ) : (
-                  filteredResources.map((resource) => {
-                    const authority = authorityMap.get(
-                      resource.resourceCategory.authorityId,
+                  Object.entries(groupedResources).map(([groupName, groupItems]) => {
+                    const isExpanded = expandedGroups[groupName];
+                    const totalAvailable = groupItems.reduce(
+                      (acc, r) => acc + getEffectiveAvailableQuantity(r),
+                      0,
                     );
-                    const availableQuantity =
-                      getEffectiveAvailableQuantity(resource);
-                    const selectedQuantity = cart[resource.id] || 0;
-                    const disabled = !requestWindow || availableQuantity <= 0;
-
+                    
                     return (
-                      <tr key={resource.id} className="hover:bg-gray-50">
-                        <td className="px-4 py-3">
-                          <p className="font-medium text-gray-900">
-                            {resource.name}
-                          </p>
-                          {resource.model && (
-                            <p className="text-xs text-gray-500 mt-0.5">
-                              Model: {resource.model}
+                      <Fragment key={groupName}>
+                        <tr
+                          className="hover:bg-gray-50 items-center cursor-pointer bg-gray-50/60 border-t border-gray-100"
+                          onClick={() => toggleGroup(groupName)}
+                        >
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-2">
+                              <span className="text-gray-400 text-[10px]">
+                                {isExpanded ? "▼" : "▶"}
+                              </span>
+                              <p className="font-medium text-gray-900">
+                                {groupName}
+                              </p>
+                            </div>
+                            <p className="text-xs text-gray-500 mt-0.5 ml-4">
+                              {groupItems.length} model{groupItems.length > 1 ? "s" : ""}
                             </p>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 text-gray-700">
-                          {resource.resourceCategory.name}
-                        </td>
-                        <td className="px-4 py-3 text-gray-700">
-                          {authority?.name || "N/A"}
-                        </td>
-                        <td className="px-4 py-3 text-gray-700">
-                          {authority?.department.name || "N/A"}
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          {requestWindow ? (
-                            <span
-                              className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${
-                                availableQuantity > 0
-                                  ? "bg-green-50 text-green-700"
-                                  : "bg-red-50 text-red-700"
-                              }`}
-                            >
-                              {isCheckingAvailability
-                                ? "..."
-                                : availableQuantity}
-                            </span>
-                          ) : (
-                            <span className="text-xs text-gray-400">
-                              Select slot
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center justify-center gap-2">
-                            <button
-                              type="button"
-                              disabled={disabled || selectedQuantity <= 0}
-                              onClick={() =>
-                                handleQuantityChange(
-                                  resource,
-                                  selectedQuantity - 1,
-                                )
-                              }
-                              className="h-7 w-7 rounded border border-gray-200 text-gray-700 disabled:opacity-40"
-                            >
-                              -
-                            </button>
-                            <span className="min-w-6 text-center text-sm">
-                              {selectedQuantity}
-                            </span>
-                            <button
-                              type="button"
-                              disabled={
-                                disabled ||
-                                selectedQuantity >= availableQuantity
-                              }
-                              onClick={() =>
-                                handleQuantityChange(
-                                  resource,
-                                  selectedQuantity + 1,
-                                )
-                              }
-                              className="h-7 w-7 rounded border border-gray-200 text-gray-700 disabled:opacity-40"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
+                          </td>
+                          <td className="px-4 py-3 text-gray-500 text-xs italic" colSpan={3}>
+                            {isExpanded ? "" : "Click to view models"}
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            {requestWindow ? (
+                              <span
+                                className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${
+                                  totalAvailable > 0
+                                    ? "bg-green-50 text-green-700"
+                                    : "bg-red-50 text-red-700"
+                                }`}
+                              >
+                                {isCheckingAvailability ? "..." : totalAvailable}
+                              </span>
+                            ) : (
+                              <span className="text-xs text-gray-400">Select slot</span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 text-center text-xs text-gray-400">
+                            -
+                          </td>
+                        </tr>
+                        {isExpanded &&
+                          groupItems.map((resource) => {
+                            const authority = authorityMap.get(
+                              resource.resourceCategory.authorityId,
+                            );
+                            const availableQuantity =
+                              getEffectiveAvailableQuantity(resource);
+                            const selectedQuantity = cart[resource.id] || 0;
+                            const disabled =
+                              !requestWindow || availableQuantity <= 0;
+
+                            return (
+                              <tr key={resource.id} className="hover:bg-gray-50 bg-white">
+                                <td className="px-4 py-3 pl-8">
+                                  <p className="font-medium text-sm text-gray-800">
+                                    {resource.model || "Standard Version"}
+                                  </p>
+                                  {resource.description && (
+                                    <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">
+                                      {resource.description}
+                                    </p>
+                                  )}
+                                </td>
+                                <td className="px-4 py-3 text-gray-700">
+                                  {resource.resourceCategory.name}
+                                </td>
+                                <td className="px-4 py-3 text-gray-700">
+                                  {authority?.name || "N/A"}
+                                </td>
+                                <td className="px-4 py-3 text-gray-700">
+                                  {authority?.department.name || "N/A"}
+                                </td>
+                                <td className="px-4 py-3 text-center">
+                                  {requestWindow ? (
+                                    <span
+                                      className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${
+                                        availableQuantity > 0
+                                          ? "bg-green-50 text-green-700"
+                                          : "bg-red-50 text-red-700"
+                                      }`}
+                                    >
+                                      {availableQuantity}
+                                    </span>
+                                  ) : (
+                                    <span className="text-xs text-gray-400">
+                                      Select slot
+                                    </span>
+                                  )}
+                                </td>
+                                <td className="px-4 py-3">
+                                  <div className="flex items-center justify-center gap-2">
+                                    <button
+                                      type="button"
+                                      disabled={disabled || selectedQuantity <= 0}
+                                      onClick={() =>
+                                        handleQuantityChange(
+                                          resource,
+                                          selectedQuantity - 1,
+                                        )
+                                      }
+                                      className="h-7 w-7 rounded border border-gray-200 text-gray-700 disabled:opacity-40"
+                                    >
+                                      -
+                                    </button>
+                                    <span className="min-w-6 text-center text-sm">
+                                      {selectedQuantity}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      disabled={
+                                        disabled ||
+                                        selectedQuantity >= availableQuantity
+                                      }
+                                      onClick={() =>
+                                        handleQuantityChange(
+                                          resource,
+                                          selectedQuantity + 1,
+                                        )
+                                      }
+                                      className="h-7 w-7 rounded border border-gray-200 text-gray-700 disabled:opacity-40"
+                                    >
+                                      +
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </Fragment>
                     );
                   })
                 )}
