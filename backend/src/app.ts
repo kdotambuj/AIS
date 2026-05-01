@@ -10,13 +10,36 @@ import UserRoutes from "./routes/user.route.js";
 import CookieParser from "cookie-parser";
 const app = express();
 
+const defaultOrigins = [
+  "http://localhost:3000",
+  "http://localhost:8081",
+  "https://ais-ten.vercel.app",
+];
+
+const configuredOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const allowedOrigins = Array.from(new Set([...defaultOrigins, ...configuredOrigins]));
+
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  optionsSuccessStatus: 204,
+};
+
 // Middlewares
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000" || "http://localhost:8081",
-    credentials: true,
-  }),
-);
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 app.use(express.json());
 app.use(CookieParser());
 
